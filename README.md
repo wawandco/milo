@@ -1,12 +1,10 @@
 # Milo
 
-This is a linter for html written in Go. The goal is to provide a single binary that can run in the context of a CI server without installing other tools.
+This is a linter for html written in Go. The goal is to provide a single binary that can lint HTML in the context of a CI server without installing other tools.
 
 ## Installation
 
-### Binary installation
-
-You can pull Milo's binary from Github's releases folder:
+You can pull Milo's binary from Github's [releases](#) folder:
 
 Mac
 ```
