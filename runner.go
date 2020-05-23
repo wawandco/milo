@@ -15,6 +15,7 @@ func (r Runner) Run() error {
 	referee := NewReferee()
 	referee.Reviewers = []Reviewer{
 		reviewers.DoctypePresent{},
+		reviewers.DoctypeValid{},
 	}
 
 	var faults []reviewers.Fault
@@ -27,12 +28,7 @@ func (r Runner) Run() error {
 			return nil
 		}
 
-		reader, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-
-		fileFaults, err := referee.Review(path, reader)
+		fileFaults, err := referee.Review(path)
 		if err != nil {
 			return err
 		}

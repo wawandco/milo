@@ -1,7 +1,7 @@
 package milo
 
 import (
-	"io"
+	"os"
 	"wawandco/milo/reviewers"
 )
 
@@ -9,11 +9,16 @@ type Referee struct {
 	Reviewers []Reviewer
 }
 
-func (r *Referee) Review(path string, reader io.Reader) ([]reviewers.Fault, error) {
+func (r *Referee) Review(path string) ([]reviewers.Fault, error) {
 	faults := []reviewers.Fault{}
 	for _, reviewer := range r.Reviewers {
 		if !reviewer.Accepts(path) {
 			continue
+		}
+
+		reader, err := os.Open(path)
+		if err != nil {
+			return faults, err
 		}
 
 		rfaults, err := reviewer.Review(path, reader)

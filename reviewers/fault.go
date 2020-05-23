@@ -7,8 +7,7 @@ type Fault struct {
 	Path     string
 	Line     int
 
-	RuleCode string
-	Rule     Rule
+	Rule Rule
 }
 
 func (f Fault) String() string {
@@ -17,7 +16,7 @@ func (f Fault) String() string {
 		f.Path,
 		f.Line,
 
-		f.RuleCode,
+		f.Rule.Code,
 		f.Rule.Description,
 
 		f.Reviewer,
