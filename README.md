@@ -33,6 +33,8 @@ Milo checks the following rules:
 
 -  Doctype must be declared.
 -  Doctype must be valid.
+-  [TODO] Inline css is not allowed.
+-  [TODO] OL and UL should only have LI siblings.
 -  [TODO] The `<script>` tag cannot be used in header.
 -  [TODO] `<style>` tags cannot be used.
 -  [TODO] `<title>` must be present in header.

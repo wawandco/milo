@@ -1,7 +1,9 @@
 package milo_test
 
 import (
-	"strings"
+	"io/ioutil"
+	"os"
+	"path/filepath"
 	"testing"
 	"wawandco/milo"
 	"wawandco/milo/reviewers"
@@ -13,8 +15,11 @@ func Test_Referee(t *testing.T) {
 	r := require.New(t)
 	referee := milo.NewReferee()
 
-	reader := strings.NewReader("<html></html>")
-	faults, err := referee.Review("something.html", reader)
+	path := filepath.Join(os.TempDir(), "something.html")
+	err := ioutil.WriteFile(path, []byte("<html></html>"), 0644)
+	r.NoError(err)
+
+	faults, err := referee.Review(path)
 
 	r.NoError(err)
 	r.Len(faults, 0)
@@ -23,7 +28,7 @@ func Test_Referee(t *testing.T) {
 		reviewers.DoctypePresent{},
 	}
 
-	faults, err = referee.Review("something.html", reader)
+	faults, err = referee.Review(path)
 
 	r.NoError(err)
 	r.Len(faults, 1)
