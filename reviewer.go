@@ -10,5 +10,5 @@ var _ Reviewer = (*reviewers.Doctype)(nil)
 type Reviewer interface {
 	ReviewerName() string
 	Accepts(fileName string) bool
-	Review(io.Reader) ([]reviewers.Fault, error)
+	Review(path string, content io.Reader) ([]reviewers.Fault, error)
 }

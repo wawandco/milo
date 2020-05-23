@@ -75,7 +75,7 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 
 	for _, tcase := range tcases {
 		page := strings.NewReader(tcase.content)
-		faults, err := doc.Review(page)
+		faults, err := doc.Review("something.html", page)
 
 		r.NoError(err, tcase.name)
 		r.Len(faults, tcase.faultsLen, tcase.name)
@@ -96,4 +96,6 @@ func Test_DoctypeReviewer_Accept(t *testing.T) {
 
 	r.False(doc.Accepts("_partial.plush.html"))
 	r.True(doc.Accepts("page.plush.html"))
+
+	r.False(doc.Accepts("templates/_partial.plush.html"))
 }

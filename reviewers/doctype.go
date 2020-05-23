@@ -3,6 +3,7 @@ package reviewers
 import (
 	"bufio"
 	"io"
+	"path/filepath"
 	"strings"
 )
 
@@ -12,12 +13,13 @@ func (doc Doctype) ReviewerName() string {
 	return "Doctype Reviewer"
 }
 
-func (doc Doctype) Accepts(fileName string) bool {
+func (doc Doctype) Accepts(filePath string) bool {
+	fileName := filepath.Base(filePath)
 	isPartial := strings.HasPrefix(fileName, "_")
 	return !isPartial
 }
 
-func (doc Doctype) Review(page io.Reader) ([]Fault, error) {
+func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	var prevLine, line string
 	var number int
@@ -36,6 +38,7 @@ func (doc Doctype) Review(page io.Reader) ([]Fault, error) {
 			result = append(result, Fault{
 				ReviewerName: doc.ReviewerName(),
 				LineNumber:   number,
+				Path:         path,
 
 				Rule: Rule{
 					Name: "Missing Doctype",
