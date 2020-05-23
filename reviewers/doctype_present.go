@@ -8,22 +8,22 @@ import (
 )
 
 const (
-	DoctypeExpression = "<!DOCTYPE html>"
+	DoctypeExpression = "<!doctype"
 )
 
-type Doctype struct{}
+type DoctypePresent struct{}
 
-func (doc Doctype) ReviewerName() string {
-	return "Doctype Reviewer"
+func (doc DoctypePresent) ReviewerName() string {
+	return "doctype/present"
 }
 
-func (doc Doctype) Accepts(filePath string) bool {
+func (doc DoctypePresent) Accepts(filePath string) bool {
 	fileName := filepath.Base(filePath)
 	isPartial := strings.HasPrefix(fileName, "_")
 	return !isPartial
 }
 
-func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
+func (doc DoctypePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	var prevLine, line string
 	var number int
@@ -37,15 +37,18 @@ func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
 			continue
 		}
 
-		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(line, DoctypeExpression) {
+		lineLower := strings.ToLower(line)
+		prevLineLower := strings.ToLower(prevLine)
+
+		if strings.Contains(lineLower, "<html") && strings.Contains(lineLower, DoctypeExpression) {
 			break
 		}
 
-		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(prevLine, DoctypeExpression) {
+		if strings.Contains(lineLower, "<html") && strings.Contains(prevLineLower, DoctypeExpression) {
 			break
 		}
 
-		if strings.Contains(strings.ToLower(line), "<html") {
+		if strings.Contains(lineLower, "<html") {
 			result = append(result, Fault{
 				ReviewerName: doc.ReviewerName(),
 				LineNumber:   number,

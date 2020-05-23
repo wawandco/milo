@@ -5,7 +5,7 @@ import (
 	"wawandco/milo/reviewers"
 )
 
-var _ Reviewer = (*reviewers.Doctype)(nil)
+var _ Reviewer = (*reviewers.DoctypePresent)(nil)
 
 type Reviewer interface {
 	ReviewerName() string

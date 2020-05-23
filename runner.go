@@ -14,7 +14,7 @@ type Runner struct {
 func (r Runner) Run() error {
 	referee := NewReferee()
 	referee.Reviewers = []Reviewer{
-		reviewers.Doctype{},
+		reviewers.DoctypePresent{},
 	}
 
 	var faults []reviewers.Fault

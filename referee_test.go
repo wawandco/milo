@@ -20,7 +20,7 @@ func Test_Referee(t *testing.T) {
 	r.Len(faults, 0)
 
 	referee.Reviewers = []milo.Reviewer{
-		reviewers.Doctype{},
+		reviewers.DoctypePresent{},
 	}
 
 	faults, err = referee.Review("something.html", reader)

@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_DoctypeReviewer_Review(t *testing.T) {
+func Test_DoctypePresent_Review(t *testing.T) {
 	r := require.New(t)
 
-	doc := reviewers.Doctype{}
+	doc := reviewers.DoctypePresent{}
 	tcases := []struct {
 		name      string
 		content   string
@@ -102,8 +102,32 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 			name:      "valid space line",
 			faultsLen: 0,
 			content: `<!DOCTYPE html>
-			
+
 			<html>
+			</html>`,
+		},
+
+		{
+			fault: reviewers.Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   1,
+			},
+			name:      "doctype case insensitive",
+			faultsLen: 0,
+			content: `<!doctype html>
+			<html lang="en">
+			</html>`,
+		},
+
+		{
+			fault: reviewers.Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   1,
+			},
+			name:      "doctype old",
+			faultsLen: 0,
+			content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+			<html lang="en">
 			</html>`,
 		},
 	}
@@ -124,10 +148,10 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 
 }
 
-func Test_DoctypeReviewer_Accept(t *testing.T) {
+func Test_DoctypePresent_Accept(t *testing.T) {
 	r := require.New(t)
 
-	doc := reviewers.Doctype{}
+	doc := reviewers.DoctypePresent{}
 
 	r.False(doc.Accepts("_partial.plush.html"))
 	r.True(doc.Accepts("page.plush.html"))
