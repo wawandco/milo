@@ -20,3 +20,12 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 	r.Len(faults, 1)
 	r.Equal(faults[0].ReviewerName, doc.ReviewerName())
 }
+
+func Test_DoctypeReviewer_Accept(t *testing.T) {
+	r := require.New(t)
+
+	doc := reviewers.Doctype{}
+
+	r.False(doc.Accepts("_partial.plush.html"))
+	r.True(doc.Accepts("page.plush.html"))
+}

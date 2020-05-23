@@ -1,6 +1,9 @@
 package reviewers
 
-import "io"
+import (
+	"io"
+	"strings"
+)
 
 type Doctype struct{}
 
@@ -9,7 +12,8 @@ func (doc Doctype) ReviewerName() string {
 }
 
 func (doc Doctype) Accepts(fileName string) bool {
-	return false
+	isPartial := strings.HasPrefix(fileName, "_")
+	return !isPartial
 }
 
 func (doc Doctype) Review(page io.Reader) ([]Fault, error) {
