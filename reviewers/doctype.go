@@ -2,6 +2,7 @@ package reviewers
 
 import (
 	"bufio"
+	"bytes"
 	"io"
 	"strings"
 )
@@ -19,24 +20,38 @@ func (doc Doctype) Accepts(fileName string) bool {
 
 func (doc Doctype) Review(page io.Reader) ([]Fault, error) {
 	result := []Fault{}
+	r := bufio.NewReader(page)
 
-	reader := bufio.NewReader(page)
-	firstLine, _, err := reader.ReadLine()
-	if err != nil {
-		return result, err
-	}
+	var prevLine, line []byte
+	var number int
+	var err error
 
-	if !strings.Contains(string(firstLine), "<!DOCTYPE html>") {
-		result = append(result, Fault{
-			ReviewerName: doc.ReviewerName(),
-			LineNumber:   1,
-			LineContent:  string(firstLine),
+	for {
+		number++
 
-			Rule: Rule{
-				Name: "Missing Doctype",
-				Code: "0001",
-			},
-		})
+		line, _, err = r.ReadLine()
+		if err == io.EOF {
+			break
+		}
+
+		if err != nil {
+			return result, err
+		}
+
+		if bytes.Contains(line, []byte("<html")) && !bytes.Contains(prevLine, []byte("<!DOCTYPE html>")) {
+			result = append(result, Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   number,
+
+				Rule: Rule{
+					Name: "Missing Doctype",
+					Code: "0001",
+				},
+			})
+			break
+		}
+
+		prevLine = line
 	}
 
 	return result, nil

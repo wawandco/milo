@@ -2,6 +2,10 @@
 
 This is a linter for HTML written in Go. The goal is to provide a single binary that can lint HTML in the context of a CI server without installing other tools.
 
+## Design considerations
+
+- Milo considers html partials
+
 ## Installation
 
 You can pull Milo's binary from Github's [releases](#) folder:
