@@ -81,6 +81,31 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 			faultsLen: 0,
 			content:   `<!DOCTYPE html><html></html>`,
 		},
+
+		{
+			fault: reviewers.Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   1,
+			},
+			name:      "valid next line",
+			faultsLen: 0,
+			content: `<!DOCTYPE html>
+			<html>
+			</html>`,
+		},
+
+		{
+			fault: reviewers.Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   1,
+			},
+			name:      "valid space line",
+			faultsLen: 0,
+			content: `<!DOCTYPE html>
+			
+			<html>
+			</html>`,
+		},
 	}
 
 	for _, tcase := range tcases {

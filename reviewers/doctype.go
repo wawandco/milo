@@ -33,6 +33,9 @@ func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
 		number++
 
 		line = scanner.Text()
+		if strings.TrimSpace(line) == "" {
+			continue
+		}
 
 		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(line, DoctypeExpression) {
 			break
