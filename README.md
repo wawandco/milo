@@ -11,18 +11,21 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 
 You can pull Milo's binary from Github's [releases](#) folder:
 
-Mac
-```
-```
-
-Linux
-```
-```
-
-Windows
-```
+#### Linux
+```sh
+$ curl -OL https://github.com/wawandco/milo/releases/latest/download/milo_Darwin_x86_64.tar.gz
+$ tar -xvzf milo_Darwin_x86_64.tar.gz
+$ sudo mv milo /usr/local/bin/milo
+# or if you have ~/bin folder setup in the environment PATH variable
+$ mv milo ~/bin/milo
 ```
 
+#### Linux
+```sh
+$ wget https://github.com/wawandco/milo/releases/latest/download/milo_Linux_x86_64.tar.gz
+$ tar -xvzf milo_Linux_x86_64.tar.gz
+$ sudo mv milo /usr/local/bin/milo
+```
 
 ## Usage
 
