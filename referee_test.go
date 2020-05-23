@@ -16,5 +16,6 @@ func Test_Referee(t *testing.T) {
 	reader := strings.NewReader("<html></html>")
 	faults, err := referee.Review(reader)
 
+	r.NoError(err)
 	r.Len(faults, 0)
 }

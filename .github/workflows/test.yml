@@ -1,0 +1,29 @@
+name: Test
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+
+jobs:
+  release:
+    name: Test
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Set up Go 1.14
+        uses: actions/setup-go@v1
+        with:
+          go-version: 1.14
+        id: go
+      -
+        name: Checkout Code
+        uses: actions/checkout@master
+      
+      - name: Test
+        env:
+          GOPROXY: "https://proxy.golang.org"
+          GO111MODULE: "on"
+        run: go -v -race ./...

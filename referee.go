@@ -1,13 +1,16 @@
 package milo
 
-import "io"
+import (
+	"io"
+	"wawandco/milo/reviewers"
+)
 
 type Referee struct {
 	Reviewers []Reviewer
 }
 
-func (r *Referee) Review(io.Reader) ([]Fault, error) {
-	return []Fault{}, nil
+func (r *Referee) Review(io.Reader) ([]reviewers.Fault, error) {
+	return []reviewers.Fault{}, nil
 }
 
 func NewReferee() *Referee {
