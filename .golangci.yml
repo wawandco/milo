@@ -1,0 +1,68 @@
+linters:
+  enable:
+    - megacheck
+    - govet
+    - gosec
+    - gocritic
+    - gocyclo
+  disable:
+    - maligned
+    - prealloc
+    - lll
+    - wsl
+    - gomnd
+    - dupl
+    - scopelint
+    - gochecknoglobals  # Buffalo is holding us with this one
+    - gochecknoinits    # Buffalo is holding us from adding it
+  disable-all: false
+  presets:
+    - bugs
+    - unused
+    - style
+  fast: false
+
+issues:
+  exclude:
+    - composites
+
+  max-issues-per-linter: 0
+  max-same-issues: 0
+
+run:
+  timeout: 10m
+  tests: false
+  
+  skip-dirs:
+    - grifts
+
+output:
+  format: colored-line-number
+  print-issued-lines: true
+  print-linter-name: true
+
+linters-settings:
+  funlen:
+    lines: 120        # This one needs to go down
+    statements: 120   # This one needs to go down
+  gocognit:
+    min-complexity: 20
+  goconst:
+    min-len: 3
+    min-occurrences: 10
+  errcheck:
+    check-type-assertions: false
+    check-blank: true
+  govet:    
+    # check-shadowing: true # Will enable later on.
+  gocyclo:
+    min-complexity: 20
+  unused:
+    check-exported: false
+  gocritic:
+    enabled-tags:
+      - style
+
+    settings:
+      captLocal: 
+        paramsOnly: true

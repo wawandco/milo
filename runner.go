@@ -1,6 +1,7 @@
 package milo
 
 import (
+	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -42,9 +43,19 @@ func (r Runner) Run() error {
 		return nil
 	})
 
-	fmt.Println(faults)
+	if err != nil {
+		return err
+	}
 
-	return err
+	for _, fault := range faults {
+		fmt.Println(fault)
+	}
+
+	if len(faults) > 0 {
+		return errors.New("faults found")
+	}
+
+	return nil
 }
 
 func NewRunner(path string) (*Runner, error) {

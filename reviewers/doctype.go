@@ -41,8 +41,9 @@ func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
 				Path:         path,
 
 				Rule: Rule{
-					Name: "Missing Doctype",
-					Code: "0001",
+					Name:        "Missing Doctype",
+					Description: "HTML pages must have a Doctype declaration",
+					Code:        "0001",
 				},
 			})
 			break
