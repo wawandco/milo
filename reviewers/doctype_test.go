@@ -71,6 +71,16 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 			content: `<HTML lang="en"></HTML>
 			`,
 		},
+
+		{
+			fault: reviewers.Fault{
+				ReviewerName: doc.ReviewerName(),
+				LineNumber:   1,
+			},
+			name:      "sameline",
+			faultsLen: 0,
+			content:   `<!DOCTYPE html><html></html>`,
+		},
 	}
 
 	for _, tcase := range tcases {

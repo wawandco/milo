@@ -7,6 +7,10 @@ import (
 	"strings"
 )
 
+const (
+	DoctypeExpression = "<!DOCTYPE html>"
+)
+
 type Doctype struct{}
 
 func (doc Doctype) ReviewerName() string {
@@ -30,7 +34,11 @@ func (doc Doctype) Review(path string, page io.Reader) ([]Fault, error) {
 
 		line = scanner.Text()
 
-		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(prevLine, "<!DOCTYPE html>") {
+		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(line, DoctypeExpression) {
+			break
+		}
+
+		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(prevLine, DoctypeExpression) {
 			break
 		}
 

@@ -9,7 +9,7 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 
 ## Installation
 
-You can pull Milo's binary from Github's [releases](#) folder:
+You can pull Milo's binary from Github's [releases](https://github.com/wawandco/milo/releases) folder:
 
 #### MacOS
 ```sh
@@ -32,10 +32,11 @@ $ sudo mv milo /usr/local/bin/milo
 Milo checks the following rules:
 
 -  Doctype must be declared.
--  Doctype must be valid.
--  The `<script>` tag cannot be used in header.
--  `<style>` tags cannot be used.
--  `<title>` must be present in tag.
+-  [TODO] Doctype must be valid.
+-  [TODO] The `<script>` tag cannot be used in header.
+-  [TODO] `<style>` tags cannot be used.
+-  [TODO] `<title>` must be present in header.
+-  [TODO] `style` attribute should not be used.
 
 ## Copyright
 
