@@ -4,7 +4,8 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 
 ## Design considerations
 
-- Milo considers html partials
+- Milo considers html partials and validates the rules that apply to these.
+- Milo considers other languages on top of html as erb and plush.
 
 ## Installation
 
