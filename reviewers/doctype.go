@@ -28,11 +28,11 @@ func (doc Doctype) Review(page io.Reader) ([]Fault, error) {
 
 		line = scanner.Text()
 
-		if strings.Contains(line, "<html") && strings.Contains(prevLine, "<!DOCTYPE html>") {
+		if strings.Contains(strings.ToLower(line), "<html") && strings.Contains(prevLine, "<!DOCTYPE html>") {
 			break
 		}
 
-		if strings.Contains(line, "<html") {
+		if strings.Contains(strings.ToLower(line), "<html") {
 			result = append(result, Fault{
 				ReviewerName: doc.ReviewerName(),
 				LineNumber:   number,

@@ -66,9 +66,9 @@ func Test_DoctypeReviewer_Review(t *testing.T) {
 				ReviewerName: doc.ReviewerName(),
 				LineNumber:   1,
 			},
-			name:      "no doctype",
+			name:      "uppercase",
 			faultsLen: 1,
-			content: `<html lang="en"></html>
+			content: `<HTML lang="en"></HTML>
 			`,
 		},
 	}
