@@ -40,6 +40,6 @@ Milo checks the following rules:
 
 ## Copyright
 
-Milo is Copyright © 2008-2015 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
+Milo is Copyright © 2020 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
 
 
