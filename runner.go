@@ -1,7 +1,6 @@
 package milo
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"path/filepath"
@@ -13,7 +12,6 @@ type Runner struct {
 }
 
 func (r Runner) Run() error {
-
 	referee := NewReferee()
 	referee.Reviewers = []Reviewer{
 		reviewers.Doctype{},
@@ -28,7 +26,7 @@ func (r Runner) Run() error {
 		if info.IsDir() {
 			return nil
 		}
-		//Open the file
+
 		reader, err := os.Open(path)
 		if err != nil {
 			return err
@@ -52,7 +50,7 @@ func (r Runner) Run() error {
 	}
 
 	if len(faults) > 0 {
-		return errors.New("faults found")
+		return ErrFaultsFound
 	}
 
 	return nil
