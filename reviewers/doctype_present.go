@@ -50,15 +50,11 @@ func (doc DoctypePresent) Review(path string, page io.Reader) ([]Fault, error) {
 
 		if strings.Contains(lineLower, "<html") {
 			result = append(result, Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   number,
-				Path:         path,
+				Reviewer: doc.ReviewerName(),
+				Line:     number,
+				Path:     path,
 
-				Rule: Rule{
-					Name:        "Missing Doctype",
-					Description: "HTML pages must have a Doctype declaration",
-					Code:        "0001",
-				},
+				Rule: Rules["0001"],
 			})
 			break
 		}

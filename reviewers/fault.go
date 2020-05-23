@@ -3,20 +3,23 @@ package reviewers
 import "fmt"
 
 type Fault struct {
-	ReviewerName string
-	Path         string
-	LineNumber   int
+	Reviewer string
+	Path     string
+	Line     int
 
-	Rule Rule
+	RuleCode string
+	Rule     Rule
 }
 
 func (f Fault) String() string {
 	return fmt.Sprintf(
 		"%v:%v %v:%v (%v)",
 		f.Path,
-		f.LineNumber,
-		f.Rule.Code,
+		f.Line,
+
+		f.RuleCode,
 		f.Rule.Description,
-		f.ReviewerName,
+
+		f.Reviewer,
 	)
 }

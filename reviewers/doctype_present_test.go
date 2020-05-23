@@ -22,8 +22,9 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		{
 
 			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
+				Reviewer: doc.ReviewerName(),
+				Line:     1,
+				Rule:     reviewers.Rules["0001"],
 			},
 			name:      "no doctype",
 			faultsLen: 1,
@@ -31,7 +32,6 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault:     reviewers.Fault{ReviewerName: doc.ReviewerName()},
 			name:      "partial should be omitted",
 			faultsLen: 0,
 			content:   `<div></div>`,
@@ -39,8 +39,9 @@ func Test_DoctypePresent_Review(t *testing.T) {
 
 		{
 			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   3,
+				Reviewer: doc.ReviewerName(),
+				Line:     3,
+				Rule:     reviewers.Rules["0001"],
 			},
 			name:      "no doctype",
 			faultsLen: 1,
@@ -52,8 +53,9 @@ func Test_DoctypePresent_Review(t *testing.T) {
 
 		{
 			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
+				Reviewer: doc.ReviewerName(),
+				Line:     1,
+				Rule:     reviewers.Rules["0001"],
 			},
 			name:      "no doctype",
 			faultsLen: 1,
@@ -63,8 +65,9 @@ func Test_DoctypePresent_Review(t *testing.T) {
 
 		{
 			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
+				Reviewer: doc.ReviewerName(),
+				Line:     1,
+				Rule:     reviewers.Rules["0001"],
 			},
 			name:      "uppercase",
 			faultsLen: 1,
@@ -73,20 +76,12 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
-			},
 			name:      "sameline",
 			faultsLen: 0,
 			content:   `<!DOCTYPE html><html></html>`,
 		},
 
 		{
-			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
-			},
 			name:      "valid next line",
 			faultsLen: 0,
 			content: `<!DOCTYPE html>
@@ -95,10 +90,6 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
-			},
 			name:      "valid space line",
 			faultsLen: 0,
 			content: `<!DOCTYPE html>
@@ -108,10 +99,6 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
-			},
 			name:      "doctype case insensitive",
 			faultsLen: 0,
 			content: `<!doctype html>
@@ -120,10 +107,6 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault: reviewers.Fault{
-				ReviewerName: doc.ReviewerName(),
-				LineNumber:   1,
-			},
 			name:      "doctype old",
 			faultsLen: 0,
 			content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -142,8 +125,10 @@ func Test_DoctypePresent_Review(t *testing.T) {
 			continue
 		}
 
-		r.Equal(faults[0].ReviewerName, tcase.fault.ReviewerName, tcase.name)
-		r.Equal(faults[0].LineNumber, tcase.fault.LineNumber, tcase.name)
+		r.Equal(faults[0].Reviewer, tcase.fault.Reviewer, tcase.name)
+		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
+		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
+		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description, tcase.name)
 	}
 
 }
