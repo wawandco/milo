@@ -32,7 +32,7 @@ $ sudo mv milo /usr/local/bin/milo
 Milo checks the following rules:
 
 -  Doctype must be declared.
--  [TODO] Doctype must be valid.
+-  Doctype must be valid.
 -  [TODO] The `<script>` tag cannot be used in header.
 -  [TODO] `<style>` tags cannot be used.
 -  [TODO] `<title>` must be present in header.
