@@ -45,5 +45,6 @@ func (css InlineCSS) Review(path string, reader io.Reader) ([]Fault, error) {
 			Rule: Rules["0003"],
 		})
 	}
+
 	return result, nil
 }

@@ -65,8 +65,8 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 ### Inline
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
-- [TODO] inline-script-disabled: Inline script cannot be use.
 - [TODO] inline-style-disabled: Inline style cannot be use.
+- [TODO] inline-script-disabled: Inline script cannot be use.
 
 ### Formatting
 

@@ -6,7 +6,6 @@ import (
 	"log"
 	"os"
 	"os/signal"
-	"wawandco/milo"
 )
 
 func main() {
@@ -36,7 +35,7 @@ func main() {
 
 	path := os.Args[1]
 
-	runner, err := milo.NewRunner(path)
+	runner, err := NewRunner(path)
 	if err != nil {
 		log.Fatal(err)
 	}
