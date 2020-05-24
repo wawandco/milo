@@ -29,6 +29,19 @@ $ sudo mv milo /usr/local/bin/milo
 
 ## Usage
 
+```
+milo [folder or file]
+```
+
+Example:
+
+```
+milo templates
+milo templates/file.html
+```
+
+# Rules
+
 Milo checks the following rules (most of these come from [htmlhint](https://htmlhint.com/docs/user-guide/list-rules)):
 
 ### Head Rules
