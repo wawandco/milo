@@ -66,6 +66,22 @@ func Test_TitlePresent_Review(t *testing.T) {
 				<head><TITLE attr="something">Page Title</TITLE></head>
 			</html>`,
 		},
+
+		{
+			name:      "title tricky spaces specified uppercase",
+			faultsLen: 0,
+			content: `
+			<html>
+				<head>
+
+
+					<TITLE 
+						attr="something">
+						Page Title
+					</TITLE>
+				</head>
+			</html>`,
+		},
 	}
 
 	for _, tcase := range tcases {
