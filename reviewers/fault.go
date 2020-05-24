@@ -12,13 +12,12 @@ type Fault struct {
 
 func (f Fault) String() string {
 	return fmt.Sprintf(
-		"%v:%v %v:%v (%v)",
+		"::error file=%s,line=%d, col=0::[%s] %s (%s)",
 		f.Path,
 		f.Line,
 
 		f.Rule.Code,
 		f.Rule.Description,
-
 		f.Reviewer,
 	)
 }
