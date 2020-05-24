@@ -59,7 +59,6 @@ func (doc DoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {
 		})
 
 		break
-
 	}
 
 	return result, nil
