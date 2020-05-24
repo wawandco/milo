@@ -13,4 +13,10 @@ var Rules = map[string]Rule{
 		Name:        "doctype/valid",
 		Description: "doctype tag must be valid",
 	},
+
+	"0003": Rule{
+		Code:        "0003",
+		Name:        "css/inline",
+		Description: "don't use inline css for other reasons than quick testing locally",
+	},
 }

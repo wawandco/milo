@@ -16,6 +16,7 @@ func (r Runner) Run() error {
 	referee.Reviewers = []Reviewer{
 		reviewers.DoctypePresent{},
 		reviewers.DoctypeValid{},
+		reviewers.InlineCSS{},
 	}
 
 	var faults []reviewers.Fault
