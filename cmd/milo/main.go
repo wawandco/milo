@@ -35,12 +35,9 @@ func main() {
 
 	path := os.Args[1]
 
-	runner, err := NewRunner(path)
-	if err != nil {
-		log.Fatal(err)
-	}
+	runner := NewRunner(path)
 
-	err = runner.Run()
+	err := runner.Run()
 	if err != nil {
 		log.Fatal(err)
 	}
