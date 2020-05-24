@@ -1,8 +1,8 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
+	"io/ioutil"
 	"path/filepath"
 	"strings"
 )
@@ -27,35 +27,39 @@ func (doc DoctypeValid) Accepts(filePath string) bool {
 
 func (doc DoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
-	var number int
-	var line string
 
-	scanner := bufio.NewScanner(page)
-	for scanner.Scan() {
-		number++
+	bcontent, err := ioutil.ReadAll(page)
+	if err != nil {
+		return result, err
+	}
 
-		line = scanner.Text()
+	content := string(bcontent)
+	if !strings.Contains(strings.ToLower(content), "<html") {
+		return result, nil
+	}
+
+	lines := strings.Split(content, "\n")
+	for number, line := range lines {
 		if strings.TrimSpace(line) == "" {
 			continue
 		}
 
-		lineLower := strings.ToLower(line)
-
 		for _, valid := range validDoctypes {
-			if strings.Contains(lineLower, strings.ToLower(valid)) {
+			if strings.Contains(line, strings.ToLower(valid)) {
 				return result, nil
 			}
 		}
 
 		result = append(result, Fault{
 			Reviewer: doc.ReviewerName(),
-			Line:     number,
+			Line:     number + 1,
 			Path:     path,
 
 			Rule: Rules["0002"],
 		})
 
 		break
+
 	}
 
 	return result, nil

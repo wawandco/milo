@@ -82,6 +82,14 @@ func Test_TitlePresent_Review(t *testing.T) {
 				</head>
 			</html>`,
 		},
+
+		{
+			name:      "partial without html/head",
+			faultsLen: 0,
+			content: `
+			<div>Some partial without html/head</div>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

@@ -29,6 +29,9 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	}
 
 	html = []byte(strings.ToLower(string(html)))
+	if !strings.Contains(string(html), "<html") {
+		return result, nil
+	}
 
 	re := regexp.MustCompile(`[.\s]*<head[.\s]*>[.\s]*<title[^>]*>[^<]+</title>[.\s]*`)
 	if re.Match(html) {

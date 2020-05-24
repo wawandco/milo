@@ -113,6 +113,32 @@ func Test_DoctypePresent_Review(t *testing.T) {
 			<html lang="en">
 			</html>`,
 		},
+
+		{
+			name:      "no html tag",
+			faultsLen: 0,
+			content: `
+				<% contentFor("title") {%>
+					Edit amenity
+			  	<% } %>
+			  
+				<%= contentFor("breadcrumb"){%>
+					<nav aria-label="breadcrumb">
+					<ol class="breadcrumb bg-none px-0 py-1">
+						<li class="breadcrumb-item">
+							<a href="<%= amenitiesPath() %>">Amenities</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span><%= amenity.Name %><span>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span>Edit Amenity<span>
+						</li>
+					</ol>
+					</nav>
+				<%} %>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

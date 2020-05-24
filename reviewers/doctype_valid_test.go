@@ -18,34 +18,60 @@ func Test_DoctypeValid(t *testing.T) {
 		faultsLen int
 		fault     reviewers.Fault
 	}{
-		{
-			fault: reviewers.Fault{
-				Line:     1,
-				Reviewer: doc.ReviewerName(),
-				Rule:     reviewers.Rules["0002"],
-			},
-			name:      "doctype old",
-			faultsLen: 1,
-			content: `<!DOCTYPE INVALID>
-			<html lang="en">
-			</html>`,
-		},
+		// {
+		// 	fault: reviewers.Fault{
+		// 		Line:     1,
+		// 		Reviewer: doc.ReviewerName(),
+		// 		Rule:     reviewers.Rules["0002"],
+		// 	},
+		// 	name:      "doctype old",
+		// 	faultsLen: 1,
+		// 	content: `<!DOCTYPE INVALID>
+		// 	<html lang="en">
+		// 	</html>`,
+		// },
+
+		// {
+		// 	name:      "doctype old",
+		// 	faultsLen: 0,
+		// 	content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+		// 	<html lang="en">
+		// 	</html>`,
+		// },
+
+		// {
+		// 	fault:     reviewers.Fault{},
+		// 	name:      "doctype valid",
+		// 	faultsLen: 0,
+		// 	content: `<!DOCTYPE html>
+		// 	<html lang="en">
+		// 	</html>`,
+		// },
 
 		{
-			name:      "doctype old",
+			name:      "no html tag",
 			faultsLen: 0,
-			content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-			<html lang="en">
-			</html>`,
-		},
-
-		{
-			fault:     reviewers.Fault{},
-			name:      "doctype valid",
-			faultsLen: 0,
-			content: `<!DOCTYPE html>
-			<html lang="en">
-			</html>`,
+			content: `
+				<% contentFor("title") {%>
+					Edit amenity
+			  	<% } %>
+			  
+				<%= contentFor("breadcrumb"){%>
+					<nav aria-label="breadcrumb">
+					<ol class="breadcrumb bg-none px-0 py-1">
+						<li class="breadcrumb-item">
+							<a href="<%= amenitiesPath() %>">Amenities</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span><%= amenity.Name %><span>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span>Edit Amenity<span>
+						</li>
+					</ol>
+					</nav>
+				<%} %>
+			`,
 		},
 	}
 

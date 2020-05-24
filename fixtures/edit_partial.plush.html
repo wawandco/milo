@@ -1,0 +1,33 @@
+<% contentFor("title") {%>
+    Edit amenity
+  <% } %>
+  
+  <%= contentFor("breadcrumb"){%>
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb bg-none px-0 py-1">
+          <li class="breadcrumb-item">
+            <a href="<%= amenitiesPath() %>">Amenities</a>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <span><%= amenity.Name %><span>
+          </li>
+          <li class="breadcrumb-item active" aria-current="page">
+            <span>Edit Amenity<span>
+          </li>
+      </ol>
+    </nav>
+  <%} %>
+  
+  
+  <% contentFor("actionBar"){ %>
+    <%= linkTo(amenitiesPath(), {class: "btn btn-default mr-2", "data-title": "Confirm", "data-confirm": "Are you sure?", body: "Discard Changes"}) %>
+    <button class="btn btn-primary" form="editAmenity" role="submit">Save Amenity</button>
+  <% } %>
+  
+  <section class="px-4 py-3">
+    <div class="card p-4">
+      <%= formFor(amenity, {action: amenityPath({amenity_id: amenity.ID }), method: "PUT", id: "editAmenity"}) { %>
+        <%= partial("admin/amenities/form.plush.html") %>
+      <% } %>
+    </div>
+  </section>
