@@ -1,7 +1,9 @@
 package milo
 
 import (
-	"os"
+	"bytes"
+	"io"
+	"io/ioutil"
 	"wawandco/milo/reviewers"
 )
 
@@ -9,24 +11,26 @@ type Referee struct {
 	Reviewers []Reviewer
 }
 
-func (r *Referee) Review(path string) ([]reviewers.Fault, error) {
+func (r *Referee) Review(path string, reader io.Reader) ([]reviewers.Fault, error) {
 	faults := []reviewers.Fault{}
+
+	content, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return faults, err
+	}
+
 	for _, reviewer := range r.Reviewers {
 		if !reviewer.Accepts(path) {
 			continue
 		}
 
-		reader, err := os.Open(path)
+		reader := bytes.NewReader(content)
+		reviewerFaults, err := reviewer.Review(path, reader)
 		if err != nil {
 			return faults, err
 		}
 
-		rfaults, err := reviewer.Review(path, reader)
-		if err != nil {
-			return faults, err
-		}
-
-		faults = append(faults, rfaults...)
+		faults = append(faults, reviewerFaults...)
 	}
 
 	return faults, nil

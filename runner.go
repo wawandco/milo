@@ -28,7 +28,12 @@ func (r Runner) Run() error {
 			return nil
 		}
 
-		fileFaults, err := referee.Review(path)
+		reader, err := os.Open(path)
+		if err != nil {
+			return err
+		}
+
+		fileFaults, err := referee.Review(path, reader)
 		if err != nil {
 			return err
 		}
