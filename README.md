@@ -35,9 +35,9 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 - [0001] Doctype must be declared.
 - [0002] Doctype must be valid.
-- [TODO] head-script-disabled: The `<script>` tag cannot be used in a tag.
-- [TODO] style-disabled: `<style>` tags cannot be used.
-- [TODO] title-require: `<title>` must be present in tag.
+- [TODO] `<title>` must be present in tag.
+- [TODO] The `<script>` tag cannot be used in a tag.
+- [TODO] `<style>` tags cannot be used.
 
 ### Attributes
 
