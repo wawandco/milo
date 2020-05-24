@@ -33,9 +33,7 @@ func main() {
 		return
 	}
 
-	path := os.Args[1]
-
-	runner := NewRunner(path)
+	runner := NewRunner(os.Args[1])
 
 	err := runner.Run()
 	if err != nil {
