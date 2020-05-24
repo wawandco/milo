@@ -2,10 +2,12 @@
 
 This is a linter for HTML written in Go. The goal is to provide a single binary that can lint HTML in the context of a CI server without installing other tools.
 
-## Design considerations
+## Initial Considerations
 
 - Milo considers html partials and validates the rules that apply to these.
-- Milo considers other languages on top of html as erb and plush.
+- Milo considers erb and plush as part of the HTML and works around these.
+- Milo will start simple and write its output only to be compatible with github, maybe later we add/other formats.
+- Milo will start by enforcing all the rules in the catalog.
 
 ## Installation
 
