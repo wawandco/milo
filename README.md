@@ -35,9 +35,9 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 - [0001] Doctype must be declared.
 - [0002] Doctype must be valid.
-- [TODO] `<title>` must be present in tag.
-- [TODO] The `<script>` tag cannot be used in a tag.
+- [0004] `<title>` must be present inside `<head>` tag.
 - [TODO] `<style>` tags cannot be used.
+- [TODO] The `<script>` tag cannot be used in a `<head>` tag.
 
 ### Attributes
 

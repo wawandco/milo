@@ -19,4 +19,10 @@ var Rules = map[string]Rule{
 		Name:        "css/inline",
 		Description: "don't use inline css for other reasons than quick testing locally",
 	},
+
+	"0004": Rule{
+		Code:        "0004",
+		Name:        "title/present",
+		Description: "title tag should be present and have content inside",
+	},
 }
