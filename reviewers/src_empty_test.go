@@ -19,29 +19,29 @@ func Test_SrcEmpty_Review(t *testing.T) {
 		faultsLen int
 		faults    []reviewers.Fault
 	}{
-		{
-			name:      "img full",
-			faultsLen: 0,
-			content:   `<img src="test.png" />`,
-		},
+		// {
+		// 	name:      "img full",
+		// 	faultsLen: 0,
+		// 	content:   `<img src="test.png" />`,
+		// },
 
-		{
-			name:      "script full",
-			faultsLen: 0,
-			content:   `<script src="test.js"></script>`,
-		},
+		// {
+		// 	name:      "script full",
+		// 	faultsLen: 0,
+		// 	content:   `<script src="test.js"></script>`,
+		// },
 
-		{
-			name:      "link full",
-			faultsLen: 0,
-			content:   `<link href="test.css" type="text/css" />`,
-		},
+		// {
+		// 	name:      "link full",
+		// 	faultsLen: 0,
+		// 	content:   `<link href="test.css" type="text/css" />`,
+		// },
 
-		{
-			name:      "embed full",
-			faultsLen: 0,
-			content:   `<embed src="test.swf">`,
-		},
+		// {
+		// 	name:      "embed full",
+		// 	faultsLen: 0,
+		// 	content:   `<embed src="test.swf">`,
+		// },
 
 		{
 			name:      "empty href",
@@ -50,7 +50,7 @@ func Test_SrcEmpty_Review(t *testing.T) {
 			<html>
 				<head></head>
 				<body>
-					<link href="" type="text/css" />
+					<link href="" type="text/css">
 				</body>
 			</html>
 			`,

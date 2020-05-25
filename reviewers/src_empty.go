@@ -30,6 +30,7 @@ func (css SrcEmpty) Review(path string, reader io.Reader) ([]Fault, error) {
 		if strings.TrimSpace(line) == "" {
 			continue
 		}
+
 		rh := regexp.MustCompile(`.*<.*(src|href|data)`)
 		re := regexp.MustCompile(`.*<.*(src|href|data)="[^"]+"`)
 		if !rh.MatchString(line) || re.MatchString(line) {
