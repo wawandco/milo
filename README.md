@@ -57,7 +57,7 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 - [0006] All HTML element names must be in lowercase.
 - [0007] `src`, `href` and `data` attributes of must have a value.
-- [TODO] <ol> and <ul> must only have <li> direct child tags.
+- [TODO] `ol` and `ul` must only have `li` direct child tags.
 - [TODO] tag-pair: Tag must be paired.
 
 ### Attributes
