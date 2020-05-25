@@ -6,6 +6,7 @@ import (
 	"log"
 	"os"
 	"os/signal"
+	"wawandco/milo/cmd/runtime"
 )
 
 func main() {
@@ -33,8 +34,7 @@ func main() {
 		return
 	}
 
-	runner := NewRunner(os.Args[1])
-
+	runner := runtime.NewRunner(os.Args[1])
 	err := runner.Run()
 	if err != nil {
 		log.Fatal(err)
