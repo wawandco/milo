@@ -55,9 +55,8 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 ### Tags
 
-- [TODO] tagname-lowercase: All HTML element names must be in lowercase.
-- [TODO] src-not-empty: The src attribute of an img(script,link) must have a value.
-- [TODO] href-abs-or-rel: An href attribute must be either absolute or relative.
+- [0006] tagname-lowercase: All HTML element names must be in lowercase.
+- [0007] src-not-empty: `src`, `href` and `data` attributes of must have a value.
 - [TODO] OL and UL should only have LI siblings.
 - [TODO] tag-pair: Tag must be paired.
 
@@ -88,6 +87,7 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [REVIEW] tags-check: Allowing specify rules for any tag and validate that
 - [REVIEW] space-tab-mixed-disabled: Do not mix tabs and spaces for indentation.
 - [REVIEW] spec-char-escape: Special characters must be escaped.
+- [REVIEW] href-abs-or-rel: An href attribute must be either absolute or relative.
 
 ## Copyright
 

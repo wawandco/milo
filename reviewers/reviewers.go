@@ -37,4 +37,10 @@ var Rules = map[string]Rule{
 		Name:        "tag/lowercase",
 		Description: "tag names must be in lowercase",
 	},
+
+	"0007": {
+		Code:        "0007",
+		Name:        "tag/src-empty",
+		Description: "`src`, `href` and `data` attributes of must have a value",
+	},
 }
