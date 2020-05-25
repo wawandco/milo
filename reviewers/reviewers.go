@@ -23,6 +23,12 @@ var Rules = map[string]Rule{
 	"0004": {
 		Code:        "0004",
 		Name:        "title/present",
-		Description: "title tag should be present and have content inside",
+		Description: "<title> tag should be present and have content inside",
+	},
+
+	"0005": {
+		Code:        "0005",
+		Name:        "style/tag-present",
+		Description: "<style> tag should not be used",
 	},
 }

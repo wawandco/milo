@@ -75,14 +75,10 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] id-unique: The value of id attributes must be unique.
 
 ### Inline
+
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
 - [TODO] inline-style-disabled: Inline style cannot be use.
 - [TODO] inline-script-disabled: Inline script cannot be use.
-
-### Formatting
-
-- [TODO] space-tab-mixed-disabled: Do not mix tabs and spaces for indentation.
-- [TODO] spec-char-escape: Special characters must be escaped.
 
 ### Need Review
 
@@ -90,7 +86,8 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [REVIEW] empty-tag-not-self-closed: The empty tag should not be closed by self.
 - [REVIEW] tag-self-close: Empty tags must be self closed.
 - [REVIEW] tags-check: Allowing specify rules for any tag and validate that
-
+- [REVIEW] space-tab-mixed-disabled: Do not mix tabs and spaces for indentation.
+- [REVIEW] spec-char-escape: Special characters must be escaped.
 
 ## Copyright
 
