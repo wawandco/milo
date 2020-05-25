@@ -51,8 +51,15 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [0001] Doctype must be declared.
 - [0002] Doctype must be valid.
 - [0004] `<title>` must be present inside `<head>` tag.
-- [TODO] `<style>` tags cannot be used.
-- [TODO] The `<script>` tag cannot be used in a `<head>` tag.
+- [0005] `<style>` must not be used.
+
+### Tags
+
+- [TODO] tag-pair: Tag must be paired.
+- [TODO] tagname-lowercase: All html element names must be in lowercase.
+- [TODO] src-not-empty: The src attribute of an img(script,link) must have a value.
+- [TODO] href-abs-or-rel: An href attribute must be either absolute or relative.
+- [TODO] OL and UL should only have LI siblings.
 
 ### Attributes
 
@@ -67,17 +74,6 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] id-class-value: The id and class attribute values must meet the specified rules.
 - [TODO] id-unique: The value of id attributes must be unique.
 
-### Tags
-
-- [TODO] tags-check: Allowing specify rules for any tag and validate that
-- [TODO] tag-pair: Tag must be paired.
-- [TODO] tag-self-close: Empty tags must be self closed.
-- [TODO] tagname-lowercase: All html element names must be in lowercase.
-- [TODO] empty-tag-not-self-closed: The empty tag should not be closed by self.
-- [TODO] src-not-empty: The src attribute of an img(script,link) must have a value.
-- [TODO] href-abs-or-rel: An href attribute must be either absolute or relative.
-- [TODO] OL and UL should only have LI siblings.
-
 ### Inline
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
 - [TODO] inline-style-disabled: Inline style cannot be use.
@@ -87,6 +83,13 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 - [TODO] space-tab-mixed-disabled: Do not mix tabs and spaces for indentation.
 - [TODO] spec-char-escape: Special characters must be escaped.
+
+### Need Review
+
+- [REVIEW] The `<script>` tag cannot be used in a `<head>` tag.
+- [REVIEW] empty-tag-not-self-closed: The empty tag should not be closed by self.
+- [REVIEW] tag-self-close: Empty tags must be self closed.
+- [REVIEW] tags-check: Allowing specify rules for any tag and validate that
 
 
 ## Copyright
