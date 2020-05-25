@@ -18,35 +18,35 @@ func Test_DoctypeValid(t *testing.T) {
 		faultsLen int
 		fault     reviewers.Fault
 	}{
-		// {
-		// 	fault: reviewers.Fault{
-		// 		Line:     1,
-		// 		Reviewer: doc.ReviewerName(),
-		// 		Rule:     reviewers.Rules["0002"],
-		// 	},
-		// 	name:      "doctype old",
-		// 	faultsLen: 1,
-		// 	content: `<!DOCTYPE INVALID>
-		// 	<html lang="en">
-		// 	</html>`,
-		// },
+		{
+			fault: reviewers.Fault{
+				Line:     1,
+				Reviewer: doc.ReviewerName(),
+				Rule:     reviewers.Rules["0002"],
+			},
+			name:      "doctype old",
+			faultsLen: 1,
+			content: `<!DOCTYPE INVALID>
+			<html lang="en">
+			</html>`,
+		},
 
-		// {
-		// 	name:      "doctype old",
-		// 	faultsLen: 0,
-		// 	content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-		// 	<html lang="en">
-		// 	</html>`,
-		// },
+		{
+			name:      "doctype old",
+			faultsLen: 0,
+			content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+			<html lang="en">
+			</html>`,
+		},
 
-		// {
-		// 	fault:     reviewers.Fault{},
-		// 	name:      "doctype valid",
-		// 	faultsLen: 0,
-		// 	content: `<!DOCTYPE html>
-		// 	<html lang="en">
-		// 	</html>`,
-		// },
+		{
+			fault:     reviewers.Fault{},
+			name:      "doctype valid",
+			faultsLen: 0,
+			content: `<!DOCTYPE html>
+			<html lang="en">
+			</html>`,
+		},
 
 		{
 			name:      "no html tag",
@@ -71,6 +71,26 @@ func Test_DoctypeValid(t *testing.T) {
 					</ol>
 					</nav>
 				<%} %>
+			`,
+		},
+
+		{
+			name:      "valid doctype real case",
+			faultsLen: 0,
+			content: `
+			<!DOCTYPE html>
+			<html>
+			
+			<head>
+			  <meta name="viewport" content="width=device-width, initial-scale=1">
+			  <meta charset="utf-8">
+			  <title>Housing Platform</title>
+			  <%= stylesheetTag("application.css") %>
+			  <meta name="csrf-param" content="authenticity_token" />
+			  <meta name="csrf-token" content="<%= authenticity_token %>" />
+			  
+			  <%= partial("/partials/favicon.plush.html") %>
+			</head>
 			`,
 		},
 	}

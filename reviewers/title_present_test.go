@@ -90,6 +90,26 @@ func Test_TitlePresent_Review(t *testing.T) {
 			<div>Some partial without html/head</div>
 			`,
 		},
+
+		{
+			name:      "real case one",
+			faultsLen: 0,
+			content: `
+			<!DOCTYPE html>
+			<html>
+			
+			<head>
+			  <meta name="viewport" content="width=device-width, initial-scale=1">
+			  <meta charset="utf-8">
+			  <title>Housing Platform</title>
+			  <%= stylesheetTag("application.css") %>
+			  <meta name="csrf-param" content="authenticity_token" />
+			  <meta name="csrf-token" content="<%= authenticity_token %>" />
+			  
+			  <%= partial("/partials/favicon.plush.html") %>
+			</head>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

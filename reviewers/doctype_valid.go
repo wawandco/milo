@@ -8,7 +8,7 @@ import (
 )
 
 var validDoctypes = []string{
-	"<!DOCTYPE html>",
+	`<!DOCTYPE html>`,
 	`<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">`,
 	`<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">`,
 }
@@ -45,7 +45,7 @@ func (doc DoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {
 		}
 
 		for _, valid := range validDoctypes {
-			if strings.Contains(line, strings.ToLower(valid)) {
+			if strings.Contains(strings.ToLower(line), strings.ToLower(valid)) {
 				return result, nil
 			}
 		}
