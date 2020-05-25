@@ -31,4 +31,10 @@ var Rules = map[string]Rule{
 		Name:        "style/tag-present",
 		Description: "<style> tag should not be used",
 	},
+
+	"0006": {
+		Code:        "0006",
+		Name:        "tag/lowercase",
+		Description: "tag names must be in lowercase",
+	},
 }

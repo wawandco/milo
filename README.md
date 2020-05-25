@@ -55,11 +55,11 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 
 ### Tags
 
-- [TODO] tag-pair: Tag must be paired.
-- [TODO] tagname-lowercase: All html element names must be in lowercase.
+- [TODO] tagname-lowercase: All HTML element names must be in lowercase.
 - [TODO] src-not-empty: The src attribute of an img(script,link) must have a value.
 - [TODO] href-abs-or-rel: An href attribute must be either absolute or relative.
 - [TODO] OL and UL should only have LI siblings.
+- [TODO] tag-pair: Tag must be paired.
 
 ### Attributes
 

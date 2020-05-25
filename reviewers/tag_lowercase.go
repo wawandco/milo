@@ -7,17 +7,17 @@ import (
 	"strings"
 )
 
-type StyleTag struct{}
+type TagLowercase struct{}
 
-func (css StyleTag) ReviewerName() string {
-	return "style/tag-present"
+func (css TagLowercase) ReviewerName() string {
+	return "tag/lowercase"
 }
 
-func (css StyleTag) Accepts(path string) bool {
+func (css TagLowercase) Accepts(path string) bool {
 	return true
 }
 
-func (css StyleTag) Review(path string, reader io.Reader) ([]Fault, error) {
+func (css TagLowercase) Review(path string, reader io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	var number int
 	var line string
@@ -31,9 +31,8 @@ func (css StyleTag) Review(path string, reader io.Reader) ([]Fault, error) {
 			continue
 		}
 
-		lineLower := strings.ToLower(line)
-		re := regexp.MustCompile(`.*<style[^>]*>`)
-		if !re.MatchString(lineLower) {
+		re := regexp.MustCompile(`.*<[a-zA-Z]?[A-Z]+.*>`)
+		if !re.MatchString(line) {
 			continue
 		}
 
@@ -42,7 +41,7 @@ func (css StyleTag) Review(path string, reader io.Reader) ([]Fault, error) {
 			Line:     number,
 			Path:     path,
 
-			Rule: Rules["0005"],
+			Rule: Rules["0006"],
 		})
 	}
 
