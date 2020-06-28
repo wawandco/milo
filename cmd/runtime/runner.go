@@ -13,6 +13,8 @@ var (
 	ErrFaultsFound = errors.New("faults found")
 )
 
+// Runner is in charge of initializing a Referee with
+// the reviewers we have in the app.
 type Runner struct {
 	path string
 }

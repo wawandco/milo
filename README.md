@@ -42,11 +42,11 @@ milo templates
 milo templates/file.html
 ```
 
-# Rules
+# Referees
 
-Milo checks the following rules (most of these come from [htmlhint](https://htmlhint.com/docs/user-guide/list-rules)):
+Milo checks the following referees:
 
-### Head Rules
+### Head
 
 - [0001] Doctype must be declared.
 - [0002] Doctype must be valid.
@@ -69,8 +69,6 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] attr-value-double-quotes: Attribute values must be in double quotes.
 - [TODO] attr-value-not-empty: All attributes must have values.
 - [TODO] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
-- [TODO] id-class-ad-disabled: The id and class attributes cannot use the ad keyword, it will be blocked by adblock software.
-- [TODO] id-class-value: The id and class attribute values must meet the specified rules.
 - [TODO] id-unique: The value of id attributes must be unique.
 
 ### Inline
@@ -79,8 +77,12 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] inline-style-disabled: Inline style cannot be use.
 - [TODO] inline-script-disabled: Inline script cannot be use.
 
-### Need Review
+### Discussion
 
+The following referees need discussion before getting to the list of quotes we will add into the tool.
+
+- [REVIEW] id-class-ad-disabled: The id and class attributes cannot use the ad keyword, it will be blocked by adblock software.
+- [REVIEW] id-class-value: The id and class attribute values must meet the specified rules.
 - [REVIEW] The `<script>` tag cannot be used in a `<head>` tag.
 - [REVIEW] empty-tag-not-self-closed: The empty tag should not be closed by self.
 - [REVIEW] tag-self-close: Empty tags must be self closed.
