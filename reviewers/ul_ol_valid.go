@@ -25,9 +25,9 @@ func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 	}
 
 	olulSelection := doc.Find("ol").AddSelection(doc.Find("ul"))
-	notolul := olulSelection.Children().Not("li")
+	notli := olulSelection.Children().Not("li")
 
-	for i := 0; i < notolul.Length(); i++ {
+	for i := 0; i < notli.Length(); i++ {
 		result = append(result, Fault{
 			Reviewer: ol.ReviewerName(),
 			Line:     i + 1,
