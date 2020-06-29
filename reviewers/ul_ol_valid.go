@@ -6,17 +6,17 @@ import (
 	"github.com/PuerkitoBio/goquery"
 )
 
-type OlValid struct{}
+type OlUlValid struct{}
 
-func (ol OlValid) ReviewerName() string {
+func (ol OlUlValid) ReviewerName() string {
 	return "ol/valid"
 }
 
-func (ol OlValid) Accepts(filePath string) bool {
+func (ol OlUlValid) Accepts(filePath string) bool {
 	return true
 }
 
-func (ol OlValid) Review(path string, page io.Reader) ([]Fault, error) {
+func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
 	doc, err := goquery.NewDocumentFromReader(page)
@@ -24,9 +24,10 @@ func (ol OlValid) Review(path string, page io.Reader) ([]Fault, error) {
 		return result, err
 	}
 
-	children := doc.Find("ol").Children()
-	elem := children.Not("li")
-	for i := 0; i < elem.Length(); i++ {
+	olulSelection := doc.Find("ol").AddSelection(doc.Find("ul"))
+	notolul := olulSelection.Children().Not("li")
+
+	for i := 0; i < notolul.Length(); i++ {
 		result = append(result, Fault{
 			Reviewer: ol.ReviewerName(),
 			Line:     i + 1,

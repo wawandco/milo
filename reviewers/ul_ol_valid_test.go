@@ -8,10 +8,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_OlValid_Review(t *testing.T) {
+func Test_OlUlValid_Review(t *testing.T) {
 	r := require.New(t)
 
-	doc := reviewers.OlValid{}
+	doc := reviewers.OlUlValid{}
 	tcases := []struct {
 		name      string
 		content   string
@@ -20,7 +20,7 @@ func Test_OlValid_Review(t *testing.T) {
 		fault     []reviewers.Fault
 	}{
 		{
-			name:      "no ol specified",
+			name:      "no ol/ul specified",
 			faultsLen: 0,
 			content: `
 			<html>
@@ -29,12 +29,15 @@ func Test_OlValid_Review(t *testing.T) {
 		},
 
 		{
-			name:      "ol specified correctly",
+			name:      "ol/ul specified correctly",
 			faultsLen: 0,
 			content: `
 			<ol>
 				<li></li>
 			</ol>
+			<ul>
+				<li></li>
+			</ul>
 			`,
 		},
 
@@ -51,14 +54,29 @@ func Test_OlValid_Review(t *testing.T) {
 					Line:     2,
 					Rule:     reviewers.Rules["0008"],
 				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     3,
+					Rule:     reviewers.Rules["0008"],
+				},
+
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0008"],
+				},
 			},
-			name:      "ol invalid",
-			faultsLen: 2,
+			name:      "ol/ul invalid",
+			faultsLen: 4,
 			content: `
 			<ol>
 				<label></label>
 				<div></div>
 			</ol>
+			<ul>
+				<label></label>
+				<div></div>
+			</ul>
 			`,
 		},
 
@@ -69,9 +87,15 @@ func Test_OlValid_Review(t *testing.T) {
 					Line:     1,
 					Rule:     reviewers.Rules["0008"],
 				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     2,
+					Rule:     reviewers.Rules["0008"],
+				},
 			},
-			name:      "inner ol invalid",
-			faultsLen: 1,
+
+			name:      "inner ol/ul invalid",
+			faultsLen: 2,
 			content: `
 			<ol>
 				<li>
@@ -80,6 +104,14 @@ func Test_OlValid_Review(t *testing.T) {
 					</ol>
 				</li>
 			</ol>
+
+			<ul>
+				<li>
+					<ul>
+						<label></label>
+					</ul>
+				</li>
+			</ul>
 			`,
 		},
 	}
