@@ -9,7 +9,7 @@ import (
 type OlUlValid struct{}
 
 func (ol OlUlValid) ReviewerName() string {
-	return "ol/valid"
+	return "ol-ul/valid"
 }
 
 func (ol OlUlValid) Accepts(filePath string) bool {
