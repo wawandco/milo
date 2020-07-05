@@ -11,6 +11,16 @@ type Referee struct {
 	Reviewers []Reviewer
 }
 
+var (
+	DoctypePresent = "doctypepresent"
+	DoctypeValid   = "doctypevalid"
+	InlineCSS      = "inlinecss"
+	TitlePresent   = "titlepresent"
+	StyleTag       = "styletag"
+	TagLowercase   = "taglowercase"
+	SrcEmpty       = "srcempty"
+)
+
 func (r *Referee) Review(path string, reader io.Reader) ([]reviewers.Fault, error) {
 	faults := []reviewers.Fault{}
 
@@ -34,6 +44,27 @@ func (r *Referee) Review(path string, reader io.Reader) ([]reviewers.Fault, erro
 	}
 
 	return faults, nil
+}
+
+func (r *Referee) SetEnabledReviewers(enabledReviewers []string) {
+	for _, reviewer := range enabledReviewers {
+		switch reviewer {
+		case DoctypePresent:
+			r.Reviewers = append(r.Reviewers, reviewers.DoctypePresent{})
+		case DoctypeValid:
+			r.Reviewers = append(r.Reviewers, reviewers.DoctypeValid{})
+		case InlineCSS:
+			r.Reviewers = append(r.Reviewers, reviewers.InlineCSS{})
+		case TitlePresent:
+			r.Reviewers = append(r.Reviewers, reviewers.TitlePresent{})
+		case StyleTag:
+			r.Reviewers = append(r.Reviewers, reviewers.StyleTag{})
+		case TagLowercase:
+			r.Reviewers = append(r.Reviewers, reviewers.TagLowercase{})
+		case SrcEmpty:
+			r.Reviewers = append(r.Reviewers, reviewers.SrcEmpty{})
+		}
+	}
 }
 
 func NewReferee() *Referee {

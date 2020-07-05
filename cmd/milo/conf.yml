@@ -1,0 +1,8 @@
+enabled:
+  - doctypepresent
+  - doctypevalid
+  - inlinecss
+  - titlepresent
+  - styletag
+  - taglowercase
+  - srcempty
