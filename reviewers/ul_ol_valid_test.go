@@ -1,7 +1,7 @@
 package reviewers_test
 
 import (
-	"strings"
+	"bytes"
 	"testing"
 	"wawandco/milo/reviewers"
 
@@ -45,17 +45,6 @@ func Test_OlUlValid_Review(t *testing.T) {
 			fault: []reviewers.Fault{
 				{
 					Reviewer: doc.ReviewerName(),
-					Line:     1,
-					Rule:     reviewers.Rules["0008"],
-				},
-
-				{
-					Reviewer: doc.ReviewerName(),
-					Line:     2,
-					Rule:     reviewers.Rules["0008"],
-				},
-				{
-					Reviewer: doc.ReviewerName(),
 					Line:     3,
 					Rule:     reviewers.Rules["0008"],
 				},
@@ -63,6 +52,17 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     4,
+					Rule:     reviewers.Rules["0008"],
+				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     7,
+					Rule:     reviewers.Rules["0008"],
+				},
+
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     8,
 					Rule:     reviewers.Rules["0008"],
 				},
 			},
@@ -84,12 +84,12 @@ func Test_OlUlValid_Review(t *testing.T) {
 			fault: []reviewers.Fault{
 				{
 					Reviewer: doc.ReviewerName(),
-					Line:     1,
+					Line:     5,
 					Rule:     reviewers.Rules["0008"],
 				},
 				{
 					Reviewer: doc.ReviewerName(),
-					Line:     2,
+					Line:     13,
 					Rule:     reviewers.Rules["0008"],
 				},
 			},
@@ -117,7 +117,7 @@ func Test_OlUlValid_Review(t *testing.T) {
 	}
 
 	for _, tcase := range tcases {
-		page := strings.NewReader(tcase.content)
+		page := bytes.NewBufferString(tcase.content)
 		faults, err := doc.Review("something.html", page)
 
 		r.NoError(err, tcase.name)
