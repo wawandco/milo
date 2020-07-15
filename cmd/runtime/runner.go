@@ -40,7 +40,8 @@ func (r Runner) Run() error {
 		for _, rev := range revs {
 			fileFaults, err := rev.Review(path, reader)
 			if err != nil {
-				return err
+				fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
+				continue
 			}
 
 			faults = append(faults, fileFaults...)
