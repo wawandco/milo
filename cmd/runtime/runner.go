@@ -23,32 +23,7 @@ func (r Runner) Run() error {
 	revs := config.SelectedReviewers()
 
 	var faults []reviewers.Fault
-	err := filepath.Walk(r.path, func(path string, info os.FileInfo, err error) error {
-		if err != nil {
-			return err
-		}
-
-		if info.IsDir() {
-			return nil
-		}
-
-		reader, err := os.Open(path)
-		if err != nil {
-			return err
-		}
-
-		for _, rev := range revs {
-			fileFaults, err := rev.Review(path, reader)
-			if err != nil {
-				fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
-				continue
-			}
-
-			faults = append(faults, fileFaults...)
-		}
-
-		return nil
-	})
+	err := filepath.Walk(r.path, r.walkFn)
 
 	if err != nil {
 		return err
@@ -60,6 +35,33 @@ func (r Runner) Run() error {
 
 	if len(faults) > 0 {
 		return ErrFaultsFound
+	}
+
+	return nil
+}
+
+func (r Runner) walkFn(path string, info os.FileInfo, err error) error {
+	if err != nil {
+		return err
+	}
+
+	if info.IsDir() {
+		return nil
+	}
+
+	reader, err := os.Open(path)
+	if err != nil {
+		return err
+	}
+
+	for _, rev := range revs {
+		fileFaults, err := rev.Review(path, reader)
+		if err != nil {
+			fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
+			continue
+		}
+
+		faults = append(faults, fileFaults...)
 	}
 
 	return nil
