@@ -15,25 +15,26 @@ var (
 // Runner is in charge of initializing a Referee with
 // the reviewers we have in the app.
 type Runner struct {
-	path string
+	path      string
+	faults    []reviewers.Fault
+	reviewers []reviewers.Reviewer
 }
 
 func (r Runner) Run() error {
 	config := LoadConfiguration()
-	revs := config.SelectedReviewers()
+	r.reviewers = config.SelectedReviewers()
 
-	var faults []reviewers.Fault
 	err := filepath.Walk(r.path, r.walkFn)
 
 	if err != nil {
 		return err
 	}
 
-	for _, fault := range faults {
+	for _, fault := range r.faults {
 		fmt.Println(fault)
 	}
 
-	if len(faults) > 0 {
+	if len(r.faults) > 0 {
 		return ErrFaultsFound
 	}
 
@@ -54,14 +55,14 @@ func (r Runner) walkFn(path string, info os.FileInfo, err error) error {
 		return err
 	}
 
-	for _, rev := range revs {
+	for _, rev := range r.reviewers {
 		fileFaults, err := rev.Review(path, reader)
 		if err != nil {
 			fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
 			continue
 		}
 
-		faults = append(faults, fileFaults...)
+		r.faults = append(r.faults, fileFaults...)
 	}
 
 	return nil
