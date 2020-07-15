@@ -27,6 +27,7 @@ func (r Runner) Run() error {
 		reviewers.StyleTag{},
 		reviewers.TagLowercase{},
 		reviewers.SrcEmpty{},
+		reviewers.OlUlValid{},
 	}
 
 	var faults []reviewers.Fault
