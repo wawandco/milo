@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"wawandco/milo"
 	"wawandco/milo/reviewers"
 )
 
@@ -20,10 +19,8 @@ type Runner struct {
 }
 
 func (r Runner) Run() error {
-	referee := milo.NewReferee()
 	config := LoadConfiguration()
-
-	referee.Reviewers = config.SelectedReviewers()
+	revs := config.SelectedReviewers()
 
 	var faults []reviewers.Fault
 	err := filepath.Walk(r.path, func(path string, info os.FileInfo, err error) error {
@@ -40,12 +37,15 @@ func (r Runner) Run() error {
 			return err
 		}
 
-		fileFaults, err := referee.Review(path, reader)
-		if err != nil {
-			return err
+		for _, rev := range revs {
+			fileFaults, err := rev.Review(path, reader)
+			if err != nil {
+				return err
+			}
+
+			faults = append(faults, fileFaults...)
 		}
 
-		faults = append(faults, fileFaults...)
 		return nil
 	})
 
