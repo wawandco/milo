@@ -7,7 +7,6 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 - Milo considers html partials and validates the rules that apply to these.
 - Milo considers erb and plush as part of the HTML and works around these.
 - Milo will start simple and write its output only to be compatible with github, maybe later we add/other formats.
-- Milo will start by enforcing all the rules in the catalog.
 
 ## Installation
 
@@ -41,6 +40,18 @@ Example:
 milo templates
 milo templates/file.html
 ```
+
+### Configuration
+
+Referees to run can get configured by creating a file named `.milo.yml` in the root of the folder to analize. An example of the .milo.yml file that can be used as a starting point is:
+
+```
+output: github # TODO!
+reviewers:
+  - doctype/present 
+```
+
+If Milo does not find this file in your folder it will run All the linters, the same if the reviewers list is empty.
 
 # Referees
 

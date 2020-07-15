@@ -5,6 +5,7 @@ go 1.14
 require (
 	github.com/PuerkitoBio/goquery v1.5.1
 	github.com/stretchr/testify v1.5.1
+	gopkg.in/yaml.v2 v2.2.2
 )
 
 replace github.com/PuerkitoBio/goquery => github.com/larrymjordan/goquery v1.5.2-0.20200714195702-e514b22bcb73
