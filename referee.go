@@ -8,7 +8,7 @@ import (
 )
 
 type Referee struct {
-	Reviewers []Reviewer
+	Reviewers []reviewers.Reviewer
 }
 
 func (r *Referee) Review(path string, reader io.Reader) ([]reviewers.Fault, error) {

@@ -13,22 +13,17 @@ var (
 	ErrFaultsFound = errors.New("faults found")
 )
 
+// Runner is in charge of initializing a Referee with
+// the reviewers we have in the app.
 type Runner struct {
 	path string
 }
 
 func (r Runner) Run() error {
 	referee := milo.NewReferee()
-	referee.Reviewers = []milo.Reviewer{
-		reviewers.DoctypePresent{},
-		reviewers.DoctypeValid{},
-		reviewers.InlineCSS{},
-		reviewers.TitlePresent{},
-		reviewers.StyleTag{},
-		reviewers.TagLowercase{},
-		reviewers.SrcEmpty{},
-		reviewers.OlUlValid{},
-	}
+	config := LoadConfiguration()
+
+	referee.Reviewers = config.SelectedReviewers()
 
 	var faults []reviewers.Fault
 	err := filepath.Walk(r.path, func(path string, info os.FileInfo, err error) error {

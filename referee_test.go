@@ -23,7 +23,7 @@ func Test_Referee(t *testing.T) {
 	r.NoError(err)
 	r.Len(faults, 0)
 
-	referee.Reviewers = []milo.Reviewer{
+	referee.Reviewers = []reviewers.Reviewer{
 		reviewers.DoctypePresent{},
 	}
 
@@ -37,7 +37,7 @@ func Test_Referee(t *testing.T) {
 func Test_RefereeMultiple(t *testing.T) {
 	r := require.New(t)
 	referee := milo.NewReferee()
-	referee.Reviewers = []milo.Reviewer{
+	referee.Reviewers = []reviewers.Reviewer{
 		reviewers.DoctypePresent{},
 		reviewers.DoctypeValid{},
 	}

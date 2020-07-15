@@ -7,7 +7,6 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 - Milo considers html partials and validates the rules that apply to these.
 - Milo considers erb and plush as part of the HTML and works around these.
 - Milo will start simple and write its output only to be compatible with github, maybe later we add/other formats.
-- Milo will start by enforcing all the rules in the catalog.
 
 ## Installation
 
@@ -42,11 +41,23 @@ milo templates
 milo templates/file.html
 ```
 
-# Rules
+### Configuration
 
-Milo checks the following rules (most of these come from [htmlhint](https://htmlhint.com/docs/user-guide/list-rules)):
+Referees to run can get configured by creating a file named `.milo.yml` in the root of the folder to analize. An example of the .milo.yml file that can be used as a starting point is:
 
-### Head Rules
+```
+output: github # TODO!
+reviewers:
+  - doctype/present 
+```
+
+If Milo does not find this file in your folder it will run All the linters, the same if the reviewers list is empty.
+
+# Referees
+
+Milo checks the following referees:
+
+### Head
 
 - [0001] Doctype must be declared.
 - [0002] Doctype must be valid.
@@ -69,8 +80,6 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] attr-value-double-quotes: Attribute values must be in double quotes.
 - [TODO] attr-value-not-empty: All attributes must have values.
 - [TODO] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
-- [TODO] id-class-ad-disabled: The id and class attributes cannot use the ad keyword, it will be blocked by adblock software.
-- [TODO] id-class-value: The id and class attribute values must meet the specified rules.
 - [TODO] id-unique: The value of id attributes must be unique.
 
 ### Inline
@@ -79,8 +88,12 @@ Milo checks the following rules (most of these come from [htmlhint](https://html
 - [TODO] inline-style-disabled: Inline style cannot be use.
 - [TODO] inline-script-disabled: Inline script cannot be use.
 
-### Need Review
+### Discussion
 
+The following referees need discussion before getting to the list of quotes we will add into the tool.
+
+- [REVIEW] id-class-ad-disabled: The id and class attributes cannot use the ad keyword, it will be blocked by adblock software.
+- [REVIEW] id-class-value: The id and class attribute values must meet the specified rules.
 - [REVIEW] The `<script>` tag cannot be used in a `<head>` tag.
 - [REVIEW] empty-tag-not-self-closed: The empty tag should not be closed by self.
 - [REVIEW] tag-self-close: Empty tags must be self closed.
