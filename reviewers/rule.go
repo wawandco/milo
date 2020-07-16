@@ -58,7 +58,13 @@ var Rules = map[string]Rule{
 
 	"0009": {
 		Code:        "0009",
-		Name:        "tag/ul-ol-li",
-		Description: "UL and OL must only have LI direct children",
+		Name:        "attribute/style",
+		Description: "inline-style-disabled: Inline style cannot be use.",
+	},
+
+	"0010": {
+		Code:        "0010",
+		Name:        "attribute/no-duplication",
+		Description: "attr-no-duplication: Elements cannot have duplicate attributes",
 	},
 }

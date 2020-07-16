@@ -14,6 +14,7 @@ var All = []Reviewer{
 	TagLowercase{},
 	SrcEmpty{},
 	OlUlValid{},
+	AttrNoDuplication{},
 }
 
 type Reviewer interface {
