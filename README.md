@@ -78,14 +78,14 @@ Milo checks the following referees:
 - [TODO] attr-no-unnecessary-whitespace: No spaces between attribute names and values.
 - [TODO] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
 - [TODO] attr-value-double-quotes: Attribute values must be in double quotes.
-- [TODO] attr-value-not-empty: All attributes must have values.
+- [0011] attr-value-not-empty: All attributes must have values.
 - [TODO] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
 - [TODO] id-unique: The value of id attributes must be unique.
 
 ### Inline
 
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
-- [TODO] inline-style-disabled: Inline style cannot be use.
+- [0009] inline-style-disabled: Inline style cannot be use.
 - [TODO] inline-script-disabled: Inline script cannot be use.
 
 ### Discussion
