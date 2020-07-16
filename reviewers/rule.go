@@ -65,6 +65,6 @@ var Rules = map[string]Rule{
 	"0010": {
 		Code:        "0010",
 		Name:        "attribute/no-duplication",
-		Description: "inline-style-disabled: Inline style cannot be use.",
+		Description: "attr-no-duplication: Elements cannot have duplicate attributes",
 	},
 }
