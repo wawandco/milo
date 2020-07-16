@@ -41,5 +41,5 @@ func Test_LoadConfiguration(t *testing.T) {
 
 	config = LoadConfiguration()
 	r.Len(config.Reviewers, 0)
-	r.Len(config.SelectedReviewers(), 8)
+	r.Len(config.SelectedReviewers(), 10)
 }
