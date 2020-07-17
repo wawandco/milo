@@ -79,4 +79,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/alt-required",
 		Description: "alt-required: Alt attribute required for images, areas and input[type=image]",
 	},
+
+	"0013": {
+		Code:        "0012",
+		Name:        "attribute/lowercase",
+		Description: "attr-lowercase: attributes should be in lowercase",
+	},
 }
