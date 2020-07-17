@@ -79,7 +79,7 @@ Milo checks the following referees:
 - [TODO] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
 - [TODO] attr-value-double-quotes: Attribute values must be in double quotes.
 - [0011] attr-value-not-empty: All attributes must have values.
-- [TODO] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
+- [0012] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
 - [TODO] id-unique: The value of id attributes must be unique.
 
 ### Inline

@@ -73,4 +73,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/value-not-empty",
 		Description: "attr-value-not-empty: All attributes must have values",
 	},
+
+	"0012": {
+		Code:        "0012",
+		Name:        "attribute/alt-required",
+		Description: "alt-required: Alt attribute required for images, areas and input[type=image]",
+	},
 }
