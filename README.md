@@ -43,7 +43,7 @@ reviewers:
 
 If Milo does not find this file in your folder it will run All the linters, the same if the reviewers list is empty.
 
-# Reviewers
+## Reviewers
 
 Milo checks the following referees:
 
