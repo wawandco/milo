@@ -16,6 +16,7 @@ var All = []Reviewer{
 	OlUlValid{},
 	AttrNoDuplication{},
 	AttrValueNotEmpty{},
+	AltRequired{},
 }
 
 type Reviewer interface {

@@ -10,7 +10,7 @@ import (
 type AltRequired struct{}
 
 func (at AltRequired) ReviewerName() string {
-	return "ol-ul/valid"
+	return "attribute/alt-required"
 }
 
 func (at AltRequired) Accepts(filePath string) bool {
