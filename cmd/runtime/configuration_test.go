@@ -5,6 +5,7 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
+	"wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
 )
@@ -41,5 +42,5 @@ func Test_LoadConfiguration(t *testing.T) {
 
 	config = LoadConfiguration()
 	r.Len(config.Reviewers, 0)
-	r.Len(config.SelectedReviewers(), 10)
+	r.Len(config.SelectedReviewers(), len(reviewers.All))
 }
