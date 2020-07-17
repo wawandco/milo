@@ -63,7 +63,7 @@ Milo checks the following referees:
 
 ### Attributes
 
-- [TODO] attr-lowercase: All attribute names must be in lowercase.
+- [0013] attr-lowercase: All attribute names must be in lowercase.
 - [0010] attr-no-duplication: Elements cannot have duplicate attributes.
 - [TODO] attr-no-unnecessary-whitespace: No spaces between attribute names and values.
 - [TODO] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
