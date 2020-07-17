@@ -17,6 +17,7 @@ var All = []Reviewer{
 	AttrNoDuplication{},
 	AttrValueNotEmpty{},
 	AttrLowercase{},
+	AttrIDUnique{},
 	AltRequired{},
 }
 

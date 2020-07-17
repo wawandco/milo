@@ -85,4 +85,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/lowercase",
 		Description: "attr-lowercase: attributes should be in lowercase",
 	},
+
+	"0014": {
+		Code:        "0014",
+		Name:        "attribute/id-unique",
+		Description: "attr-id-unique: id attribute must be unique",
+	},
 }
