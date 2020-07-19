@@ -41,7 +41,7 @@ func (r Runner) Run() error {
 	return nil
 }
 
-func (r Runner) walkFn(path string, info os.FileInfo, err error) error {
+func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 	if err != nil {
 		return err
 	}

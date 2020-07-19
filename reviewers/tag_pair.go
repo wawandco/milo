@@ -49,14 +49,17 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 			}
 
 			var i int
+			var spaces int
 			for i = len(openedTags) - 1; i >= 0; i-- {
 				if openedTags[i] == nil {
 					continue
 				}
 				if openedTags[i].DataAtom == token.DataAtom {
-					copy(openedTags[i:], openedTags[i+1:])
-					openedTags[len(openedTags)-1] = nil
+					openedTags[i] = nil
 					break
+				}
+				if openedTags[i].DataAtom != 0 {
+					spaces++
 				}
 			}
 
@@ -70,10 +73,13 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 				continue
 			}
 
-			// Mark all open tags as not valid after a tag is matched.
-			for i = 0; i < len(openedTags); i++ {
-				if openedTags[i] != nil {
-					openedTags[i].DataAtom = 0
+			// Mark all open tags as consumed after a tag is matched if spaces > 0.
+			// it means we skipped some single open tags.
+			if spaces > 0 {
+				for i = 0; i < len(openedTags); i++ {
+					if openedTags[i] != nil {
+						openedTags[i].DataAtom = 0
+					}
 				}
 			}
 		}

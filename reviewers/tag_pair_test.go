@@ -138,6 +138,61 @@ func Test_TagPair_Review(t *testing.T) {
 					Rule:     reviewers.Rules["0015"],
 				}},
 		},
+
+		{
+			name:      "nested tags",
+			faultsLen: 0,
+			content:   "<ul><li><a></a></li></ul>",
+		},
+
+		{
+			name:      "nested tags with invalid anchor closed",
+			faultsLen: 1,
+			content:   "<ul><li><a></a></a></li></ul>",
+			fault: []reviewers.Fault{{
+				Reviewer: reviewer.ReviewerName(),
+				Line:     1,
+				Rule:     reviewers.Rules["0015"],
+			}},
+		},
+
+		{
+			name:      "more complex nested content with false positive",
+			faultsLen: 4,
+			content: `<ul>
+						<li class="breadcrumb-item">
+							<a href="#">Amenities</a>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span>Activity<span>
+						</li>
+						<li class="breadcrumb-item active" aria-current="page">
+							<span>Edit Amenity</span>
+						</li>
+						<div>Bad child for ul</div>
+						<span>Bad child for ul</span>
+					 </ul>`,
+			fault: []reviewers.Fault{{
+				Reviewer: reviewer.ReviewerName(),
+				Line:     13,
+				Rule:     reviewers.Rules["0015"],
+			},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0015"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     6,
+					Rule:     reviewers.Rules["0015"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     6,
+					Rule:     reviewers.Rules["0015"],
+				}},
+		},
 	}
 
 	for _, tcase := range tcases {
