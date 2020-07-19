@@ -59,7 +59,7 @@ Milo checks the following referees:
 - [0006] All HTML element names must be in lowercase.
 - [0007] `src`, `href` and `data` attributes of must have a value.
 - [0008] `ol` and `ul` must only have `li` direct child tags.
-- [TODO] tag-pair: Tag must be paired.
+- [0015] tag-pair: Tag must be paired.
 
 ### Attributes
 

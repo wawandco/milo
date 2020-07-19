@@ -91,4 +91,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/id-unique",
 		Description: "attr-id-unique: id attribute must be unique",
 	},
+
+	"0015": {
+		Code:        "0015",
+		Name:        "tag/pair",
+		Description: "tag-pair: Tag must be paired",
+	},
 }
