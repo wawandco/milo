@@ -20,6 +20,7 @@ var All = []Reviewer{
 	AttrIDUnique{},
 	AltRequired{},
 	TagPair{},
+	AttrUnsafeChars{},
 }
 
 type Reviewer interface {

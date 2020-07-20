@@ -66,7 +66,7 @@ Milo checks the following referees:
 - [0013] attr-lowercase: All attribute names must be in lowercase.
 - [0010] attr-no-duplication: Elements cannot have duplicate attributes.
 - [TODO] attr-no-unnecessary-whitespace: No spaces between attribute names and values.
-- [TODO] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
+- [0016] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
 - [TODO] attr-value-double-quotes: Attribute values must be in double quotes.
 - [0011] attr-value-not-empty: All attributes must have values.
 - [0012] alt-require: The alt attribute of an element must be present and alt attribute of area[href] and input[type=image] must have a value.
