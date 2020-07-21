@@ -97,4 +97,10 @@ var Rules = map[string]Rule{
 		Name:        "tag/pair",
 		Description: "tag-pair: Tag must be paired",
 	},
+
+	"0016": {
+		Code:        "0016",
+		Name:        "attribute/unsafe-chars",
+		Description: "attr-unsafe-chars: Attribute values cannot contain unsafe chars",
+	},
 }
