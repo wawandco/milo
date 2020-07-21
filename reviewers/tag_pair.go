@@ -38,15 +38,6 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 			openedTags = append(openedTags, &token)
 
 		case html.EndTagToken:
-			if len(openedTags) == 0 {
-				fault = append(fault, Fault{
-					Line:     token.Line,
-					Path:     path,
-					Rule:     Rules["0015"],
-					Reviewer: t.ReviewerName(),
-				})
-				continue
-			}
 
 			var i int
 			var levels int
