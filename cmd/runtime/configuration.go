@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
+	"wawandco/milo/output"
 	"wawandco/milo/reviewers"
 
 	"gopkg.in/yaml.v2"
@@ -30,6 +31,18 @@ func (c Configuration) SelectedReviewers() []reviewers.Reviewer {
 	}
 
 	return selected
+}
+
+func (c Configuration) Printer() output.FaultFormatter {
+	for _, printer := range output.Formatters {
+		if printer.FormatterName() != c.Output {
+			continue
+		}
+
+		return printer
+	}
+
+	return output.GithubFaultFormatter{}
 }
 
 func LoadConfiguration() Configuration {

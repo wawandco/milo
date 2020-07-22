@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"wawandco/milo/output"
 	"wawandco/milo/reviewers"
 )
 
@@ -18,20 +19,26 @@ type Runner struct {
 	path      string
 	faults    []reviewers.Fault
 	reviewers []reviewers.Reviewer
+	formatter output.FaultFormatter
 }
 
 func (r Runner) Run() error {
 	config := LoadConfiguration()
 	r.reviewers = config.SelectedReviewers()
+	r.formatter = config.Printer()
 
 	err := filepath.Walk(r.path, r.walkFn)
-
 	if err != nil {
 		return err
 	}
 
 	for _, fault := range r.faults {
-		fmt.Println(fault)
+		ou := r.formatter.Format(fault)
+		if ou == "" {
+			continue
+		}
+
+		fmt.Println(ou)
 	}
 
 	if len(r.faults) > 0 {
