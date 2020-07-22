@@ -22,14 +22,14 @@ You can also download Milo binaries from our releases folder.
 ## Usage
 
 ```
-milo [folder or file]
+milo run [folder or file]
 ```
 
 Example:
 
 ```
-milo templates
-milo templates/file.html
+milo run templates
+milo run templates/file.html
 ```
 
 ### Configuration
