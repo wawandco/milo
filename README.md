@@ -8,7 +8,6 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 
 - Milo considers html partials and validates the rules that apply to these.
 - Milo considers erb and plush as part of the HTML and works around these.
-- Milo will start simple and write its output only to be compatible with github, maybe later we add/other formats.
 
 ## Installation
 
