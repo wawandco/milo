@@ -35,10 +35,10 @@ milo templates/file.html
 
 ### Configuration
 
-Referees to run can get configured by creating a file named `.milo.yml` in the root of the folder to analize. An example of the .milo.yml file that can be used as a starting point is:
+Referees to run can get configured by creating a file named `.milo.yml` in the root of the folder to analyze. An example of the .milo.yml file that can be used as a starting point is:
 
 ```
-output: github # TODO!
+output: github # could be `github` or `silent`
 reviewers:
   - doctype/present 
 ```
@@ -47,7 +47,7 @@ If Milo does not find this file in your folder it will run All the linters, the 
 
 ## Reviewers
 
-Milo checks the following referees:
+Milo uses the following reviewers:
 
 ### Head
 
