@@ -10,7 +10,8 @@ import (
 )
 
 var (
-	ErrFaultsFound = errors.New("faults found")
+	ErrFaultsFound      = errors.New("faults found")
+	ErrInsufficientArgs = errors.New("please pass the folder to analize, p.e: milo run templates")
 )
 
 // Runner is in charge of initializing a Referee with
@@ -27,7 +28,7 @@ func (r Runner) CommandName() string {
 
 func (r Runner) Run(args []string) error {
 	if len(args) < 2 {
-		return errors.New("please pass the folder to analize, p.e: milo run templates")
+		return ErrInsufficientArgs
 	}
 
 	config := LoadConfiguration()
