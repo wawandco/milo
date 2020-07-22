@@ -3,11 +3,15 @@ package main
 import (
 	"context"
 	"fmt"
-	"log"
 	"os"
 	"os/signal"
 	"wawandco/milo/cmd/runtime"
 )
+
+type command interface {
+	Run([]string) error
+	CommandName() string
+}
 
 func main() {
 	ctx := context.Background()
@@ -30,13 +34,32 @@ func main() {
 	}()
 
 	if len(os.Args) < 2 {
-		fmt.Println("please pass the folder to analize, p.e: milo templates")
+		printHelp()
 		return
 	}
 
-	runner := runtime.NewRunner(os.Args[1])
-	err := runner.Run()
-	if err != nil {
-		log.Fatal(err)
+	commands := []command{
+		runtime.Runner{},
+		// init.Command{},
 	}
+
+	for _, command := range commands {
+		if command.CommandName() != os.Args[1] {
+			continue
+		}
+
+		err := command.Run(os.Args[1:])
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
+
+		break
+	}
+
+	printHelp()
+}
+
+func printHelp() {
+	fmt.Println(`[here goes the help text]`)
 }

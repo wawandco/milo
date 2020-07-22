@@ -16,18 +16,25 @@ var (
 // Runner is in charge of initializing a Referee with
 // the reviewers we have in the app.
 type Runner struct {
-	path      string
 	faults    []reviewers.Fault
 	reviewers []reviewers.Reviewer
 	formatter output.FaultFormatter
 }
 
-func (r Runner) Run() error {
+func (r Runner) CommandName() string {
+	return "run"
+}
+
+func (r Runner) Run(args []string) error {
+	if len(args) < 2 {
+		return errors.New("please pass the folder to analize, p.e: milo run templates")
+	}
+
 	config := LoadConfiguration()
 	r.reviewers = config.SelectedReviewers()
 	r.formatter = config.Printer()
 
-	err := filepath.Walk(r.path, r.walkFn)
+	err := filepath.Walk(args[1], r.walkFn)
 	if err != nil {
 		return err
 	}
@@ -73,10 +80,4 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 	}
 
 	return nil
-}
-
-func NewRunner(path string) *Runner {
-	return &Runner{
-		path: path,
-	}
 }
