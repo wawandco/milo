@@ -5,12 +5,14 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"wawandco/milo/cmd"
+	"wawandco/milo/cmd/initialize"
 	"wawandco/milo/cmd/runtime"
 )
 
-type command interface {
-	Run([]string) error
-	CommandName() string
+var commands = []cmd.Command{
+	runtime.Runner{},
+	initialize.Command{},
 }
 
 func main() {
@@ -38,11 +40,6 @@ func main() {
 		return
 	}
 
-	commands := []command{
-		runtime.Runner{},
-		// init.Command{},
-	}
-
 	for _, command := range commands {
 		if command.CommandName() != os.Args[1] {
 			continue
@@ -54,7 +51,7 @@ func main() {
 			os.Exit(1)
 		}
 
-		break
+		return
 	}
 
 	printHelp()

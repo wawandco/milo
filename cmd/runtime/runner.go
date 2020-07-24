@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+	"wawandco/milo/config"
 	"wawandco/milo/output"
 	"wawandco/milo/reviewers"
 )
@@ -31,9 +32,9 @@ func (r Runner) Run(args []string) error {
 		return ErrInsufficientArgs
 	}
 
-	config := LoadConfiguration()
-	r.reviewers = config.SelectedReviewers()
-	r.formatter = config.Printer()
+	c := config.LoadConfiguration()
+	r.reviewers = c.SelectedReviewers()
+	r.formatter = c.Printer()
 
 	err := filepath.Walk(args[1], r.walkFn)
 	if err != nil {

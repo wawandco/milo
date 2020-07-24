@@ -1,4 +1,4 @@
-package runtime
+package config
 
 import (
 	"fmt"
@@ -10,13 +10,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-// Configuration will load the linting configuration from .milo.yml.
-type Configuration struct {
+// Settings will load the linting configuration from .milo.yml.
+type Settings struct {
 	Output    string
 	Reviewers []string
 }
 
-func (c Configuration) SelectedReviewers() []reviewers.Reviewer {
+func (c Settings) SelectedReviewers() []reviewers.Reviewer {
 	if len(c.Reviewers) == 0 {
 		return reviewers.All
 	}
@@ -33,7 +33,7 @@ func (c Configuration) SelectedReviewers() []reviewers.Reviewer {
 	return selected
 }
 
-func (c Configuration) Printer() output.FaultFormatter {
+func (c Settings) Printer() output.FaultFormatter {
 	for _, printer := range output.Formatters {
 		if printer.FormatterName() != c.Output {
 			continue
@@ -45,8 +45,8 @@ func (c Configuration) Printer() output.FaultFormatter {
 	return output.GithubFaultFormatter{}
 }
 
-func LoadConfiguration() Configuration {
-	result := Configuration{}
+func LoadConfiguration() Settings {
+	result := Settings{}
 
 	data, err := ioutil.ReadFile(".milo.yml")
 	if err != nil {
