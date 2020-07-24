@@ -14,20 +14,20 @@ func (r Runner) Name() string {
 	return "init"
 }
 
-func (r Runner) Run(args []string) error {
-	config := config.Settings{}
-	config.Output = "github"
+func (r Command) Run(args []string) error {
+	c := config.Settings{}
+	c.Output = "github"
 
 	for _, reviewer := range reviewers.All {
-		config.Reviewers = append(config.Reviewers, reviewer.ReviewerName())
+		c.Reviewers = append(c.Reviewers, reviewer.ReviewerName())
 	}
 
-	out, err := yaml.Marshal(&config)
+	out, err := yaml.Marshal(&c)
 	if err != nil {
 		return err
 	}
 
-	err = ioutil.WriteFile(".milo.yml", out, 0666)
+	err = ioutil.WriteFile(".milo.yml", out, 0600)
 	if err != nil {
 		return err
 	}
