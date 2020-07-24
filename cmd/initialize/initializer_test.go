@@ -13,8 +13,8 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-//Checking that init.Init is a Command
-var _ cmd.Command = (*initialize.Command)(nil)
+//Checking that initialize.Runner is a cmd.Runnable
+var _ cmd.Runnable = (*initialize.Runner)(nil)
 
 func Test_InitRun(t *testing.T) {
 	r := require.New(t)
@@ -23,7 +23,7 @@ func Test_InitRun(t *testing.T) {
 	r.NoError(err)
 	r.NoError(os.Chdir(dir))
 
-	c := initialize.Command{}
+	c := initialize.Runner{}
 	err = c.Run([]string{})
 	r.NoError(err)
 

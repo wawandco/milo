@@ -8,13 +8,13 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-type Command struct{}
+type Runner struct{}
 
-func (r Command) CommandName() string {
+func (r Runner) Name() string {
 	return "init"
 }
 
-func (r Command) Run(args []string) error {
+func (r Runner) Run(args []string) error {
 	config := config.Settings{}
 	config.Output = "github"
 

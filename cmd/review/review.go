@@ -1,4 +1,4 @@
-package runtime
+package review
 
 import (
 	"errors"
@@ -15,15 +15,15 @@ var (
 	ErrInsufficientArgs = errors.New("please pass the folder to analize, p.e: milo run templates")
 )
 
-// Runner is in charge of initializing a Referee with
-// the reviewers we have in the app.
+// Runner is in charge of running the reviewers
+// across the files passed.
 type Runner struct {
 	faults    []reviewers.Fault
 	reviewers []reviewers.Reviewer
 	formatter output.FaultFormatter
 }
 
-func (r Runner) CommandName() string {
+func (r Runner) Name() string {
 	return "run"
 }
 

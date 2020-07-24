@@ -7,12 +7,12 @@ import (
 	"os/signal"
 	"wawandco/milo/cmd"
 	"wawandco/milo/cmd/initialize"
-	"wawandco/milo/cmd/runtime"
+	"wawandco/milo/cmd/review"
 )
 
-var commands = []cmd.Command{
-	runtime.Runner{},
-	initialize.Command{},
+var runnables = []cmd.Runnable{
+	review.Runner{},
+	initialize.Runner{},
 }
 
 func main() {
@@ -40,12 +40,12 @@ func main() {
 		return
 	}
 
-	for _, command := range commands {
-		if command.CommandName() != os.Args[1] {
+	for _, runnable := range runnables {
+		if runnable.Name() != os.Args[1] {
 			continue
 		}
 
-		err := command.Run(os.Args[1:])
+		err := runnable.Run(os.Args[1:])
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
