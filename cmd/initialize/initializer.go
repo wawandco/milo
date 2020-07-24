@@ -14,7 +14,7 @@ func (r Runner) Name() string {
 	return "init"
 }
 
-func (r Command) Run(args []string) error {
+func (r Runner) Run(args []string) error {
 	c := config.Settings{}
 	c.Output = "github"
 
