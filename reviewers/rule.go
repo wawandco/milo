@@ -59,7 +59,7 @@ var Rules = map[string]Rule{
 	"0009": {
 		Code:        "0009",
 		Name:        "attribute/style",
-		Description: "inline-style-disabled: Inline style cannot be use",
+		Description: "inline-style-disabled: Inline style cannot be used",
 	},
 
 	"0010": {
@@ -102,5 +102,11 @@ var Rules = map[string]Rule{
 		Code:        "0016",
 		Name:        "attribute/unsafe-chars",
 		Description: "attr-unsafe-chars: Attribute values cannot contain unsafe chars",
+	},
+
+	"0017": {
+		Code:        "0017",
+		Name:        "script/inline-disabled",
+		Description: "inline-script-disabled: Inline script cannot be used",
 	},
 }
