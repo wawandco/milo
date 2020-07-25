@@ -21,6 +21,7 @@ var All = []Reviewer{
 	AltRequired{},
 	TagPair{},
 	AttrUnsafeChars{},
+	InlineScriptDisabled{},
 }
 
 type Reviewer interface {

@@ -103,4 +103,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/unsafe-chars",
 		Description: "attr-unsafe-chars: Attribute values cannot contain unsafe chars",
 	},
+
+	"0017": {
+		Code:        "0017",
+		Name:        "script/inline-disabled",
+		Description: "inline-script-disabled: Inline script cannot be use",
+	},
 }

@@ -77,7 +77,7 @@ Milo uses the following reviewers:
 
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
 - [0009] inline-style-disabled: Inline style cannot be use.
-- [TODO] inline-script-disabled: Inline script cannot be use.
+- [0017] inline-script-disabled: Inline script cannot be use.
 
 ## Copyright
 
