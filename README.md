@@ -1,5 +1,7 @@
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
 
+![](https://github.com/wawandco/milo/milo-logo.svg)
+
 # Milo
 
 This is a linter for HTML written in Go. The goal is to provide a single binary that can lint HTML in the context of a CI server without installing other tools.
