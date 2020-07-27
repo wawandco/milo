@@ -35,15 +35,21 @@ milo run templates/file.html
 
 ### Configuration
 
-Referees to run can get configured by creating a file named `.milo.yml` in the root of the folder to analyze. An example of the .milo.yml file that can be used as a starting point is:
+Once you have installed Milo you can run 
+```
+milo init
+```
+
+And it will generate a `.milo.yml` file that looks something like:
 
 ```
 output: github # could be `github` or `silent`
 reviewers:
   - doctype/present 
+  - ...
 ```
 
-If Milo does not find this file in your folder it will run All the linters, the same if the reviewers list is empty.
+This file will be used by the Milo binary to determine which reviewers to run our files against.
 
 ## Reviewers
 
