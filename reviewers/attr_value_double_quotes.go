@@ -38,7 +38,7 @@ func (a AttrValueDoubleQuotes) Review(path string, r io.Reader) ([]Fault, error)
 					continue
 				}
 
-				if attr.Quote == "'" || attr.Quote != "\"" {
+				if attr.Quote != "\"" {
 					fault = append(fault, Fault{
 						Reviewer: a.ReviewerName(),
 						Line:     token.Line,
