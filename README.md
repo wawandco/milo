@@ -1,6 +1,6 @@
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
 
-![](https://github.com/wawandco/milo/milo-logo.svg)
+![](https://github.com/wawandco/milo/blob/master/milo-logo.png)
 
 # Milo
 
