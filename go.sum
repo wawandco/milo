@@ -7,16 +7,8 @@ github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZN
 github.com/stretchr/objx v0.1.0/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v1.5.1 h1:nOGnQDM7FYENwehXlg/kFVnos3rEvtKTjRvOWSzb6H4=
 github.com/stretchr/testify v1.5.1/go.mod h1:5W2xD1RspED5o8YsWQXVCued0rvSQ+mT+I5cxcmMvtA=
-github.com/wawandco/goquery v1.5.2-0.20200714195702-e514b22bcb73 h1:juUXlaXKC6nns+GSfKZsqVceDTfWhhjvAj8S9gBbzMQ=
-github.com/wawandco/goquery v1.5.2-0.20200714195702-e514b22bcb73/go.mod h1:KWTzdDzNohq8BwmhzWOAICCapPsNDYM4aixzAGgMYPA=
-github.com/wawandco/goquery v1.5.2-0.20200726144940-5c25865569af h1:cOx0QrPq5bWcoaArojroR918F9X/E4R0uefoLX43V+Y=
-github.com/wawandco/goquery v1.5.2-0.20200726144940-5c25865569af/go.mod h1:Jk+grCMZbMSWM1CNBuZ3kAd7FpM8xzQZO1wREDogJg0=
 github.com/wawandco/goquery v1.5.2-0.20200727152614-d4cd420698c5 h1:AsRiw2k7+8fbSUcw2fvVsR7+YVcoZh+lLYyhvyN71Dw=
 github.com/wawandco/goquery v1.5.2-0.20200727152614-d4cd420698c5/go.mod h1:0GBe84W2DxXyjdjj9Q671uHddu/bv2u2Kaun7VIwm3A=
-github.com/wawandco/net v0.0.0-20200714194128-a771946c73f6 h1:9M06hLowJKiNwq5rufvcKTGODAVI2AGdflo67Y8M0tY=
-github.com/wawandco/net v0.0.0-20200714194128-a771946c73f6/go.mod h1:/O7V0waA8r7cgGh81Ro3o1hOxt32SMVPicZroKQ2sZA=
-github.com/wawandco/net v0.0.0-20200726144740-da127e75d595 h1:RjX+9u37VqkLtD38aIE796fx1wil3XydcJK2bE2suNI=
-github.com/wawandco/net v0.0.0-20200726144740-da127e75d595/go.mod h1:HqpHhPaee/eiAQjIPPIW4TNmlFoFSNNJiFT6eVFaM4g=
 github.com/wawandco/net v0.0.0-20200727155331-94802980ad79 h1:ePz749Qlz3/kYHWroTKAQPhYaOPbimweeTSgj1sJ8T0=
 github.com/wawandco/net v0.0.0-20200727155331-94802980ad79/go.mod h1:HqpHhPaee/eiAQjIPPIW4TNmlFoFSNNJiFT6eVFaM4g=
 golang.org/x/crypto v0.0.0-20200622213623-75b288015ac9/go.mod h1:LzIPMQfyMNhhGPhUkYOs5KpL4U8rLKemX1yGLhDgUto=
