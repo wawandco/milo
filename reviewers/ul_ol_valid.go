@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/wawandco/milo/internal/goquery"
 )
 
 type OlUlValid struct{}

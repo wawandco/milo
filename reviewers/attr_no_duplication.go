@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"golang.org/x/net/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 type AttrNoDuplication struct{}
