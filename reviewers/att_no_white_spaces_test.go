@@ -65,6 +65,32 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "whitespaces between uppercase attr and value",
+			content: `
+			<span CLASS=  "font-18 font-weight-bold">First Name</span>
+			<p class="font-14 text-yellow" Name    ="LastName">LastName</p>
+			<span class="font-12 text-muted font-weight-light" DATA-BLOCK  = "last-name">Status</span>
+			`,
+
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     2,
+					Rule:     reviewers.Rules["0019"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     3,
+					Rule:     reviewers.Rules["0019"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0019"],
+				},
+			},
+		},
 	}
 
 	for _, tcase := range tcases {
