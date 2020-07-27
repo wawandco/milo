@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/wawandco/milo/internal/goquery"
+	"github.com/wawandco/milo/external/goquery"
 )
 
 type AttrIDUnique struct{}

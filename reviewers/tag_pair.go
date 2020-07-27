@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/internal/html"
+	"github.com/wawandco/milo/external/html"
 )
 
 type TagPair struct{}
