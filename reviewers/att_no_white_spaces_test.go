@@ -45,6 +45,22 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 			},
 		},
 		{
+			name: "line 3 data attr with number has whitespace",
+			content: `
+				<span class="font-18 font-weight-bold">First Name</span>
+				<p data-1   = "value">LastName</p>
+				<span class="font-12 text-muted font-weight-light">Status</span>
+			`,
+
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     3,
+					Rule:     reviewers.Rules["0019"],
+				},
+			},
+		},
+		{
 			name: "line 3 class attr has whitespace and line 4 data-block has space as well",
 			content: `
 				<span class="font-18 font-weight-bold">First Name</span>

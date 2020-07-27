@@ -28,7 +28,7 @@ func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error)
 			continue
 		}
 
-		exp := regexp.MustCompile(`[a-zA-Z\-]+(\s+\=\s*|\s*\=\s+)`)
+		exp := regexp.MustCompile(`[a-zA-Z0-9\-]+(\s+\=\s*|\s*\=\s+)`)
 		if exp.MatchString(line) {
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
