@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/wawandco/milo/internal/html"
+	"github.com/wawandco/milo/external/html"
 )
 
 type AttrValueDoubleQuotes struct{}
