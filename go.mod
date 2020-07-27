@@ -1,4 +1,4 @@
-module wawandco/milo
+module github.com/wawandco/milo
 
 go 1.14
 
