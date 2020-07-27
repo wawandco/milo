@@ -4,7 +4,8 @@ import (
 	"bytes"
 	"fmt"
 	"testing"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
 )

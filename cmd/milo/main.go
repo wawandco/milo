@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"wawandco/milo/cmd"
-	"wawandco/milo/cmd/initialize"
-	"wawandco/milo/cmd/review"
+
+	"github.com/wawandco/milo/cmd"
+	"github.com/wawandco/milo/cmd/initialize"
+	"github.com/wawandco/milo/cmd/review"
 )
 
 var runnables = []cmd.Runnable{

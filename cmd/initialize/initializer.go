@@ -2,8 +2,9 @@ package initialize
 
 import (
 	"io/ioutil"
-	"wawandco/milo/config"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/config"
+	"github.com/wawandco/milo/reviewers"
 
 	"gopkg.in/yaml.v2"
 )

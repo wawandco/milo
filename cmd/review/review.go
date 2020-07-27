@@ -5,9 +5,10 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
-	"wawandco/milo/config"
-	"wawandco/milo/output"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/config"
+	"github.com/wawandco/milo/output"
+	"github.com/wawandco/milo/reviewers"
 )
 
 var (
