@@ -86,7 +86,7 @@ Milo uses the following reviewers:
 - [0009] inline-style-disabled: Inline style cannot be used.
 - [0017] inline-script-disabled: Inline script cannot be used.
 
-### Credits
+## Credits
 
 This repo depends heavily in the following libraries that deserve all the credit for making Milo possible:
 
