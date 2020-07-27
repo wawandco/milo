@@ -9,6 +9,6 @@ require (
 	gopkg.in/yaml.v2 v2.2.2
 )
 
-replace github.com/PuerkitoBio/goquery => github.com/wawandco/goquery v1.5.2-0.20200714195702-e514b22bcb73
+replace github.com/PuerkitoBio/goquery => github.com/wawandco/goquery v1.5.2-0.20200727152614-d4cd420698c5
 
-replace golang.org/x/net => github.com/wawandco/net v0.0.0-20200714194128-a771946c73f6
+replace golang.org/x/net => github.com/wawandco/net v0.0.0-20200727155331-94802980ad79

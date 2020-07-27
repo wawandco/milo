@@ -22,6 +22,7 @@ var All = []Reviewer{
 	TagPair{},
 	AttrUnsafeChars{},
 	InlineScriptDisabled{},
+	AttrValueDoubleQuotes{},
 }
 
 type Reviewer interface {
