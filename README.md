@@ -15,7 +15,7 @@ This is a linter for HTML written in Go. The goal is to provide a single binary 
 We recommend using [gobinaries.com](gobinaries.com) to get Milo.
 
 ```sh
-curl -sf https://gobinaries.com/wawandco/milo | sh
+curl -sf https://gobinaries.com/wawandco/milo/cmd/milo | sh
 ```
 
 You can also download Milo binaries from our releases folder.
