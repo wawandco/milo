@@ -86,6 +86,16 @@ Milo uses the following reviewers:
 - [0009] inline-style-disabled: Inline style cannot be used.
 - [0017] inline-script-disabled: Inline script cannot be used.
 
+### Credits
+
+This repo depends heavily in the following libraries that deserve all the credit for making Milo possible:
+
+- golang.org/net/html 
+- github.com/andybalholm/cascadia
+- github.com/PuerkitoBio/goquery
+
+We copied those repos in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
+
 ## Copyright
 
 Milo is Copyright © 2020 Wawandco SAS. It is free software, and may be redistributed under the terms specified in the LICENSE file.
