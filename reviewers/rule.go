@@ -117,7 +117,7 @@ var Rules = map[string]Rule{
 	},
 
 	"0019": {
-		Code:        "0018",
+		Code:        "0019",
 		Name:        "attribute/no-white-spaces",
 		Description: "attr-no-white-spaces: should not have spaces",
 	},
