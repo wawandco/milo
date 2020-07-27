@@ -109,4 +109,10 @@ var Rules = map[string]Rule{
 		Name:        "script/inline-disabled",
 		Description: "inline-script-disabled: Inline script cannot be used",
 	},
+
+	"0018": {
+		Code:        "0018",
+		Name:        "attribute/double-quotes",
+		Description: "attr-value-double-quotes: Attribute values must be in double quotes",
+	},
 }
