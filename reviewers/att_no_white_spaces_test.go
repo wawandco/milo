@@ -124,6 +124,32 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "cover attributes with special characters",
+			content: `
+				<div data-field_status ="Valid">Valid Status</div>
+				<div aria-label**name ="true">Label</div>
+				<div data-attr/value =   "true">value</div>
+			`,
+
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     2,
+					Rule:     reviewers.Rules["0019"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     3,
+					Rule:     reviewers.Rules["0019"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0019"],
+				},
+			},
+		},
 	}
 
 	for _, tcase := range tcases {
