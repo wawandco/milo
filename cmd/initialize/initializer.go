@@ -16,7 +16,7 @@ func (r Runner) Name() string {
 }
 
 func (r Runner) HelpText() string {
-	return "generated .milo.yml in the current path."
+	return "generates .milo.yml in the current path."
 }
 
 func (r Runner) Run(args []string) error {

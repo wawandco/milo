@@ -25,11 +25,11 @@ type Runner struct {
 }
 
 func (r Runner) Name() string {
-	return "run"
+	return "review"
 }
 
 func (r Runner) HelpText() string {
-	return "run looks for faults in passed files."
+	return "looks for faults in files/folder passed in the first arg."
 }
 
 func (r Runner) Run(args []string) error {
