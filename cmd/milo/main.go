@@ -5,9 +5,11 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"wawandco/milo/cmd"
-	"wawandco/milo/cmd/initialize"
-	"wawandco/milo/cmd/review"
+	"text/tabwriter"
+
+	"github.com/wawandco/milo/cmd"
+	"github.com/wawandco/milo/cmd/initialize"
+	"github.com/wawandco/milo/cmd/review"
 )
 
 var runnables = []cmd.Runnable{
@@ -57,6 +59,32 @@ func main() {
 	printHelp()
 }
 
+type CommandHelper interface {
+	cmd.Runnable
+
+	HelpText() string
+}
+
 func printHelp() {
-	fmt.Println(`[here goes the help text]`)
+	result := "Milo checks for issues with your HTML code.\n\n"
+	result += "Usage:\n"
+	result += "  milo [command] [args]\n\n"
+	result += "Available Commands:"
+	fmt.Print(result)
+
+	// initialize tabwriter
+	w := new(tabwriter.Writer)
+	defer w.Flush()
+
+	// minwidth, tabwidth, padding, padchar, flags
+	w.Init(os.Stdout, 8, 8, 3, '\t', 0)
+
+	for _, runnable := range runnables {
+		c, ok := runnable.(CommandHelper)
+		if !ok {
+			continue
+		}
+
+		fmt.Fprintf(w, "\n %v\t%v", c.Name(), c.HelpText())
+	}
 }

@@ -1,13 +1,16 @@
 package review
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
-	"wawandco/milo/config"
-	"wawandco/milo/output"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/config"
+	"github.com/wawandco/milo/output"
+	"github.com/wawandco/milo/reviewers"
 )
 
 var (
@@ -24,7 +27,11 @@ type Runner struct {
 }
 
 func (r Runner) Name() string {
-	return "run"
+	return "review"
+}
+
+func (r Runner) HelpText() string {
+	return "looks for faults in files/folder passed in the first arg."
 }
 
 func (r Runner) Run(args []string) error {
@@ -71,8 +78,13 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 		return err
 	}
 
+	data, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return err
+	}
+
 	for _, rev := range r.reviewers {
-		fileFaults, err := rev.Review(path, reader)
+		fileFaults, err := rev.Review(path, bytes.NewBuffer(data))
 		if err != nil {
 			fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
 			continue

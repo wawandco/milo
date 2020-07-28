@@ -4,7 +4,7 @@ import (
 	"io"
 	"regexp"
 
-	"golang.org/x/net/html"
+	"github.com/wawandco/milo/external/html"
 )
 
 type InlineScriptDisabled struct{}

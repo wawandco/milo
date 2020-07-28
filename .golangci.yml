@@ -35,6 +35,7 @@ run:
   
   skip-dirs:
     - grifts
+    - external
 
 output:
   format: colored-line-number

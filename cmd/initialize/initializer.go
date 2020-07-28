@@ -2,8 +2,9 @@ package initialize
 
 import (
 	"io/ioutil"
-	"wawandco/milo/config"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/config"
+	"github.com/wawandco/milo/reviewers"
 
 	"gopkg.in/yaml.v2"
 )
@@ -12,6 +13,10 @@ type Runner struct{}
 
 func (r Runner) Name() string {
 	return "init"
+}
+
+func (r Runner) HelpText() string {
+	return "generates .milo.yml in the current path."
 }
 
 func (r Runner) Run(args []string) error {

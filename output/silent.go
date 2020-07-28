@@ -1,6 +1,6 @@
 package output
 
-import "wawandco/milo/reviewers"
+import "github.com/wawandco/milo/reviewers"
 
 type SilentFaultFormatter struct{}
 

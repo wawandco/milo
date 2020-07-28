@@ -5,7 +5,8 @@ import (
 	"os"
 	"path/filepath"
 	"testing"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
 )

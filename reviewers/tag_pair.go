@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"golang.org/x/net/html"
+	"github.com/wawandco/milo/external/html"
 )
 
 type TagPair struct{}

@@ -2,7 +2,8 @@ package output
 
 import (
 	"fmt"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/reviewers"
 )
 
 type GithubFaultFormatter struct{}
