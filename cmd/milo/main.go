@@ -59,5 +59,19 @@ func main() {
 }
 
 func printHelp() {
-	fmt.Println(`[here goes the help text]`)
+	result := "Milo checks for issues with your HTML code.\n\n"
+	result += "Usage:\n"
+	result += "  milo [command] [args]\n\n"
+	result += "Available Commands:\n"
+
+	for _, runnable := range runnables {
+		c, ok := runnable.(CommandHelper)
+		if !ok {
+			continue
+		}
+
+		result += fmt.Sprintf("  %v\t%v\n", c.Name(), c.HelpText())
+	}
+
+	fmt.Println(result)
 }

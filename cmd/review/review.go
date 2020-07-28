@@ -28,6 +28,10 @@ func (r Runner) Name() string {
 	return "run"
 }
 
+func (r Runner) HelpText() string {
+	return "run looks for faults in passed files."
+}
+
 func (r Runner) Run(args []string) error {
 	if len(args) < 2 {
 		return ErrInsufficientArgs
