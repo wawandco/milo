@@ -115,4 +115,10 @@ var Rules = map[string]Rule{
 		Name:        "attribute/double-quotes",
 		Description: "attr-value-double-quotes: Attribute values must be in double quotes",
 	},
+
+	"0019": {
+		Code:        "0019",
+		Name:        "attribute/no-white-spaces",
+		Description: "attr-no-white-spaces: should be whitespaces between the attribute and value",
+	},
 }
