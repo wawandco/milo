@@ -4,8 +4,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"strings"
-	"wawandco/milo/output"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/output"
+	"github.com/wawandco/milo/reviewers"
 
 	"gopkg.in/yaml.v2"
 )

@@ -23,14 +23,14 @@ You can also download Milo binaries from our releases folder.
 ## Usage
 
 ```
-milo run [folder or file]
+milo review [folder or file]
 ```
 
 Example:
 
 ```
-milo run templates
-milo run templates/file.html
+milo review templates
+milo review templates/file.html
 ```
 
 ### Configuration
@@ -85,6 +85,16 @@ Milo uses the following reviewers:
 - [0003] Inline css is not allowed p.e: style="background-color: red;".
 - [0009] inline-style-disabled: Inline style cannot be used.
 - [0017] inline-script-disabled: Inline script cannot be used.
+
+## Credits
+
+This repo depends heavily in the following libraries that deserve all the credit for making Milo possible:
+
+- golang.org/net/html 
+- github.com/andybalholm/cascadia
+- github.com/PuerkitoBio/goquery
+
+We copied those repos in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
 
 ## Copyright
 

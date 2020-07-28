@@ -3,7 +3,8 @@ package reviewers_test
 import (
 	"strings"
 	"testing"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
 )

@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/PuerkitoBio/goquery"
+	"github.com/wawandco/milo/external/goquery"
 )
 
 type StyleAttribute struct{}

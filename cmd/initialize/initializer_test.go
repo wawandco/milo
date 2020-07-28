@@ -4,10 +4,11 @@ import (
 	"io/ioutil"
 	"os"
 	"testing"
-	"wawandco/milo/cmd"
-	"wawandco/milo/cmd/initialize"
-	"wawandco/milo/config"
-	"wawandco/milo/reviewers"
+
+	"github.com/wawandco/milo/cmd"
+	"github.com/wawandco/milo/cmd/initialize"
+	"github.com/wawandco/milo/config"
+	"github.com/wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v2"

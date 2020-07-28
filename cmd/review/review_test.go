@@ -1,8 +1,8 @@
 package review_test
 
 import (
-	"wawandco/milo/cmd"
-	"wawandco/milo/cmd/review"
+	"github.com/wawandco/milo/cmd"
+	"github.com/wawandco/milo/cmd/review"
 )
 
 //Checking that review.Runner is a Runnable
