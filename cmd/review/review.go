@@ -1,8 +1,10 @@
 package review
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"os"
 	"path/filepath"
 
@@ -72,8 +74,13 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 		return err
 	}
 
+	data, err := ioutil.ReadAll(reader)
+	if err != nil {
+		return err
+	}
+
 	for _, rev := range r.reviewers {
-		fileFaults, err := rev.Review(path, reader)
+		fileFaults, err := rev.Review(path, bytes.NewBuffer(data))
 		if err != nil {
 			fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
 			continue
