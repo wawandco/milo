@@ -73,7 +73,7 @@ Milo uses the following reviewers:
 
 - [0013] attr-lowercase: All attribute names must be in lowercase.
 - [0010] attr-no-duplication: Elements cannot have duplicate attributes.
-- [TODO] attr-no-unnecessary-whitespace: No spaces between attribute names and values.
+- [0019] attr-no-unnecessary-whitespace: No spaces between attribute names and values.
 - [0016] attr-unsafe-chars: Attribute values cannot contain unsafe chars.
 - [0018] attr-value-double-quotes: Attribute values must be in double quotes.
 - [0011] attr-value-not-empty: All attributes must have values.
