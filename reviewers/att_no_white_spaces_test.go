@@ -107,6 +107,22 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "attribute with number",
+			content: `
+				<span class="font-18 font-weight-bold" data-2-Line= "26 north">custom Value</span>
+				<p class="font-14 text-yellow">second value</p>
+				<span class="font-12 text-muted font-weight-light">Status</span>
+			`,
+
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     2,
+					Rule:     reviewers.Rules["0019"],
+				},
+			},
+		},
 	}
 
 	for _, tcase := range tcases {
