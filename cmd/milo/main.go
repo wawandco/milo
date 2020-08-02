@@ -85,6 +85,6 @@ func printHelp() {
 			continue
 		}
 
-		fmt.Fprintf(w, "\n %v\t%v", c.Name(), c.HelpText())
+		fmt.Fprintf(w, "\n %v\t%v\n", c.Name(), c.HelpText())
 	}
 }

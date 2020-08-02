@@ -21,14 +21,12 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 		fault     []reviewers.Fault
 	}{
 		{
-			name:      "no attributes duplicated",
-			faultsLen: 0,
-			content:   `<img/><span>Text</span>`,
+			name:    "no attributes duplicated",
+			content: `<img/><span>Text</span>`,
 		},
 
 		{
-			name:      "attributes duplicated on self closed tag",
-			faultsLen: 1,
+			name: "attributes duplicated on self closed tag",
 			content: `<img src="/path-to-image.ext" alt="image" src="/path-to-image-alt.ext"/>
 					  <span>Text</span>`,
 			fault: []reviewers.Fault{{
@@ -39,8 +37,7 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 		},
 
 		{
-			name:      "attributes duplicated on open and close tag",
-			faultsLen: 1,
+			name: "attributes duplicated on open and close tag",
 			content: `<img/>
 					  <span class="my-class" class="my-class-again">Text</span>`,
 			fault: []reviewers.Fault{{
@@ -51,8 +48,7 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 		},
 
 		{
-			name:      "attributes duplicated on both open/close and self-closed tags",
-			faultsLen: 2,
+			name: "attributes duplicated on both open/close and self-closed tags",
 			content: `<img src="/path-to-image.ext" alt="image" src="/path-to-image-alt.ext"/>
 					  <span class="my-class" class="my-class-again">Text</span>`,
 			fault: []reviewers.Fault{
@@ -67,6 +63,12 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 					Rule:     reviewers.Rules["0010"],
 				}},
 		},
+
+		{
+			name:    "attributes duplicated on both open/close and self-closed tags",
+			content: `<a href="/company/5eaf45f1-74ee-443b-9e17-e30949935cb0/users" class="list-group-item list-group-item-action ERB">`,
+			fault:   []reviewers.Fault{},
+		},
 	}
 
 	for _, tcase := range tcases {
@@ -74,8 +76,8 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 		faults, err := reviewer.Review("something.html", page)
 
 		r.NoError(err, tcase.name)
-		r.Len(faults, tcase.faultsLen, tcase.name)
-		if tcase.faultsLen == 0 {
+		r.Len(faults, len(tcase.fault), tcase.name)
+		if len(tcase.fault) == 0 {
 			continue
 		}
 
