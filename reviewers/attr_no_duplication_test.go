@@ -69,6 +69,12 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 			content: `<a href="/company/5eaf45f1-74ee-443b-9e17-e30949935cb0/users" class="list-group-item list-group-item-action ERB">`,
 			fault:   []reviewers.Fault{},
 		},
+
+		{
+			name:    "srcset and src",
+			content: `<img class="logo" src="/assets/images/agnte_white_logo@2x" srcset="/assets/images/agnte_white_logo@2x.png 2x, /assets/images/agnte_white_logo.png 1x">`,
+			fault:   []reviewers.Fault{},
+		},
 	}
 
 	for _, tcase := range tcases {

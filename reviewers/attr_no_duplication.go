@@ -2,7 +2,6 @@ package reviewers
 
 import (
 	"io"
-	"strings"
 
 	"github.com/wawandco/milo/external/html"
 )
@@ -27,9 +26,9 @@ func (a AttrNoDuplication) Review(path string, r io.Reader) ([]Fault, error) {
 		}
 
 		tok := z.Token()
-		attrNames := a.inlineAttributesName(tok.Attr)
+		keys := map[string]bool{}
 		for _, attr := range tok.Attr {
-			if strings.Count(attrNames, attr.Key) > 1 {
+			if keys[attr.Key] {
 				fault = append(fault, Fault{
 					Reviewer: a.ReviewerName(),
 					Line:     tok.Line,
@@ -37,17 +36,10 @@ func (a AttrNoDuplication) Review(path string, r io.Reader) ([]Fault, error) {
 					Rule:     Rules["0010"],
 				})
 			}
-			attrNames = strings.ReplaceAll(attrNames, attr.Key, "")
+
+			keys[attr.Key] = true
 		}
 	}
 
 	return fault, nil
-}
-
-func (a AttrNoDuplication) inlineAttributesName(attributes []html.Attribute) string {
-	var attrNames []string
-	for _, atr := range attributes {
-		attrNames = append(attrNames, atr.Key)
-	}
-	return strings.Join(attrNames, ",")
 }
