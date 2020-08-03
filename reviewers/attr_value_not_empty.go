@@ -1,10 +1,16 @@
 package reviewers
 
 import (
+	"bytes"
 	"io"
+	"regexp"
 	"strings"
 
 	"github.com/wawandco/milo/external/html"
+)
+
+var (
+	rgx = regexp.MustCompile(`\<\%\=?[^\>]+?\%\>`)
 )
 
 type AttrValueNotEmpty struct{}
@@ -24,6 +30,12 @@ func (a AttrValueNotEmpty) Review(path string, r io.Reader) ([]Fault, error) {
 		tt := z.Next()
 		if tt == html.ErrorToken {
 			break
+		}
+
+		if rgx.Match(z.Raw()) {
+			b := rgx.ReplaceAll(z.Raw(), []byte{})
+			b = append(b, z.Buffered()...)
+			z = html.NewTokenizer(bytes.NewBuffer(b))
 		}
 
 		tok := z.Token()
