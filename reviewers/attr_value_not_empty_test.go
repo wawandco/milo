@@ -33,18 +33,6 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 		},
 
 		{
-			name:      "attribute with erb expression into attr value",
-			faultsLen: 0,
-			content:   `<a href="/company/5eaf45f1-74ee-443b-9e17-e30949935cb0/users" class="list-group-item list-group-item-action <%= activePathClass("active", "/company/.*/users/.*") %>">`,
-		},
-
-		{
-			name:      "attribute with erb expression condition to show an attr value",
-			faultsLen: 0,
-			content:   `<a href="/company/5eaf45f1-74ee-443b-9e17-e30949935cb0/users" class="list-group-item list-group-item-action <%= if (ctVariable.Value != "CUSTOM_VALUE" && secondContition == 123456) { %>custom-class<% } %>">`,
-		},
-
-		{
 			name:      "one attribute with empty value",
 			faultsLen: 1,
 			content:   `<img src="" alt="image"/>`,
@@ -70,19 +58,6 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 					Line:     1,
 					Rule:     reviewers.Rules["0011"],
 				}},
-		},
-
-		{
-			name:      "attribute with erb expression condition to show an attr",
-			faultsLen: 1,
-			content:   `<a href="/company/5eaf45f1-74ee-443b-9e17-e30949935cb0/users" class="list-group-item list-group-item-action" <%= if (ctVariable.Value != "CUSTOM_VALUE" && secondContition == 123456) { %>data-attr="" <% } %>>`,
-			fault: []reviewers.Fault{
-				{
-					Reviewer: reviewer.ReviewerName(),
-					Line:     1,
-					Rule:     reviewers.Rules["0011"],
-				},
-			},
 		},
 	}
 

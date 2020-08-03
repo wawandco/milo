@@ -1,20 +1,21 @@
 package review
 
 import (
-	"github.com/stretchr/testify/require"
 	"testing"
+
+	"github.com/stretchr/testify/require"
 )
 
 func Test_Sanitize(t *testing.T) {
 	r := require.New(t)
 
 	tcases := []struct {
-		input string
+		input  string
 		output string
 	}{
 		{
 			`<option value="<%= state.Code %>" <%= if (selectedState == state.Code) { %> selected <% } %>> <%= state.Name %></option>`,
-			`<option value="ERB" ERB selected ERB> ERB</option>`,
+			`<option value=""  selected > </option>`,
 		},
 		{
 			`    
@@ -31,9 +32,9 @@ func Test_Sanitize(t *testing.T) {
 			<div class="listing-header">
 				<div class="row">
 					<div class="col-md-6">
-						ERB
+						
 							<h4 class=""><i class="fa fa-arrow-left"></i>&nbsp;<strong>Edit Invoice</strong></h4>
-						ERB
+						
 					</div>
 				</div>
 			</div>`,
@@ -48,19 +49,19 @@ func Test_Sanitize(t *testing.T) {
                 </div>
 			<% } %>`,
 			` 
-			ERB
-                ERB
+			
+                
 
                 <div class="col-md-12">
                     <button class="success-button no-radius pull-right">Update Invoice</button>
                 </div>
-			ERB`,
+			`,
 		},
 	}
 
 	for _, tcase := range tcases {
 		output := sanitizeERB([]byte(tcase.input))
-		
+
 		r.Equal(tcase.output, string(output))
 	}
 }
