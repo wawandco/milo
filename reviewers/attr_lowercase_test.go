@@ -51,7 +51,38 @@ func Test_AttrLowercase_Review(t *testing.T) {
 					Line:     4,
 					Rule:     reviewers.Rules["0013"],
 				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0013"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0013"],
+				},
 			},
+		},
+		{
+			name: "no fault",
+			content: `
+				<img src="MILO WAS HERE!" alt="test" />
+			`,
+		},
+		{
+			name:    "fault for single attribute",
+			content: "<img DISABLED />",
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0013"],
+				},
+			},
+		},
+		{
+			name:    "no fault",
+			content: "<img disabled />",
 		},
 	}
 
@@ -70,6 +101,7 @@ func Test_AttrLowercase_Review(t *testing.T) {
 			r.Equal(faults[i].Line, tfault.Line, tcase.name)
 			r.Equal(faults[i].Rule.Code, tfault.Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tfault.Rule.Description, tcase.name)
+			r.Equal("something.html", faults[i].Path)
 		}
 	}
 

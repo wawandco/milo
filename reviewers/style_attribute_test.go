@@ -58,6 +58,7 @@ func Test_StyleAttribute_Review(t *testing.T) {
 			r.Equal(fault.Line, faults[index].Line, tcase.name)
 			r.Equal(fault.Rule.Code, faults[index].Rule.Code, tcase.name)
 			r.Equal(fault.Rule.Description, faults[index].Rule.Description, tcase.name)
+			r.Equal("something.html", faults[index].Path)
 		}
 
 	}

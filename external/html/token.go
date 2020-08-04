@@ -65,7 +65,7 @@ func (t TokenType) String() string {
 //
 // Namespace is only used by the parser, not the tokenizer.
 type Attribute struct {
-	Namespace, Key, Val, Quote string
+	Namespace, Key, Val, Quote, Name string
 }
 
 // A Token consists of a TokenType and some Data (tag name for start and end
@@ -1179,7 +1179,7 @@ func (z *Tokenizer) TagName() (name []byte, hasAttr bool) {
 // TagAttr returns the lower-cased key and unescaped value of the next unparsed
 // attribute for the current tag token and whether there are more attributes.
 // The contents of the returned slices may change on the next call to Next.
-func (z *Tokenizer) TagAttr() (key, val []byte, quote byte, moreAttr bool) {
+func (z *Tokenizer) TagAttr() (key, val, name []byte, quote byte, moreAttr bool) {
 	if z.nAttrReturned < len(z.attr) {
 		switch z.tt {
 		case StartTagToken, SelfClosingTagToken:
@@ -1188,13 +1188,15 @@ func (z *Tokenizer) TagAttr() (key, val []byte, quote byte, moreAttr bool) {
 			key = z.buf[x[0].start:x[0].end]
 			val = z.buf[x[1].start:x[1].end]
 			quote = z.buf[x[1].start-1]
+			name = make([]byte, len(key))
+			copy(name, key)
 			if quote != '\'' && quote != '"' {
 				quote = 0
 			}
-			return lower(key), unescape(convertNewlines(val), true), quote, z.nAttrReturned < len(z.attr)
+			return lower(key), unescape(convertNewlines(val), true), name, quote, z.nAttrReturned < len(z.attr)
 		}
 	}
-	return nil, nil, 0, false
+	return nil, nil, nil, 0, false
 }
 
 // Token returns the current Token. The result's Data and Attr values remain
@@ -1207,10 +1209,10 @@ func (z *Tokenizer) Token() Token {
 	case StartTagToken, SelfClosingTagToken, EndTagToken:
 		name, moreAttr := z.TagName()
 		for moreAttr {
-			var key, val []byte
+			var key, val, attrName []byte
 			var quote byte
-			key, val, quote, moreAttr = z.TagAttr()
-			attr := Attribute{"", atom.String(key), string(val), string(quote)}
+			key, val, attrName, quote, moreAttr = z.TagAttr()
+			attr := Attribute{"", atom.String(key), string(val), string(quote), string(attrName)}
 			if attr.Quote == string(0) {
 				attr.Quote = ""
 			}

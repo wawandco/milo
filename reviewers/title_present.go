@@ -41,8 +41,7 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 		Reviewer: doc.ReviewerName(),
 		Line:     1,
 		Path:     path,
-
-		Rule: Rules["0004"],
+		Rule:     Rules["0004"],
 	})
 
 	return result, nil

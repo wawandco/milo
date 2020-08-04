@@ -79,6 +79,7 @@ func Test_AltRequired_Review(t *testing.T) {
 			r.Equal(faults[i].Line, tfault.Line, tcase.name)
 			r.Equal(faults[i].Rule.Code, tfault.Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tfault.Rule.Description, tcase.name)
+			r.Equal("something.html", faults[i].Path)
 		}
 	}
 
