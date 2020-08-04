@@ -1,8 +1,6 @@
 package review
 
-import (
-	"regexp"
-)
+import "regexp"
 
 func sanitizeERB(data []byte) []byte {
 	var replacer = regexp.MustCompile(`\<\%\=?[^\>]+?\%\>`)
