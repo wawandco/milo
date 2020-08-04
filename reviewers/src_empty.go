@@ -41,8 +41,7 @@ func (css SrcEmpty) Review(path string, reader io.Reader) ([]Fault, error) {
 			Reviewer: css.ReviewerName(),
 			Line:     number,
 			Path:     path,
-
-			Rule: Rules["0007"],
+			Rule:     Rules["0007"],
 		})
 	}
 
