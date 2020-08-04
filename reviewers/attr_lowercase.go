@@ -1,10 +1,9 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
-	"regexp"
-	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type AttrLowercase struct{}
@@ -20,26 +19,28 @@ func (a AttrLowercase) Accepts(path string) bool {
 func (a AttrLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	var number int
-	var line string
-
-	exp := regexp.MustCompile(`<[^>]+\s+(.*[A-Z].*)=`)
-	scanner := bufio.NewScanner(page)
-	for scanner.Scan() {
-		number++
-
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
-			continue
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return []Fault{}, err
 		}
 
-		if exp.MatchString(line) {
-			result = append(result, Fault{
-				Reviewer: a.ReviewerName(),
-				Line:     number,
-				Rule:     Rules["0013"],
-				Path:     path,
-			})
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
+			tok := z.Token()
+			for _, attr := range tok.Attr {
+				if attr.Name != attr.Key {
+					result = append(result, Fault{
+						Reviewer: a.ReviewerName(),
+						Line:     tok.Line,
+						Rule:     Rules["0013"],
+						Path:     path,
+					})
+				}
+			}
 		}
 	}
 
