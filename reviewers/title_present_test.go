@@ -14,21 +14,21 @@ func Test_TitlePresent_Review(t *testing.T) {
 
 	doc := reviewers.TitlePresent{}
 	tcases := []struct {
-		name      string
-		content   string
-		err       error
-		faultsLen int
-		fault     reviewers.Fault
+		name    string
+		content string
+		err     error
+		faults  []reviewers.Fault
 	}{
 		{
 
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     1,
-				Rule:     reviewers.Rules["0004"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0004"],
+				},
 			},
-			name:      "no title specified",
-			faultsLen: 1,
+			name: "no title specified",
 			content: `
 			<html>
 				<head></head>
@@ -37,13 +37,14 @@ func Test_TitlePresent_Review(t *testing.T) {
 
 		{
 
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     1,
-				Rule:     reviewers.Rules["0004"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0004"],
+				},
 			},
-			name:      "empty title",
-			faultsLen: 1,
+			name: "empty title",
 			content: `
 			<html>
 				<head><title></title></head>
@@ -51,8 +52,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 		},
 
 		{
-			name:      "title specified",
-			faultsLen: 0,
+			name: "title specified",
 			content: `
 			<html>
 				<head><title attr="something">Page Title</title></head>
@@ -60,8 +60,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 		},
 
 		{
-			name:      "title specified uppercase",
-			faultsLen: 0,
+			name: "title specified uppercase",
 			content: `
 			<html>
 				<head><TITLE attr="something">Page Title</TITLE></head>
@@ -69,8 +68,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 		},
 
 		{
-			name:      "title tricky spaces specified uppercase",
-			faultsLen: 0,
+			name: "title tricky spaces specified uppercase",
 			content: `
 			<html>
 				<head>
@@ -85,16 +83,14 @@ func Test_TitlePresent_Review(t *testing.T) {
 		},
 
 		{
-			name:      "partial without html/head",
-			faultsLen: 0,
+			name: "partial without html/head",
 			content: `
 			<div>Some partial without html/head</div>
 			`,
 		},
 
 		{
-			name:      "real case one",
-			faultsLen: 0,
+			name: "real case one",
 			content: `
 			<!DOCTYPE html>
 			<html>
@@ -111,6 +107,20 @@ func Test_TitlePresent_Review(t *testing.T) {
 			</head>
 			`,
 		},
+
+		{
+			name: "",
+			content: `
+			<!DOCTYPE html>
+			<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+			<head >
+				<title>Page Demo</title>
+			</head>
+			<body>
+			</body>
+			</html>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {
@@ -118,16 +128,19 @@ func Test_TitlePresent_Review(t *testing.T) {
 		faults, err := doc.Review("something.html", page)
 
 		r.NoError(err, tcase.name)
-		r.Len(faults, tcase.faultsLen, tcase.name)
-		if tcase.faultsLen == 0 {
+		r.Len(faults, len(tcase.faults), tcase.name)
+		if len(tcase.faults) == 0 {
 			continue
 		}
 
-		r.Equal(faults[0].Reviewer, tcase.fault.Reviewer, tcase.name)
-		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
-		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
-		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description, tcase.name)
-		r.Equal("something.html", faults[0].Path)
+		for index, fault := range tcase.faults {
+			r.Equal(faults[index].Reviewer, fault.Reviewer, tcase.name)
+			r.Equal(faults[index].Line, fault.Line, tcase.name)
+			r.Equal(faults[index].Rule.Code, fault.Rule.Code, tcase.name)
+			r.Equal(faults[index].Rule.Description, fault.Rule.Description, tcase.name)
+			r.Equal("something.html", faults[0].Path)
+		}
+
 	}
 
 }

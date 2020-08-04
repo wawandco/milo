@@ -1,11 +1,12 @@
 package reviewers
 
 import (
+	"bytes"
 	"io"
-	"io/ioutil"
 	"path/filepath"
-	"regexp"
 	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type TitlePresent struct{}
@@ -23,17 +24,43 @@ func (doc TitlePresent) Accepts(filePath string) bool {
 func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	html, err := ioutil.ReadAll(page)
-	if err != nil {
-		return result, err
+	var htmlTag *html.Token
+	var found bool
+	var startBuff []byte
+
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
+
+		token := z.Token()
+		if token.DataAtom.String() == "html" {
+			htmlTag = &token
+			continue
+		}
+
+		if token.DataAtom.String() != "title" {
+			continue
+		}
+
+		if tt == html.StartTagToken {
+			startBuff = z.Buffered()
+			continue
+		}
+
+		between := bytes.ReplaceAll(startBuff, z.Buffered(), []byte{})
+		between = bytes.ReplaceAll(between, z.Raw(), []byte{})
+
+		if len(between) == 0 {
+			continue
+		}
+
+		found = true
 	}
 
-	html = []byte(strings.ToLower(string(html)))
-	if !strings.Contains(string(html), "<html") {
-		return result, nil
-	}
-	re := regexp.MustCompile(`<head>[\s\w\D]*<title[^>]*>[^<]+`)
-	if re.Match(html) {
+	if htmlTag == nil || found {
 		return result, nil
 	}
 
