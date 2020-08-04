@@ -1,3 +1,4 @@
+// Main milo command.
 package main
 
 import (

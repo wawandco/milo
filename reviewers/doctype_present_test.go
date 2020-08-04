@@ -156,6 +156,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
 		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
 		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description, tcase.name)
+		r.Equal("something.html", faults[0].Path)
 	}
 
 }

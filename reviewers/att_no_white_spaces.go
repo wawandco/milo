@@ -34,6 +34,7 @@ func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error)
 				Reviewer: at.ReviewerName(),
 				Line:     number,
 				Rule:     Rules["0019"],
+				Path:     path,
 			})
 		}
 	}
