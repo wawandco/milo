@@ -162,7 +162,7 @@ func prescan(content []byte) (e encoding.Encoding, name string) {
 			e = nil
 			for hasAttr {
 				var key, val []byte
-				key, val, _, hasAttr = z.TagAttr()
+				key, val, _, _, hasAttr = z.TagAttr()
 				ks := string(key)
 				if attrList[ks] {
 					continue

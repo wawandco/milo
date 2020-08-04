@@ -51,7 +51,38 @@ func Test_AttrLowercase_Review(t *testing.T) {
 					Line:     4,
 					Rule:     reviewers.Rules["0013"],
 				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0013"],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules["0013"],
+				},
 			},
+		},
+		{
+			name: "no fault",
+			content: `
+				<img src="MILO WAS HERE!" alt="test" />
+			`,
+		},
+		{
+			name:    "fault for single attribute",
+			content: "<img DISABLED />",
+			faults: []reviewers.Fault{
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0013"],
+				},
+			},
+		},
+		{
+			name:    "no fault",
+			content: "<img disabled />",
 		},
 	}
 

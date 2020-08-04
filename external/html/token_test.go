@@ -734,7 +734,7 @@ func benchmarkTokenizer(b *testing.B, level int) {
 				case StartTagToken, SelfClosingTagToken:
 					_, more := z.TagName()
 					for more {
-						_, _, _, more = z.TagAttr()
+						_, _, _, _, more = z.TagAttr()
 					}
 				case EndTagToken:
 					z.TagName()
@@ -746,6 +746,28 @@ func benchmarkTokenizer(b *testing.B, level int) {
 			}
 		}
 	}
+}
+
+func TestAttrName(t *testing.T) {
+	for _, tc := range []string{
+		"HREF",
+		"src",
+		"Alt",
+		"aLT",
+		"ClAsS",
+	} {
+		z := NewTokenizer(strings.NewReader("<a " + tc + "='val' >"))
+		z.Next()
+		attr := z.Token().Attr
+		if got, want := len(attr), 1; got != want {
+			t.Errorf("attr len does not match got %d, and want %d", got, want)
+		}
+
+		if got, want := attr[0].Name, tc; got != want {
+			t.Errorf("attr name does not match got %s, and want %s", got, want)
+		}
+	}
+
 }
 
 func BenchmarkRawLevelTokenizer(b *testing.B)  { benchmarkTokenizer(b, rawLevel) }
