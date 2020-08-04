@@ -14,38 +14,38 @@ func Test_DoctypePresent_Review(t *testing.T) {
 
 	doc := reviewers.DoctypePresent{}
 	tcases := []struct {
-		name      string
-		content   string
-		err       error
-		faultsLen int
-		fault     reviewers.Fault
+		name    string
+		content string
+		err     error
+		faults  []reviewers.Fault
 	}{
 		{
 
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     1,
-				Rule:     reviewers.Rules["0001"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0001"],
+				},
 			},
-			name:      "no doctype",
-			faultsLen: 1,
-			content:   "<html></html>",
+			name:    "no doctype",
+			content: "<html></html>",
 		},
 
 		{
-			name:      "partial should be omitted",
-			faultsLen: 0,
-			content:   `<div></div>`,
+			name:    "partial should be omitted",
+			content: `<div></div>`,
 		},
 
 		{
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     3,
-				Rule:     reviewers.Rules["0001"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     3,
+					Rule:     reviewers.Rules["0001"],
+				},
 			},
-			name:      "no doctype",
-			faultsLen: 1,
+			name: "no doctype",
 			content: `
 			
 			<html></html>
@@ -53,46 +53,45 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     1,
-				Rule:     reviewers.Rules["0001"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0001"],
+				},
 			},
-			name:      "no doctype",
-			faultsLen: 1,
+			name: "no doctype",
 			content: `<html lang="en"></html>
 			`,
 		},
 
 		{
-			fault: reviewers.Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     1,
-				Rule:     reviewers.Rules["0001"],
+			faults: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     1,
+					Rule:     reviewers.Rules["0001"],
+				},
 			},
-			name:      "uppercase",
-			faultsLen: 1,
+			name: "uppercase",
 			content: `<HTML lang="en"></HTML>
 			`,
 		},
 
 		{
-			name:      "sameline",
-			faultsLen: 0,
-			content:   `<!DOCTYPE html><html></html>`,
+			name:    "sameline",
+			content: `<!DOCTYPE html><html></html>`,
 		},
 
 		{
-			name:      "valid next line",
-			faultsLen: 0,
+			name: "valid next line",
 			content: `<!DOCTYPE html>
 			<html>
 			</html>`,
 		},
 
 		{
-			name:      "valid space line",
-			faultsLen: 0,
+			name: "valid space line",
 			content: `<!DOCTYPE html>
 
 			<html>
@@ -100,24 +99,21 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		},
 
 		{
-			name:      "doctype case insensitive",
-			faultsLen: 0,
+			name: "doctype case insensitive",
 			content: `<!doctype html>
 			<html lang="en">
 			</html>`,
 		},
 
 		{
-			name:      "doctype old",
-			faultsLen: 0,
+			name: "doctype old",
 			content: `<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 			<html lang="en">
 			</html>`,
 		},
 
 		{
-			name:      "no html tag",
-			faultsLen: 0,
+			name: "no html tag",
 			content: `
 				<% contentFor("title") {%>
 					Edit amenity
@@ -140,6 +136,54 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				<%} %>
 			`,
 		},
+
+		{
+			name: "xmlns case",
+			content: `
+				<?xml version="1.0"?>
+				<!DOCTYPE html>
+				<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<head>
+					<title>Milo Test</title>
+				</head>
+				<body>
+					<h1>Milo Test</h1>
+				</body>
+				</html>
+			`,
+		},
+
+		{
+			name: "php expression",
+			content: `
+				<!DOCTYPE html>
+				<?php ?>
+				<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<head>
+					<title>Milo Test</title>
+				</head>
+				<body>
+					<h1>Milo Test</h1>
+				</body>
+				</html>
+			`,
+		},
+
+		{
+			name: "comment",
+			content: `
+				<!DOCTYPE html>
+				<!-- comment -->
+				<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<head>
+					<title>Milo Test</title>
+				</head>
+				<body>
+					<h1>Milo Test</h1>
+				</body>
+				</html>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {
@@ -147,15 +191,14 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		faults, err := doc.Review("something.html", page)
 
 		r.NoError(err, tcase.name)
-		r.Len(faults, tcase.faultsLen, tcase.name)
-		if tcase.faultsLen == 0 {
-			continue
-		}
+		r.Len(faults, len(tcase.faults), tcase.name)
 
-		r.Equal(faults[0].Reviewer, tcase.fault.Reviewer, tcase.name)
-		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
-		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
-		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description, tcase.name)
+		for index, fault := range tcase.faults {
+			r.Equal(faults[index].Reviewer, fault.Reviewer, tcase.name)
+			r.Equal(faults[index].Line, fault.Line, tcase.name)
+			r.Equal(faults[index].Rule.Code, fault.Rule.Code, tcase.name)
+			r.Equal(faults[index].Rule.Description, fault.Rule.Description, tcase.name)
+		}
 	}
 
 }

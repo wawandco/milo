@@ -1,10 +1,11 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
 	"path/filepath"
 	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 const (
@@ -25,42 +26,39 @@ func (doc DoctypePresent) Accepts(filePath string) bool {
 
 func (doc DoctypePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
-	var prevLine, line string
-	var number int
+	var (
+		found   bool
+		htmlTag *html.Token
+	)
 
-	scanner := bufio.NewScanner(page)
-	for scanner.Scan() {
-		number++
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
 
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
+		token := z.Token()
+		if token.DataAtom.String() == "html" {
+			htmlTag = &token
 			continue
 		}
 
-		lineLower := strings.ToLower(line)
-		prevLineLower := strings.ToLower(prevLine)
-
-		if strings.Contains(lineLower, "<html") && strings.Contains(lineLower, DoctypeExpression) {
-			break
+		if tt == html.DoctypeToken {
+			found = true
 		}
-
-		if strings.Contains(lineLower, "<html") && strings.Contains(prevLineLower, DoctypeExpression) {
-			break
-		}
-
-		if strings.Contains(lineLower, "<html") {
-			result = append(result, Fault{
-				Reviewer: doc.ReviewerName(),
-				Line:     number,
-				Path:     path,
-
-				Rule: Rules["0001"],
-			})
-			break
-		}
-
-		prevLine = line
 	}
+
+	if htmlTag == nil || found {
+		return result, nil
+	}
+
+	result = append(result, Fault{
+		Reviewer: doc.ReviewerName(),
+		Line:     htmlTag.Line,
+		Path:     path,
+		Rule:     Rules["0001"],
+	})
 
 	return result, nil
 }
