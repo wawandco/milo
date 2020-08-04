@@ -38,6 +38,7 @@ func (a AttrLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 				Reviewer: a.ReviewerName(),
 				Line:     number,
 				Rule:     Rules["0013"],
+				Path:     path,
 			})
 		}
 	}

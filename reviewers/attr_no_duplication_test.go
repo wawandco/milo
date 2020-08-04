@@ -92,6 +92,7 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 			r.Equal(faults[i].Line, tcase.fault[i].Line, tcase.name)
 			r.Equal(faults[i].Rule.Code, tcase.fault[i].Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tcase.fault[i].Rule.Description, tcase.name)
+			r.Equal("something.html", faults[i].Path)
 		}
 	}
 
