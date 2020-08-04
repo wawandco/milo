@@ -5,6 +5,7 @@ import "github.com/wawandco/milo/reviewers"
 var Formatters = []FaultFormatter{
 	GithubFaultFormatter{},
 	SilentFaultFormatter{},
+	TextFaultFormatter{},
 }
 
 // FaultPrinter is intended to print faults in a specific format.
