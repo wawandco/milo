@@ -15,7 +15,11 @@ func Test_Sanitize(t *testing.T) {
 	}{
 		{
 			`<option value="<%= state.Code %>" <%= if (selectedState == state.Code) { %> selected <% } %>> <%= state.Name %></option>`,
-			`<option value=""  selected > </option>`,
+			`<option value="MILO WAS HERE!"  selected > </option>`,
+		},
+		{
+			`<option value='<%= state.Code %>' <%= if (selectedState == state.Code) { %> selected <% } %>> <%= state.Name %></option>`,
+			`<option value='MILO WAS HERE!'  selected > </option>`,
 		},
 		{
 			`    
