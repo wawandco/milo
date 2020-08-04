@@ -21,7 +21,7 @@ func (r Runner) HelpText() string {
 
 func (r Runner) Run(args []string) error {
 	c := config.Settings{}
-	c.Output = "github"
+	c.Output = "text"
 
 	for _, reviewer := range reviewers.All {
 		c.Reviewers = append(c.Reviewers, reviewer.ReviewerName())

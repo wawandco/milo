@@ -43,7 +43,7 @@ milo init
 And it will generate a `.milo.yml` file that looks something like:
 
 ```
-output: github # could be `github` or `silent`
+output: text # could be `text`, `github` or `silent`
 reviewers:
   - doctype/present 
   - ...

@@ -43,7 +43,7 @@ func (c Settings) Printer() output.FaultFormatter {
 		return printer
 	}
 
-	return output.GithubFaultFormatter{}
+	return output.TextFaultFormatter{}
 }
 
 func LoadConfiguration() Settings {
@@ -51,7 +51,7 @@ func LoadConfiguration() Settings {
 
 	data, err := ioutil.ReadFile(".milo.yml")
 	if err != nil {
-		fmt.Println("[Warning] could not open .milo.yml")
+		fmt.Println("[Warning] could not load configuration from .milo.yml")
 		return result
 	}
 
