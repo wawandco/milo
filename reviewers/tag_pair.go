@@ -6,6 +6,26 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+var selfClosing = []string{
+	"area",
+	"base",
+	"br",
+	"col",
+	"command",
+	"embed",
+	"hr",
+	"img",
+	"input",
+	"keygen",
+	"link",
+	"menuitem",
+	"meta",
+	"param",
+	"source",
+	"track",
+	"wbr",
+}
+
 type TagPair struct{}
 
 func (t TagPair) ReviewerName() string {
@@ -35,8 +55,11 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 		token := z.Token()
 		switch tt {
 		case html.StartTagToken:
-			openedTags = append(openedTags, &token)
+			if t.isSelfClosing(token) {
+				continue
+			}
 
+			openedTags = append(openedTags, &token)
 		case html.EndTagToken:
 
 			var i int
@@ -88,4 +111,16 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 	}
 
 	return fault, nil
+}
+
+func (t TagPair) isSelfClosing(token html.Token) bool {
+	for _, selfc := range selfClosing {
+		if selfc != token.DataAtom.String() {
+			continue
+		}
+
+		return true
+	}
+
+	return false
 }
