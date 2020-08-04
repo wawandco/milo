@@ -36,19 +36,20 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 		}
 
 		token := z.Token()
+		tag := token.DataAtom.String()
 
 		switch tt {
 		case html.StartTagToken:
-			if htmlTag == nil && token.DataAtom.String() == "html" {
+			if htmlTag == nil && tag == "html" {
 				htmlTag = &token
 				continue
 			}
 
-			if token.DataAtom.String() == "title" {
+			if tag == "title" {
 				startTag = &token
 			}
 		case html.EndTagToken:
-			if token.DataAtom.String() == "title" {
+			if tag == "title" {
 				endTag = &token
 			}
 
@@ -57,7 +58,11 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 				continue
 			}
 
-			if startTag == nil || content != "" {
+			if startTag == nil {
+				continue
+			}
+
+			if content != "" {
 				continue
 			}
 
