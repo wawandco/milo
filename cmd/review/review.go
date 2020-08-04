@@ -1,3 +1,5 @@
+// Package review is in charge of the review command. It will be invoked to review
+// A set of files and print the faults found in that file.
 package review
 
 import (

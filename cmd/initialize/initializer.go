@@ -1,3 +1,4 @@
+// Initialize package is in charge of initializing the repo by generating .milo.yml
 package initialize
 
 import (

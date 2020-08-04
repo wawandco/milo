@@ -1,3 +1,4 @@
+// Configuration package is in charge of loading configuration from `.milo.yml` file.
 package config
 
 import (
