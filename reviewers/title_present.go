@@ -2,10 +2,10 @@ package reviewers
 
 import (
 	"io"
-	"io/ioutil"
 	"path/filepath"
-	"regexp"
 	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type TitlePresent struct{}
@@ -23,17 +23,54 @@ func (doc TitlePresent) Accepts(filePath string) bool {
 func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	html, err := ioutil.ReadAll(page)
-	if err != nil {
-		return result, err
+	var htmlTag *html.Token
+	var startTag *html.Token
+	var endTag *html.Token
+	var content string
+
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
+
+		token := z.Token()
+		tag := token.DataAtom.String()
+
+		switch tt {
+		case html.StartTagToken:
+			if htmlTag == nil && tag == "html" {
+				htmlTag = &token
+				continue
+			}
+
+			if tag == "title" {
+				startTag = &token
+			}
+		case html.EndTagToken:
+			if tag == "title" {
+				endTag = &token
+			}
+
+		case html.TextToken:
+			if htmlTag == nil {
+				continue
+			}
+
+			if startTag == nil {
+				continue
+			}
+
+			if content != "" {
+				continue
+			}
+
+			content = strings.TrimSpace(string(z.Raw()))
+		}
 	}
 
-	html = []byte(strings.ToLower(string(html)))
-	if !strings.Contains(string(html), "<html") {
-		return result, nil
-	}
-	re := regexp.MustCompile(`<head>[\s\w\D]*<title[^>]*>[^<]+`)
-	if re.Match(html) {
+	if htmlTag == nil || (content != "" && endTag != nil) {
 		return result, nil
 	}
 
