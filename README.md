@@ -1,6 +1,7 @@
 ![](https://github.com/wawandco/milo/blob/master/milo-logo.png)
 
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/github.com/Wawandco/milo)](https://goreportcard.com/report/github.com/Wawandco/milo)
 # Milo
 
 Milo is a linter tool that will check for both syntax correctness and style recommendations in HTML files. The end goal is to have a single binary that could be used in the context of a CI server which could check the codebase HTML before PR's get merged.
