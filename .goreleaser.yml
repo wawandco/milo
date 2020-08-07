@@ -7,7 +7,7 @@ builds:
     env:
       - CGO_ENABLED=0
     ldflags:
-      - -s -w -X "github.com/wawandco/milo/cli/cmd/version.Version={{.Tag}}"
+      - -s -w -X "main.version={{.Tag}}"
     goos:
       - darwin
       - linux

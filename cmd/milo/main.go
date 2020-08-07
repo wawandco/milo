@@ -16,6 +16,7 @@ import (
 var runnables = []cmd.Runnable{
 	review.Runner{},
 	initialize.Runner{},
+	VersionPrinter{},
 }
 
 func main() {
