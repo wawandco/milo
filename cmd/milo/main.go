@@ -13,11 +13,14 @@ import (
 	"github.com/wawandco/milo/cmd/review"
 )
 
-var runnables = []cmd.Runnable{
-	review.Runner{},
-	initialize.Runner{},
-	VersionPrinter{},
-}
+var (
+	version   = "latest"
+	runnables = []cmd.Runnable{
+		review.Runner{},
+		initialize.Runner{},
+		VersionPrinter{},
+	}
+)
 
 func main() {
 	ctx := context.Background()
@@ -89,4 +92,19 @@ func printHelp() {
 
 		fmt.Fprintf(w, "\n %v\t%v\n", c.Name(), c.HelpText())
 	}
+}
+
+type VersionPrinter struct{}
+
+func (v VersionPrinter) Name() string {
+	return "version"
+}
+
+func (v VersionPrinter) Run([]string) error {
+	fmt.Printf("Running Milo %v\n", version)
+	return nil
+}
+
+func (v VersionPrinter) HelpText() string {
+	return "prints the Milo version"
 }
