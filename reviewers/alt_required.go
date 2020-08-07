@@ -38,7 +38,7 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 				Reviewer: at.ReviewerName(),
 				Line:     token.Line,
 				Path:     path,
-				Rule:     Rules["0012"],
+				Rule:     Rules[at.ReviewerName()],
 			})
 		}
 	}

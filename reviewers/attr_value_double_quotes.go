@@ -43,7 +43,7 @@ func (a AttrValueDoubleQuotes) Review(path string, r io.Reader) ([]Fault, error)
 						Reviewer: a.ReviewerName(),
 						Line:     token.Line,
 						Path:     path,
-						Rule:     Rules["0018"],
+						Rule:     Rules[a.ReviewerName()],
 					})
 				}
 			}

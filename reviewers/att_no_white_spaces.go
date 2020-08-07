@@ -33,7 +33,7 @@ func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error)
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
 				Line:     number,
-				Rule:     Rules["0019"],
+				Rule:     Rules[at.ReviewerName()],
 				Path:     path,
 			})
 		}

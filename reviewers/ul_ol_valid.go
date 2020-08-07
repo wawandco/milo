@@ -36,7 +36,7 @@ func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 					Reviewer: ol.ReviewerName(),
 					Line:     token.Line,
 					Path:     path,
-					Rule:     Rules["0008"],
+					Rule:     Rules[ol.ReviewerName()],
 				})
 			}
 

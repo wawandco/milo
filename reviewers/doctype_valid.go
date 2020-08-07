@@ -55,7 +55,7 @@ func (doc DoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {
 			Line:     number + 1,
 			Path:     path,
 
-			Rule: Rules["0002"],
+			Rule: Rules[doc.ReviewerName()],
 		})
 
 		break

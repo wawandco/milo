@@ -34,7 +34,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -53,7 +53,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -66,7 +66,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -79,7 +79,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -96,17 +96,17 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     2,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0003"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

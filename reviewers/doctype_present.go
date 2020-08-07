@@ -57,7 +57,7 @@ func (doc DoctypePresent) Review(path string, page io.Reader) ([]Fault, error) {
 		Reviewer: doc.ReviewerName(),
 		Line:     htmlTag.Line,
 		Path:     path,
-		Rule:     Rules["0001"],
+		Rule:     Rules[doc.ReviewerName()],
 	})
 
 	return result, nil

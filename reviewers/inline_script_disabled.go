@@ -44,7 +44,7 @@ func (i InlineScriptDisabled) Review(path string, r io.Reader) ([]Fault, error) 
 					Reviewer: i.ReviewerName(),
 					Line:     tok.Line,
 					Path:     path,
-					Rule:     Rules["0017"],
+					Rule:     Rules[i.ReviewerName()],
 				})
 				continue
 			}
@@ -55,7 +55,7 @@ func (i InlineScriptDisabled) Review(path string, r io.Reader) ([]Fault, error) 
 					Reviewer: i.ReviewerName(),
 					Line:     tok.Line,
 					Path:     path,
-					Rule:     Rules["0017"],
+					Rule:     Rules[i.ReviewerName()],
 				})
 			}
 		}

@@ -23,7 +23,7 @@ func Test_DoctypeValid(t *testing.T) {
 			fault: reviewers.Fault{
 				Line:     1,
 				Reviewer: doc.ReviewerName(),
-				Rule:     reviewers.Rules["0002"],
+				Rule:     reviewers.Rules[doc.ReviewerName()],
 			},
 			name:      "doctype old",
 			faultsLen: 1,

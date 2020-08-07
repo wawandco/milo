@@ -81,7 +81,7 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 				fault = append(fault, Fault{
 					Line:     token.Line,
 					Path:     path,
-					Rule:     Rules["0015"],
+					Rule:     Rules[t.ReviewerName()],
 					Reviewer: t.ReviewerName(),
 				})
 				continue
@@ -104,7 +104,7 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 			fault = append(fault, Fault{
 				Line:     o.Line,
 				Path:     path,
-				Rule:     Rules["0015"],
+				Rule:     Rules[t.ReviewerName()],
 				Reviewer: t.ReviewerName(),
 			})
 		}

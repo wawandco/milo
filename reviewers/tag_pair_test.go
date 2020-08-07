@@ -45,7 +45,7 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -56,7 +56,7 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -67,7 +67,7 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -78,7 +78,7 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -89,12 +89,12 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
 
@@ -105,17 +105,17 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
 
@@ -126,17 +126,17 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
 
@@ -153,7 +153,7 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -176,22 +176,22 @@ func Test_TagPair_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     13,
-				Rule:     reviewers.Rules["0015"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     6,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     6,
-					Rule:     reviewers.Rules["0015"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
 	}

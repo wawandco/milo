@@ -44,12 +44,12 @@ func Test_AttrIDUnique_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     6,
-					Rule:     reviewers.Rules["0014"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     7,
-					Rule:     reviewers.Rules["0014"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

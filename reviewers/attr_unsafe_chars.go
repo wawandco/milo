@@ -35,7 +35,7 @@ func (a AttrUnsafeChars) Review(path string, r io.Reader) ([]Fault, error) {
 					Reviewer: a.ReviewerName(),
 					Line:     tok.Line,
 					Path:     path,
-					Rule:     Rules["0016"],
+					Rule:     Rules[a.ReviewerName()],
 				})
 			}
 		}

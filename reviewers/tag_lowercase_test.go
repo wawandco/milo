@@ -43,7 +43,7 @@ func Test_TagLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0006"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -62,12 +62,12 @@ func Test_TagLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
-					Rule:     reviewers.Rules["0006"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0006"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

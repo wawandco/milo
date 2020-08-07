@@ -38,7 +38,7 @@ func (sa StyleAttribute) Review(path string, page io.Reader) ([]Fault, error) {
 					Reviewer: sa.ReviewerName(),
 					Line:     token.Line,
 					Path:     path,
-					Rule:     Rules["0009"],
+					Rule:     Rules[sa.ReviewerName()],
 				})
 
 				break

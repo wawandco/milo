@@ -33,7 +33,7 @@ func (a AttrValueNotEmpty) Review(path string, r io.Reader) ([]Fault, error) {
 					Reviewer: a.ReviewerName(),
 					Line:     tok.Line,
 					Path:     path,
-					Rule:     Rules["0011"],
+					Rule:     Rules[a.ReviewerName()],
 				})
 			}
 		}

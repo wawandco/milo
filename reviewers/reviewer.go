@@ -25,6 +25,8 @@ var All = []Reviewer{
 	AttrValueDoubleQuotes{},
 }
 
+// Reviewer is in charge of reviewing a path and a content and return the list of faults on it.
+// for each reviewer there is typically a rule that it will check.
 type Reviewer interface {
 	ReviewerName() string
 	Accepts(fileName string) bool

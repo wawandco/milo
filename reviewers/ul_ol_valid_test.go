@@ -47,24 +47,24 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     3,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     4,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     7,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     8,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name:      "ol/ul invalid",
@@ -86,12 +86,12 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     13,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 
@@ -121,12 +121,12 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     13,
-					Rule:     reviewers.Rules["0008"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 

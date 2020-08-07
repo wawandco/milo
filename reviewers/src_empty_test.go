@@ -59,7 +59,7 @@ func Test_SrcEmpty_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0007"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

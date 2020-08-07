@@ -34,7 +34,7 @@ func Test_StyleTag_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0005"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},
@@ -54,7 +54,7 @@ func Test_StyleTag_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
-					Rule:     reviewers.Rules["0005"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

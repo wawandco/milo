@@ -25,7 +25,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0004"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name: "no title specified",
@@ -41,7 +41,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0004"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name: "empty title",

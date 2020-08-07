@@ -25,7 +25,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0001"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name:    "no doctype",
@@ -42,7 +42,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     3,
-					Rule:     reviewers.Rules["0001"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name: "no doctype",
@@ -57,7 +57,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0001"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name: "no doctype",
@@ -70,7 +70,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0001"],
+					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
 			name: "uppercase",

@@ -31,12 +31,12 @@ func Test_StyleAttribute_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0009"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0009"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
 		},

@@ -40,7 +40,7 @@ func (at AttrIDUnique) Review(path string, page io.Reader) ([]Fault, error) {
 				Reviewer: at.ReviewerName(),
 				Line:     token.Line,
 				Path:     path,
-				Rule:     Rules["0014"],
+				Rule:     Rules[at.ReviewerName()],
 			})
 		}
 	}

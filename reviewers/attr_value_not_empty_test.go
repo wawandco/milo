@@ -39,7 +39,7 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
-				Rule:     reviewers.Rules["0011"],
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
 
@@ -51,12 +51,12 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0011"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
-					Rule:     reviewers.Rules["0011"],
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
 	}
