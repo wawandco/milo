@@ -115,6 +115,37 @@ func Test_OlUlValid_Review(t *testing.T) {
 			</ul>
 			`,
 		},
+
+		{
+			fault: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     5,
+					Rule:     reviewers.Rules["0008"],
+				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     13,
+					Rule:     reviewers.Rules["0008"],
+				},
+			},
+
+			name:      "reported case",
+			faultsLen: 0,
+			content: `
+				<!DOCTYPE html>
+				<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<head>
+					<title>Contact Us</title>
+				</head>
+				<body>
+					<ul class="mainMenu nav nav-pills">
+						<li><i/> Home</li>
+					</ul>
+				</body>
+				</html>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

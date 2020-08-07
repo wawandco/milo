@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/external/goquery"
+	"github.com/wawandco/milo/external/html"
 )
 
 type OlUlValid struct{}
@@ -19,21 +19,41 @@ func (ol OlUlValid) Accepts(filePath string) bool {
 func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	doc, err := goquery.NewDocumentFromReader(page)
-	if err != nil {
-		return result, err
+	var parents []html.Token
+	z := html.NewTokenizer(page)
+
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
+
+		token := z.Token()
+		switch tt {
+		case html.StartTagToken:
+			if len(parents) > 0 && ol.isList(parents[0]) && token.Data != "li" {
+				result = append(result, Fault{
+					Reviewer: ol.ReviewerName(),
+					Line:     token.Line,
+					Path:     path,
+					Rule:     Rules["0008"],
+				})
+			}
+
+			parents = append([]html.Token{token}, parents...)
+
+		case html.EndTagToken:
+			parents = parents[1:]
+		}
 	}
 
-	olulSelection := doc.Find("ol").AddSelection(doc.Find("ul"))
-	notli := olulSelection.Children().Not("li")
-
-	for _, n := range notli.Nodes {
-		result = append(result, Fault{
-			Reviewer: ol.ReviewerName(),
-			Line:     n.Line,
-			Path:     path,
-			Rule:     Rules["0008"],
-		})
-	}
 	return result, nil
+}
+
+func (ol OlUlValid) isList(token html.Token) bool {
+	if token.Data != "ul" && token.Data != "ol" {
+		return false
+	}
+
+	return true
 }

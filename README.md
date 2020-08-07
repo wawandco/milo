@@ -91,8 +91,6 @@ Milo uses the following reviewers:
 This repo depends heavily in the following libraries that deserve all the credit for making Milo possible:
 
 - golang.org/net/html 
-- github.com/andybalholm/cascadia
-- github.com/PuerkitoBio/goquery
 
 We copied those repos in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
 

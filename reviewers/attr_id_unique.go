@@ -2,9 +2,8 @@ package reviewers
 
 import (
 	"io"
-	"strings"
 
-	"github.com/wawandco/milo/external/goquery"
+	"github.com/wawandco/milo/external/html"
 )
 
 type AttrIDUnique struct{}
@@ -19,38 +18,42 @@ func (at AttrIDUnique) Accepts(filePath string) bool {
 
 func (at AttrIDUnique) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
+	IDs := map[string]bool{}
 
-	doc, err := goquery.NewDocumentFromReader(page)
-	if err != nil {
-		return result, err
-	}
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
 
-	matched := doc.Find("*")
-	IDCache := map[string]int{}
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
+			token := z.Token()
 
-	for _, node := range matched.Nodes {
-		for _, attr := range node.Attr {
-			key := strings.ToLower(attr.Key)
-			if key != "id" {
-				continue
-			}
-
-			id := attr.Val
-			if IDCache[id] == 0 {
-				IDCache[id] = node.Line
+			ID := at.tagID(token)
+			if ID != "" && !IDs[ID] {
+				IDs[ID] = true
 				continue
 			}
 
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
-				Line:     node.Line,
+				Line:     token.Line,
 				Path:     path,
 				Rule:     Rules["0014"],
 			})
-
-			break
 		}
 	}
 
 	return result, nil
+}
+
+func (at AttrIDUnique) tagID(token html.Token) string {
+	for _, attr := range token.Attr {
+		if attr.Key == "id" && attr.Val != "" {
+			return attr.Val
+		}
+	}
+
+	return ""
 }

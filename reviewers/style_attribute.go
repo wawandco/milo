@@ -3,37 +3,48 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/external/goquery"
+	"github.com/wawandco/milo/external/html"
 )
 
 type StyleAttribute struct{}
 
-func (ol StyleAttribute) ReviewerName() string {
+func (sa StyleAttribute) ReviewerName() string {
 	return "attribute/style"
 }
 
-func (ol StyleAttribute) Accepts(filePath string) bool {
+func (sa StyleAttribute) Accepts(filePath string) bool {
 	return true
 }
 
-func (ol StyleAttribute) Review(path string, page io.Reader) ([]Fault, error) {
+func (sa StyleAttribute) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	doc, err := goquery.NewDocumentFromReader(page)
-	if err != nil {
-		return result, err
-	}
-
-	doc.Find("[style]").Each(func(i int, s *goquery.Selection) {
-		for _, node := range s.Nodes {
-			result = append(result, Fault{
-				Reviewer: ol.ReviewerName(),
-				Line:     node.Line,
-				Path:     path,
-				Rule:     Rules["0009"],
-			})
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
 		}
-	})
+
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
+			token := z.Token()
+
+			for _, attr := range token.Attr {
+				if attr.Key != "style" {
+					continue
+				}
+
+				result = append(result, Fault{
+					Reviewer: sa.ReviewerName(),
+					Line:     token.Line,
+					Path:     path,
+					Rule:     Rules["0009"],
+				})
+
+				break
+			}
+		}
+	}
 
 	return result, nil
 }
