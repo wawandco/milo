@@ -3,12 +3,15 @@
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
 # Milo
 
-This is a linter for HTML written in Go. The goal is to provide a single binary that can review HTML in the context of a CI server without installing other tools.
+Milo is a linter tool that will check for both syntax correctness and style recommendations in HTML files. The end goal is to have a single binary that could be used in the context of a CI server which could check the codebase HTML before PR's get merged.
 
-## Initial Considerations
+## Important Considerations
 
+- Milo will check the HTML syntax of HTML only. ([see this](https://html.spec.whatwg.org/multipage/syntax.html))
+- Milo will also check some style best practices and point those as issues to fix.
+- Rules can be enabled/disabled. (See configuration)
 - Milo considers html partials and validates the rules that apply to these.
-- Milo considers erb and plush as part of the HTML and works around these.
+- Milo considers erb and [plush](https://github.com/gobuffalo/plush) as part of the HTML.
 
 ## Installation
 
@@ -35,12 +38,13 @@ milo review templates/file.html
 
 ### Configuration
 
-Once you have installed Milo you can run 
+By default Milo will run all the linters it has. However, some teams will want to disable some of the linters in the list, if this is your case you can add a .milo.yml file in the root of your codebase.
+Once you have installed Milo can generate it by running:
 ```
 milo init
 ```
 
-And it will generate a `.milo.yml` file that looks something like:
+That `.milo.yml` will look like the following example:
 
 ```
 output: text # could be `text`, `github` or `silent`
@@ -92,7 +96,7 @@ This repo depends heavily in the following libraries that deserve all the credit
 
 - golang.org/net/html 
 
-We copied those repos in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
+We copied this in our source because we needed to make some modifications to it. Our goal long term goal is to contribute back as much as possible.
 
 ## Copyright
 

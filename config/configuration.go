@@ -52,7 +52,7 @@ func LoadConfiguration() Settings {
 
 	data, err := ioutil.ReadFile(".milo.yml")
 	if err != nil {
-		fmt.Println("[Warning] could not load configuration from .milo.yml")
+		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
 		return result
 	}
 
