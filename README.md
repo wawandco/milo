@@ -38,8 +38,8 @@ milo review templates/file.html
 
 ### Configuration
 
-By default Milo will run all the linters it has. However, some teams will want to disable some of the linters in the list, if this is your case you can add a .milo.yml file in the root of your codebase.
-Once you have installed Milo can generate it by running:
+By default Milo will run all the linters it has. However, some teams will want to disable some of the linters in the list, if this is your case you can add a `.milo.yml` file in the root of your codebase.
+Once you have installed Milo it can generate that file by running:
 ```
 milo init
 ```
