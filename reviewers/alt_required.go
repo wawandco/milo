@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/wawandco/milo/external/goquery"
+	"github.com/wawandco/milo/external/html"
 )
 
 type AltRequired struct{}
@@ -20,33 +20,70 @@ func (at AltRequired) Accepts(filePath string) bool {
 func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	doc, err := goquery.NewDocumentFromReader(page)
-	if err != nil {
-		return result, err
-	}
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
+		if tt == html.ErrorToken {
+			break
+		}
 
-	matched := doc.Find("area[href], input[type=image], img")
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
+			token := z.Token()
 
-	for _, node := range matched.Nodes {
-		found := false
-		for _, attr := range node.Attr {
-			if strings.ToLower(attr.Key) == "alt" && attr.Key != "" {
-				found = true
-				break
+			if !at.tagRequiresAlt(token) || at.hasAlt(token) {
+				continue
 			}
-		}
 
-		if found {
-			continue
+			result = append(result, Fault{
+				Reviewer: at.ReviewerName(),
+				Line:     token.Line,
+				Path:     path,
+				Rule:     Rules["0012"],
+			})
 		}
-
-		result = append(result, Fault{
-			Reviewer: at.ReviewerName(),
-			Line:     node.Line,
-			Path:     path,
-			Rule:     Rules["0012"],
-		})
 	}
 
 	return result, nil
+}
+
+func (at AltRequired) tagRequiresAlt(token html.Token) bool {
+	if token.DataAtom.String() == "img" {
+		return true
+	}
+
+	// input[type=image]
+	if token.DataAtom.String() == "input" {
+		for _, attr := range token.Attr {
+			if attr.Key != "type" || strings.ToLower(attr.Val) != "image" {
+				continue
+			}
+
+			return true
+		}
+
+		return false
+	}
+
+	// area[href]
+	if token.DataAtom.String() == "area" {
+		for _, attr := range token.Attr {
+			if attr.Key == "href" {
+				return true
+			}
+		}
+
+		return true
+	}
+
+	return false
+}
+
+func (at AltRequired) hasAlt(token html.Token) bool {
+	for _, attr := range token.Attr {
+		if attr.Key == "alt" && attr.Val != "" {
+			return true
+		}
+	}
+
+	return false
 }
