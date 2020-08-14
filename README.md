@@ -1,4 +1,4 @@
-![](https://github.com/wawandco/milo/blob/master/milo-logo.png)
+![](https://github.com/wawandco/milo/blob/master/milo.png)
 
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Wawandco/milo)](https://goreportcard.com/report/github.com/Wawandco/milo)
