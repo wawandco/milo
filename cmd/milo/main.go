@@ -44,6 +44,7 @@ func main() {
 
 	if len(os.Args) < 2 {
 		printHelp()
+
 		return
 	}
 
@@ -102,6 +103,7 @@ func (v VersionPrinter) Name() string {
 
 func (v VersionPrinter) Run([]string) error {
 	fmt.Printf("Running Milo %v\n", version)
+
 	return nil
 }
 
