@@ -770,6 +770,156 @@ func TestAttrName(t *testing.T) {
 
 }
 
+func TestColAndLineNumberForTags(t *testing.T) {
+	for _, tc := range []struct {
+		Name    string
+		Content string
+		Line    int
+		Col     int
+	}{
+		{
+			Name:    "col=1;line=1",
+			Content: "<a>",
+			Line:    1,
+			Col:     1,
+		},
+
+		{
+			Name:    "col=2;line1",
+			Content: " <a>",
+			Line:    1,
+			Col:     2,
+		},
+
+		{
+			Name:    "col=6;line1",
+			Content: "blah <a>",
+			Line:    1,
+			Col:     6,
+		},
+
+		{
+			Name:    "closed;col=11;line1",
+			Content: "blah blah </a>",
+			Line:    1,
+			Col:     11,
+		},
+
+		{
+			Name:    "selfclosed;col=11;line1",
+			Content: "blah blah <a/>",
+			Line:    1,
+			Col:     11,
+		},
+
+		{
+			Name: "selfclosed;col=1;line2",
+			Content: `blah blah
+<a/>`,
+			Line: 2,
+			Col:  1,
+		},
+
+		{
+			Name: "selfclosed;col=11;line2",
+			Content: `blah blah
+blah blah <a/>`,
+			Line: 2,
+			Col:  11,
+		},
+	} {
+		z := NewTokenizer(strings.NewReader(tc.Content))
+		for {
+			z.Next()
+			if err := z.Err(); err != nil {
+				if err != io.EOF {
+					t.Errorf("%s: got error %s", tc.Name, err)
+				}
+				break
+			}
+
+			tok := z.Token()
+			if tok.Type == TextToken {
+				continue
+			}
+
+			if got, want := tok.Col, tc.Col; got != want {
+				t.Errorf("%s: got %d, and want %d", tc.Name, got, want)
+			}
+
+			if got, want := tok.Line, tc.Line; got != want {
+				t.Errorf("%s: got %d, and want %d", tc.Name, got, want)
+			}
+		}
+	}
+
+}
+
+func TestAttrColNumber(t *testing.T) {
+	for _, tc := range []struct {
+		Name    string
+		Content string
+		Lines   []int
+		Cols    []int
+	}{
+		{
+			Name:    "attribute col = 4",
+			Content: "<a href='#'>",
+			Lines:   []int{1},
+			Cols:    []int{4},
+		},
+
+		{
+			Name:    "attributes with col = 4 and col = 14",
+			Content: "<a href='#'  class=''>",
+			Lines:   []int{1, 1},
+			Cols:    []int{4, 14},
+		},
+
+		{
+			Name:    "attributes with col = 10",
+			Content: "<a       class=''>",
+			Lines:   []int{1},
+			Cols:    []int{10},
+		},
+
+		{
+			Name: "attributes with line = 2 and col = 1",
+			Content: `<a 
+class=''>`,
+			Lines: []int{2},
+			Cols:  []int{1},
+		},
+	} {
+		z := NewTokenizer(strings.NewReader(tc.Content))
+		for {
+			z.Next()
+			if err := z.Err(); err != nil {
+				if err != io.EOF {
+					t.Errorf("%s: got error %s", tc.Name, err)
+				}
+				break
+			}
+
+			tok := z.Token()
+			if tok.Type == TextToken {
+				continue
+			}
+
+			for i := range tok.Attr {
+				if got, want := tok.Attr[i].Col, tc.Cols[i]; got != want {
+					t.Errorf("cols %s: got %d, and want %d", tc.Name, got, want)
+				}
+
+				if got, want := tok.Attr[i].Line, tc.Lines[i]; got != want {
+					t.Errorf("lines %s: got %d, and want %d", tc.Name, got, want)
+				}
+			}
+		}
+	}
+
+}
+
 func BenchmarkRawLevelTokenizer(b *testing.B)  { benchmarkTokenizer(b, rawLevel) }
 func BenchmarkLowLevelTokenizer(b *testing.B)  { benchmarkTokenizer(b, lowLevel) }
 func BenchmarkHighLevelTokenizer(b *testing.B) { benchmarkTokenizer(b, highLevel) }

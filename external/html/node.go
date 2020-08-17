@@ -50,6 +50,7 @@ type Node struct {
 	Namespace string
 	Attr      []Attribute
 	Line      int
+	Col       int
 }
 
 // InsertBefore inserts newChild as a child of n, immediately before oldChild
