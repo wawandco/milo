@@ -307,6 +307,7 @@ func (p *parser) addText(text string) {
 			Type: TextNode,
 			Data: text,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return
 	}
@@ -320,6 +321,7 @@ func (p *parser) addText(text string) {
 		Type: TextNode,
 		Data: text,
 		Line: p.tok.Line,
+		Col:  p.tok.Col,
 	})
 }
 
@@ -331,6 +333,7 @@ func (p *parser) addElement() {
 		Data:     p.tok.Data,
 		Attr:     p.tok.Attr,
 		Line:     p.tok.Line,
+		Col:      p.tok.Col,
 	})
 }
 
@@ -528,6 +531,7 @@ func initialIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -575,6 +579,7 @@ func beforeHTMLIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	}
@@ -615,6 +620,7 @@ func beforeHeadIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -713,6 +719,7 @@ func inHeadIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -816,6 +823,7 @@ func afterHeadIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -1173,6 +1181,7 @@ func inBodyIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case ErrorToken:
 		// TODO: remove this divergence from the HTML5 spec.
@@ -1491,6 +1500,7 @@ func inTableIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -1568,6 +1578,7 @@ func inColumnGroupIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -1656,6 +1667,7 @@ func inTableBodyIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	}
@@ -1832,6 +1844,7 @@ func inSelectIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case DoctypeToken:
 		// Ignore the token.
@@ -1968,6 +1981,7 @@ func afterBodyIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	}
@@ -1983,6 +1997,7 @@ func inFramesetIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case TextToken:
 		// Ignore all text but whitespace.
@@ -2034,6 +2049,7 @@ func afterFramesetIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case TextToken:
 		// Ignore all text but whitespace.
@@ -2087,6 +2103,7 @@ func afterAfterBodyIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 		return true
 	case DoctypeToken:
@@ -2104,6 +2121,7 @@ func afterAfterFramesetIM(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case TextToken:
 		// Ignore all text but whitespace.
@@ -2149,6 +2167,7 @@ func parseForeignContent(p *parser) bool {
 			Type: CommentNode,
 			Data: p.tok.Data,
 			Line: p.tok.Line,
+			Col:  p.tok.Col,
 		})
 	case StartTagToken:
 		if !p.fragment {
@@ -2265,6 +2284,7 @@ func (p *parser) parseImpliedToken(t TokenType, dataAtom a.Atom, data string) {
 		DataAtom: dataAtom,
 		Data:     data,
 		Line:     realToken.Line,
+		Col:      realToken.Col,
 	}
 	p.hasSelfClosingToken = false
 	p.parseCurrentToken()

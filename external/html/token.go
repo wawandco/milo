@@ -66,6 +66,7 @@ func (t TokenType) String() string {
 // Namespace is only used by the parser, not the tokenizer.
 type Attribute struct {
 	Namespace, Key, Val, Quote, Name string
+	Line, Col                        int
 }
 
 // A Token consists of a TokenType and some Data (tag name for start and end
@@ -79,6 +80,7 @@ type Token struct {
 	Data     string
 	Attr     []Attribute
 	Line     int
+	Col      int
 }
 
 // tagString returns a string representation of a tag Token's Data and Attr.
@@ -172,6 +174,8 @@ type Tokenizer struct {
 	allowCDATA bool
 	// tokenLine incorporate the line where the token is defined.
 	tokenLine int
+	// lineStart saves carriage line return position.
+	lineStart int
 }
 
 // AllowCDATA sets whether or not the tokenizer recognizes <![CDATA[foo]]> as
@@ -319,6 +323,7 @@ func (z *Tokenizer) skipWhiteSpace() {
 		switch c {
 		case '\n':
 			z.tokenLine++
+			z.lineStart = z.raw.end
 		case ' ', '\r', '\t', '\f':
 			// No-op.
 		default:
@@ -623,6 +628,7 @@ func (z *Tokenizer) readComment() {
 		switch c {
 		case '\u000A', '\u000D':
 			z.tokenLine++
+			z.lineStart = z.raw.end
 		case '-':
 			dashCount++
 			continue
@@ -655,6 +661,7 @@ func (z *Tokenizer) readUntilCloseAngle() {
 		c := z.readByte()
 		if c == '\u000A' || c == '\u000D' {
 			z.tokenLine++
+			z.lineStart = z.raw.end
 		}
 		if z.err != nil {
 			z.data.end = z.raw.end
@@ -863,6 +870,7 @@ func (z *Tokenizer) readTagName() {
 		switch c {
 		case '\n':
 			z.tokenLine++
+			z.lineStart = z.raw.end
 			z.data.end = z.raw.end - 1
 			return
 		case ' ', '\t', '\r', '\f':
@@ -889,6 +897,7 @@ func (z *Tokenizer) readTagAttrKey() {
 		switch c {
 		case '\n':
 			z.tokenLine++
+			z.lineStart = z.raw.end
 			z.pendingAttr[0].end = z.raw.end - 1
 			return
 		case ' ', '\t', '\r', '\f', '/':
@@ -954,6 +963,7 @@ func (z *Tokenizer) readTagAttrVal() {
 			switch c {
 			case '\n':
 				z.tokenLine++
+				z.lineStart = z.raw.end
 				z.pendingAttr[1].end = z.raw.end - 1
 				return
 			case ' ', '\r', '\t', '\f':
@@ -1006,6 +1016,7 @@ loop:
 
 		if c == '\u000A' || c == '\u000D' {
 			z.tokenLine++
+			z.lineStart = z.raw.end
 		}
 
 		if c != '<' {
@@ -1202,7 +1213,7 @@ func (z *Tokenizer) TagAttr() (key, val, name []byte, quote byte, moreAttr bool)
 // Token returns the current Token. The result's Data and Attr values remain
 // valid after subsequent Next calls.
 func (z *Tokenizer) Token() Token {
-	t := Token{Type: z.tt, Line: z.tokenLine}
+	t := Token{Type: z.tt, Line: z.tokenLine, Col: z.colNumber()}
 	switch z.tt {
 	case TextToken, CommentToken, DoctypeToken:
 		t.Data = string(z.Text())
@@ -1212,7 +1223,7 @@ func (z *Tokenizer) Token() Token {
 			var key, val, attrName []byte
 			var quote byte
 			key, val, attrName, quote, moreAttr = z.TagAttr()
-			attr := Attribute{"", atom.String(key), string(val), string(quote), string(attrName)}
+			attr := Attribute{"", atom.String(key), string(val), string(quote), string(attrName), z.tokenLine, z.attrColNumber()}
 			if attr.Quote == string(0) {
 				attr.Quote = ""
 			}
@@ -1231,6 +1242,28 @@ func (z *Tokenizer) Token() Token {
 // A value of 0 means unlimited.
 func (z *Tokenizer) SetMaxBuf(n int) {
 	z.maxBuf = n
+}
+
+// colNumber returns the column number of the data buffered during tokenization.
+func (z Tokenizer) colNumber() int {
+	col := z.data.start - z.lineStart
+	switch {
+	case col <= 0:
+		return 1
+	case z.tt == EndTagToken && col > 1:
+		col--
+		return col
+	default:
+		return col
+	}
+}
+
+func (z Tokenizer) attrColNumber() int {
+	attrCol := (z.attr[z.nAttrReturned-1][0].start - z.lineStart) + 1
+	if attrCol <= 0 {
+		return 1
+	}
+	return attrCol
 }
 
 // NewTokenizer returns a new HTML Tokenizer for the given Reader.
