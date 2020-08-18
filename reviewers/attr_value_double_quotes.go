@@ -28,6 +28,7 @@ func (a AttrValueDoubleQuotes) Review(path string, r io.Reader) ([]Fault, error)
 			if err == io.EOF {
 				break
 			}
+
 			return []Fault{}, nil
 		}
 
