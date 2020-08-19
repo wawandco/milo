@@ -1224,7 +1224,7 @@ func (z *Tokenizer) Token() Token {
 			var quote byte
 			key, val, attrName, quote, moreAttr = z.TagAttr()
 			attr := Attribute{"", atom.String(key), string(val), string(quote), string(attrName), z.tokenLine, z.attrColNumber()}
-			if attr.Quote == string(0) {
+			if attr.Quote == string(rune(0)) {
 				attr.Quote = ""
 			}
 			t.Attr = append(t.Attr, attr)
