@@ -6,7 +6,7 @@ import "fmt"
 var version = "latest"
 
 // Printer prints the version of the tool in version, this one will typically be
-// overridden at buildtime with ldflags
+// overridden at buildtime with ldflags.
 type Printer struct{}
 
 // Name of the command for the CLI (milo version).
