@@ -1,7 +1,6 @@
 package reviewers
 
 import (
-	"fmt"
 	"io"
 	"strings"
 
@@ -34,8 +33,6 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 		}
 
 		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			fmt.Println("Adding Fault")
-
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
 				Line:     token.Line,
