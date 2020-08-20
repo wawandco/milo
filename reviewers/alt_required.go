@@ -49,40 +49,30 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 }
 
 func (at AltRequired) tagRequiresAlt(token html.Token) bool {
-	if token.DataAtom.String() == "img" {
-		fmt.Println("IMG")
+	switch token.DataAtom.String() {
+	case "img":
 		return true
-	}
-
-	// input[type=image]
-	if token.DataAtom.String() == "input" {
+	case "input":
 		for _, attr := range token.Attr {
 			if attr.Key != "type" || strings.ToLower(attr.Val) != "image" {
 				continue
 			}
 
-			fmt.Println("Input image")
-
 			return true
 		}
 
 		return false
-	}
-
-	// area[href]
-	if token.DataAtom.String() == "area" {
+	case "area":
 		for _, attr := range token.Attr {
 			if attr.Key == "href" {
-				fmt.Println("Area")
-
 				return true
 			}
 		}
 
 		return true
+	default:
+		return false
 	}
-
-	return false
 }
 
 func (at AltRequired) hasAlt(token html.Token) bool {
