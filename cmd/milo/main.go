@@ -6,19 +6,25 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
-	"text/tabwriter"
 
 	"github.com/wawandco/milo/cmd"
+	"github.com/wawandco/milo/cmd/help"
 	"github.com/wawandco/milo/cmd/initialize"
 	"github.com/wawandco/milo/cmd/review"
+	"github.com/wawandco/milo/cmd/version"
 )
 
 var (
-	version   = "latest"
-	runnables = []cmd.Runnable{
+	// commands holds the list of commands that milo makes available
+	// through the cli.
+	commands = []cmd.Runner{
 		review.Runner{},
 		initialize.Runner{},
-		VersionPrinter{},
+		version.Printer{},
+	}
+
+	printHelp = help.Printer{
+		Commands: commands,
 	}
 )
 
@@ -43,17 +49,17 @@ func main() {
 	}()
 
 	if len(os.Args) < 2 {
-		printHelp()
+		printHelp.Run(os.Args[1:])
 
 		return
 	}
 
-	for _, runnable := range runnables {
-		if runnable.Name() != os.Args[1] {
+	for _, command := range commands {
+		if command.Name() != os.Args[1] {
 			continue
 		}
 
-		err := runnable.Run(os.Args[1:])
+		err := command.Run(os.Args[1:])
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)
@@ -62,51 +68,5 @@ func main() {
 		return
 	}
 
-	printHelp()
-}
-
-type CommandHelper interface {
-	cmd.Runnable
-
-	HelpText() string
-}
-
-func printHelp() {
-	result := "Milo checks for issues with your HTML code.\n\n"
-	result += "Usage:\n"
-	result += "  milo [command] [args]\n\n"
-	result += "Available Commands:"
-	fmt.Print(result)
-
-	// initialize tabwriter
-	w := new(tabwriter.Writer)
-	defer w.Flush()
-
-	// minwidth, tabwidth, padding, padchar, flags
-	w.Init(os.Stdout, 8, 8, 3, '\t', 0)
-
-	for _, runnable := range runnables {
-		c, ok := runnable.(CommandHelper)
-		if !ok {
-			continue
-		}
-
-		fmt.Fprintf(w, "\n %v\t%v\n", c.Name(), c.HelpText())
-	}
-}
-
-type VersionPrinter struct{}
-
-func (v VersionPrinter) Name() string {
-	return "version"
-}
-
-func (v VersionPrinter) Run([]string) error {
-	fmt.Printf("Running Milo %v\n", version)
-
-	return nil
-}
-
-func (v VersionPrinter) HelpText() string {
-	return "prints the Milo version"
+	printHelp.Run(os.Args[1:])
 }
