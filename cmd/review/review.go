@@ -94,7 +94,7 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 	for _, rev := range r.reviewers {
 		fileFaults, err := rev.Review(path, bytes.NewBuffer(data))
 		if err != nil {
-			fmt.Printf("[Warning] Error executing %v : %v", rev.ReviewerName(), err)
+			fmt.Printf("[Error] Error executing %v : %v", rev.ReviewerName(), err)
 
 			continue
 		}
