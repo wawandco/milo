@@ -14,7 +14,7 @@ type Printer struct {
 	Runners []cmd.Runner
 }
 
-// Name for the printer command. Can get invoked with `milo help`
+// Name for the printer command. Can get invoked with `milo help`.
 func (v Printer) Name() string {
 	return "help"
 }
