@@ -49,7 +49,11 @@ func main() {
 	}()
 
 	if len(os.Args) < 2 {
-		printHelp.Run(os.Args[1:])
+		err := printHelp.Run(os.Args[1:])
+		if err != nil {
+			fmt.Println(err)
+			os.Exit(1)
+		}
 
 		return
 	}
@@ -68,5 +72,9 @@ func main() {
 		return
 	}
 
-	printHelp.Run(os.Args[1:])
+	err := printHelp.Run(os.Args[1:])
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
 }
