@@ -9,7 +9,7 @@ import (
 type AttrIDUnique struct{}
 
 func (at AttrIDUnique) ReviewerName() string {
-	return "attribute/alt-required"
+	return "attribute/id-unique"
 }
 
 func (at AttrIDUnique) Accepts(filePath string) bool {
@@ -31,8 +31,13 @@ func (at AttrIDUnique) Review(path string, page io.Reader) ([]Fault, error) {
 			token := z.Token()
 
 			ID := at.tagID(token)
+			if ID == "" {
+				continue
+			}
+
 			if ID != "" && !IDs[ID] {
 				IDs[ID] = true
+
 				continue
 			}
 

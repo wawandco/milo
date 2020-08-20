@@ -1,6 +1,7 @@
 package reviewers
 
 import (
+	"fmt"
 	"io"
 	"strings"
 
@@ -27,12 +28,13 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 			break
 		}
 
-		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			token := z.Token()
+		token := z.Token()
+		if !at.tagRequiresAlt(token) || at.hasAlt(token) {
+			continue
+		}
 
-			if !at.tagRequiresAlt(token) || at.hasAlt(token) {
-				continue
-			}
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
+			fmt.Println("Adding Fault")
 
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
@@ -48,6 +50,7 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 
 func (at AltRequired) tagRequiresAlt(token html.Token) bool {
 	if token.DataAtom.String() == "img" {
+		fmt.Println("IMG")
 		return true
 	}
 
@@ -57,6 +60,8 @@ func (at AltRequired) tagRequiresAlt(token html.Token) bool {
 			if attr.Key != "type" || strings.ToLower(attr.Val) != "image" {
 				continue
 			}
+
+			fmt.Println("Input image")
 
 			return true
 		}
@@ -68,6 +73,8 @@ func (at AltRequired) tagRequiresAlt(token html.Token) bool {
 	if token.DataAtom.String() == "area" {
 		for _, attr := range token.Attr {
 			if attr.Key == "href" {
+				fmt.Println("Area")
+
 				return true
 			}
 		}
