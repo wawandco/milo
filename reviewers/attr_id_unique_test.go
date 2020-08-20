@@ -31,6 +31,17 @@ func Test_AttrIDUnique_Review(t *testing.T) {
 		},
 
 		{
+			name: "no fault empty",
+			content: `
+				<img src="test.png" />
+				<img src="test.png" />
+				<img src="test.png" />
+				<img src="test.png" />
+				<img src="test.png" />
+			`,
+		},
+
+		{
 			name: "Faults",
 			content: `
 				<img src="test.png" id="A"/>

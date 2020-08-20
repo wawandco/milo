@@ -27,13 +27,12 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 			break
 		}
 
+		token := z.Token()
+		if !at.tagRequiresAlt(token) || at.hasAlt(token) {
+			continue
+		}
+
 		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			token := z.Token()
-
-			if !at.tagRequiresAlt(token) || at.hasAlt(token) {
-				continue
-			}
-
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
 				Line:     token.Line,
@@ -47,12 +46,10 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 }
 
 func (at AltRequired) tagRequiresAlt(token html.Token) bool {
-	if token.DataAtom.String() == "img" {
+	switch token.DataAtom.String() {
+	case "img":
 		return true
-	}
-
-	// input[type=image]
-	if token.DataAtom.String() == "input" {
+	case "input":
 		for _, attr := range token.Attr {
 			if attr.Key != "type" || strings.ToLower(attr.Val) != "image" {
 				continue
@@ -62,10 +59,7 @@ func (at AltRequired) tagRequiresAlt(token html.Token) bool {
 		}
 
 		return false
-	}
-
-	// area[href]
-	if token.DataAtom.String() == "area" {
+	case "area":
 		for _, attr := range token.Attr {
 			if attr.Key == "href" {
 				return true
@@ -73,9 +67,9 @@ func (at AltRequired) tagRequiresAlt(token html.Token) bool {
 		}
 
 		return true
+	default:
+		return false
 	}
-
-	return false
 }
 
 func (at AltRequired) hasAlt(token html.Token) bool {
