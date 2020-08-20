@@ -15,16 +15,16 @@ import (
 )
 
 var (
-	// commands holds the list of commands that milo makes available
+	// runners holds the list of runners that milo makes available
 	// through the cli.
-	commands = []cmd.Command{
+	runners = []cmd.Runner{
 		review.Runner{},
 		initialize.Runner{},
 		version.Printer{},
 	}
 
 	printHelp = help.Printer{
-		Commands: commands,
+		Runners: runners,
 	}
 )
 
@@ -54,12 +54,12 @@ func main() {
 		return
 	}
 
-	for _, command := range commands {
-		if command.Name() != os.Args[1] {
+	for _, runner := range runners {
+		if runner.Name() != os.Args[1] {
 			continue
 		}
 
-		err := command.Run(os.Args[1:])
+		err := runner.Run(os.Args[1:])
 		if err != nil {
 			fmt.Println(err)
 			os.Exit(1)

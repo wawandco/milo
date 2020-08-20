@@ -10,8 +10,8 @@ import (
 
 // Printer will print the help menu on the CLI.
 type Printer struct {
-	// Commands that the Printer will use to print the help.
-	Commands []cmd.Command
+	// Runners that the Printer will use to print the help.
+	Runners []cmd.Runner
 }
 
 // Name for the printer command. Can get invoked with `milo help`
@@ -35,7 +35,7 @@ func (v Printer) Run([]string) error {
 	// minwidth, tabwidth, padding, padchar, flags
 	w.Init(os.Stdout, 8, 8, 3, '\t', 0)
 
-	for _, command := range v.Commands {
+	for _, command := range v.Runners {
 		c, ok := command.(cmd.HelpProvider)
 		if !ok {
 			continue
