@@ -15,7 +15,7 @@ import (
 )
 
 //Checking that initialize.Runner is a cmd.Runnable
-var _ cmd.Runnable = (*initialize.Runner)(nil)
+var _ cmd.Command = (*initialize.Runner)(nil)
 
 func Test_InitRun(t *testing.T) {
 	r := require.New(t)

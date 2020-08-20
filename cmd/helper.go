@@ -1,7 +1,6 @@
 package cmd
 
 type HelpProvider interface {
-	Runner
-
+	Name() string
 	HelpText() string
 }

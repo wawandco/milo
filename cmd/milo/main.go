@@ -17,7 +17,7 @@ import (
 var (
 	// commands holds the list of commands that milo makes available
 	// through the cli.
-	commands = []cmd.Runner{
+	commands = []cmd.Command{
 		review.Runner{},
 		initialize.Runner{},
 		version.Printer{},

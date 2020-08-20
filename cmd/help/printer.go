@@ -11,9 +11,10 @@ import (
 // Printer will print the help menu on the CLI.
 type Printer struct {
 	// Commands that the Printer will use to print the help.
-	Commands []cmd.Runner
+	Commands []cmd.Command
 }
 
+// Name for the printer command. Can get invoked with `milo help`
 func (v Printer) Name() string {
 	return "help"
 }
@@ -50,6 +51,7 @@ func (v Printer) Run([]string) error {
 	return nil
 }
 
+// HelpText for the help printer.
 func (v Printer) HelpText() string {
 	return "shows the help content for guidance."
 }

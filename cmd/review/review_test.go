@@ -6,4 +6,4 @@ import (
 )
 
 //Checking that review.Runner is a Runnable
-var _ cmd.Runner = (*review.Runner)(nil)
+var _ cmd.Command = (*review.Runner)(nil)
