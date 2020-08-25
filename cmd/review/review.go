@@ -16,7 +16,6 @@ import (
 )
 
 var (
-	ErrFaultsFound      = errors.New("faults found")
 	ErrInsufficientArgs = errors.New("please pass the folder to analize, p.e: milo run templates")
 )
 
@@ -60,7 +59,8 @@ func (r Runner) Run(args []string) error {
 	}
 
 	if len(r.faults) > 0 {
-		return ErrFaultsFound
+		errorsFoundMsg := fmt.Sprintf("%v faults found", len(r.faults))
+		return errors.New(errorsFoundMsg)
 	}
 
 	return nil
