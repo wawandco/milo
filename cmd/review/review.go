@@ -60,7 +60,7 @@ func (r Runner) Run(args []string) error {
 	}
 
 	if len(r.faults) > 0 {
-		return ErrFaultsFound
+		return fmt.Errorf("%d %w", len(r.faults), ErrFaultsFound)
 	}
 
 	return nil
