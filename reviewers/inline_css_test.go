@@ -34,6 +34,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      6,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -53,6 +54,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      6,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -66,6 +68,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      6,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -79,6 +82,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      8,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -96,16 +100,19 @@ func Test_InlineCSS_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     2,
+					Col:      9,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
+					Col:      10,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
+					Col:      8,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -126,6 +133,7 @@ func Test_InlineCSS_Review(t *testing.T) {
 		for index, fault := range tcase.faults {
 			r.Equal(fault.Reviewer, faults[index].Reviewer, tcase.name)
 			r.Equal(fault.Line, faults[index].Line, tcase.name)
+			r.Equal(fault.Col, faults[index].Col, tcase.name)
 			r.Equal(fault.Rule.Code, faults[index].Rule.Code, tcase.name)
 			r.Equal(fault.Rule.Description, faults[index].Rule.Description, tcase.name)
 			r.Equal("something.html", faults[index].Path)

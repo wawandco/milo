@@ -2,9 +2,10 @@ package reviewers
 
 import (
 	"io"
-	"io/ioutil"
 	"path/filepath"
 	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 var validDoctypes = []string{
@@ -28,37 +29,37 @@ func (doc DoctypeValid) Accepts(filePath string) bool {
 func (doc DoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
-	bcontent, err := ioutil.ReadAll(page)
-	if err != nil {
-		return result, err
-	}
+	z := html.NewTokenizer(page)
 
-	content := string(bcontent)
-	if !strings.Contains(strings.ToLower(content), "<html") {
-		return result, nil
-	}
+	for {
+		tt := z.Next()
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
 
-	lines := strings.Split(content, "\n")
-	for number, line := range lines {
-		if strings.TrimSpace(line) == "" {
+			return []Fault{}, err
+		}
+
+		if tt != html.DoctypeToken {
 			continue
 		}
 
+		tok := z.Token()
 		for _, valid := range validDoctypes {
-			if strings.Contains(strings.ToLower(line), strings.ToLower(valid)) {
+			if strings.Contains(strings.ToLower(string(z.Raw())), strings.ToLower(valid)) {
 				return result, nil
 			}
 		}
 
 		result = append(result, Fault{
 			Reviewer: doc.ReviewerName(),
-			Line:     number + 1,
+			Line:     tok.Line,
+			Col:      tok.Col,
 			Path:     path,
 
 			Rule: Rules[doc.ReviewerName()],
 		})
-
-		break
 	}
 
 	return result, nil

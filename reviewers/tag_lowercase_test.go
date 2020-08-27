@@ -43,6 +43,13 @@ func Test_TagLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
+					Col:      11,
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     5,
+					Col:      18,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -62,11 +69,25 @@ func Test_TagLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
+					Col:      5,
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     3,
+					Col:      11,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     5,
+					Col:      11,
+					Rule:     reviewers.Rules[reviewer.ReviewerName()],
+				},
+				{
+					Reviewer: reviewer.ReviewerName(),
+					Line:     5,
+					Col:      18,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -87,6 +108,7 @@ func Test_TagLowercase_Review(t *testing.T) {
 		for index, fault := range tcase.faults {
 			r.Equal(fault.Reviewer, faults[index].Reviewer, tcase.name)
 			r.Equal(fault.Line, faults[index].Line, tcase.name)
+			r.Equal(fault.Col, faults[index].Col, tcase.name)
 			r.Equal(fault.Rule.Code, faults[index].Rule.Code, tcase.name)
 			r.Equal(fault.Rule.Description, faults[index].Rule.Description, tcase.name)
 			r.Equal("something.html", fault.Path)

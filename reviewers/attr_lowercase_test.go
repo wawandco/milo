@@ -39,26 +39,31 @@ func Test_AttrLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     2,
+					Col:      10,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
+					Col:      12,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     4,
+					Col:      11,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     4,
+					Col:      26,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     4,
+					Col:      46,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -76,6 +81,7 @@ func Test_AttrLowercase_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      6,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -99,6 +105,7 @@ func Test_AttrLowercase_Review(t *testing.T) {
 		for i, tfault := range tcase.faults {
 			r.Equal(faults[i].Reviewer, tfault.Reviewer, tcase.name)
 			r.Equal(faults[i].Line, tfault.Line, tcase.name)
+			r.Equal(faults[i].Col, tfault.Col, tcase.name)
 			r.Equal(faults[i].Rule.Code, tfault.Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tfault.Rule.Description, tcase.name)
 			r.Equal("something.html", faults[i].Path)

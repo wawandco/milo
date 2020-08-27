@@ -14,10 +14,10 @@ func (gp GithubFaultFormatter) FormatterName() string {
 
 func (gp GithubFaultFormatter) Format(f reviewers.Fault) string {
 	return fmt.Sprintf(
-		"::error file=%s,line=%d, col=0::[%s] %s (%s)",
+		"::error file=%s,line=%d, col=[%d]::[%s] %s (%s)",
 		f.Path,
 		f.Line,
-
+		f.Col,
 		f.Rule.Code,
 		f.Rule.Description,
 		f.Reviewer,

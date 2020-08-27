@@ -47,6 +47,7 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     3,
+					Col:      5,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 
@@ -58,12 +59,14 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     7,
+					Col:      5,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     8,
+					Col:      5,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
@@ -86,11 +89,13 @@ func Test_OlUlValid_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     5,
+					Col:      7,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     13,
+					Col:      7,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
@@ -117,19 +122,6 @@ func Test_OlUlValid_Review(t *testing.T) {
 		},
 
 		{
-			fault: []reviewers.Fault{
-				{
-					Reviewer: doc.ReviewerName(),
-					Line:     5,
-					Rule:     reviewers.Rules[doc.ReviewerName()],
-				},
-				{
-					Reviewer: doc.ReviewerName(),
-					Line:     13,
-					Rule:     reviewers.Rules[doc.ReviewerName()],
-				},
-			},
-
 			name:      "reported case",
 			faultsLen: 0,
 			content: `

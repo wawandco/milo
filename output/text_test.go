@@ -13,6 +13,7 @@ func Test_TextOutput(t *testing.T) {
 	fault := reviewers.Fault{
 		Reviewer: "test/one",
 		Line:     12,
+		Col:      25,
 		Path:     "file/does/not_exist.html",
 		Rule: reviewers.Rule{
 			Code:        "1234",
@@ -25,6 +26,6 @@ func Test_TextOutput(t *testing.T) {
 	r.Equal(formatter.FormatterName(), "text")
 
 	out := formatter.Format(fault)
-	r.Equal("file/does/not_exist.html:12:1: This is a test rule (1234:test/one)", out)
+	r.Equal("file/does/not_exist.html:12:25: This is a test rule (1234:test/one)", out)
 
 }

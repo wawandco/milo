@@ -39,16 +39,19 @@ func Test_AltRequired_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     2,
+					Col:      5,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     3,
+					Col:      5,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     4,
+					Col:      5,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 			},
@@ -77,6 +80,7 @@ func Test_AltRequired_Review(t *testing.T) {
 		for i, tfault := range tcase.faults {
 			r.Equal(faults[i].Reviewer, tfault.Reviewer, tcase.name)
 			r.Equal(faults[i].Line, tfault.Line, tcase.name)
+			r.Equal(faults[i].Col, tfault.Col, tcase.name)
 			r.Equal(faults[i].Rule.Code, tfault.Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tfault.Rule.Description, tcase.name)
 			r.Equal("something.html", faults[i].Path)

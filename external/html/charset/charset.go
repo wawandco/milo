@@ -144,7 +144,7 @@ func prescan(content []byte) (e encoding.Encoding, name string) {
 			return nil, ""
 
 		case html.StartTagToken, html.SelfClosingTagToken:
-			tagName, hasAttr := z.TagName()
+			tagName, _, hasAttr := z.TagName()
 			if !bytes.Equal(tagName, []byte("meta")) {
 				continue
 			}

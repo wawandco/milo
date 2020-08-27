@@ -35,6 +35,7 @@ func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 				result = append(result, Fault{
 					Reviewer: ol.ReviewerName(),
 					Line:     token.Line,
+					Col:      token.Col,
 					Path:     path,
 					Rule:     Rules[ol.ReviewerName()],
 				})

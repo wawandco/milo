@@ -36,6 +36,7 @@ func (a AttrLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 					result = append(result, Fault{
 						Reviewer: a.ReviewerName(),
 						Line:     tok.Line,
+						Col:      attr.Col,
 						Rule:     Rules[a.ReviewerName()],
 						Path:     path,
 					})

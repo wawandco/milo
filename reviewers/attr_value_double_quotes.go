@@ -17,10 +17,10 @@ func (a AttrValueDoubleQuotes) ReviewerName() string {
 	return "attribute/double-quotes"
 }
 
-func (a AttrValueDoubleQuotes) Review(path string, r io.Reader) ([]Fault, error) {
+func (a AttrValueDoubleQuotes) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 
-	z := html.NewTokenizer(r)
+	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
 
@@ -43,6 +43,7 @@ func (a AttrValueDoubleQuotes) Review(path string, r io.Reader) ([]Fault, error)
 					fault = append(fault, Fault{
 						Reviewer: a.ReviewerName(),
 						Line:     token.Line,
+						Col:      attr.Col,
 						Path:     path,
 						Rule:     Rules[a.ReviewerName()],
 					})

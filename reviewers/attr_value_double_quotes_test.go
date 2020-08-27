@@ -64,6 +64,7 @@ func Test_AttrValueDoubleQuotes_Review(t *testing.T) {
 		r.Equal(faults[0].Rule.Code, reviewers.Rules[reviewer.ReviewerName()].Code)
 		r.Equal(faults[0].Rule.Description, reviewers.Rules[reviewer.ReviewerName()].Description)
 		r.Equal(faults[0].Reviewer, reviewer.ReviewerName())
+		r.Equal(faults[0].Col, 4)
 		r.Equal("something.html", faults[0].Path)
 	}
 

@@ -16,9 +16,9 @@ func (a AttrNoDuplication) Accepts(path string) bool {
 	return true
 }
 
-func (a AttrNoDuplication) Review(path string, r io.Reader) ([]Fault, error) {
+func (a AttrNoDuplication) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
-	z := html.NewTokenizer(r)
+	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
 		if tt == html.ErrorToken {
@@ -32,6 +32,7 @@ func (a AttrNoDuplication) Review(path string, r io.Reader) ([]Fault, error) {
 				fault = append(fault, Fault{
 					Reviewer: a.ReviewerName(),
 					Line:     tok.Line,
+					Col:      attr.Col,
 					Path:     path,
 					Rule:     Rules[a.ReviewerName()],
 				})

@@ -1,10 +1,10 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
 	"regexp"
-	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type AttrNoWhiteSpaces struct{}
@@ -15,26 +15,31 @@ func (at AttrNoWhiteSpaces) ReviewerName() string {
 
 func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
+	exp := regexp.MustCompile(`\S+(\s+=\s*|\s*=\s+)`)
 
-	var number int
-	var line string
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
 
-	scanner := bufio.NewScanner(page)
-	for scanner.Scan() {
-		number++
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return []Fault{}, err
+		}
 
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
+		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		exp := regexp.MustCompile(`\S+(\s+=\s*|\s*=\s+)`)
-		if exp.MatchString(line) {
+		tok := z.Token()
+		if exp.MatchString(string(z.Raw())) {
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
-				Line:     number,
-				Rule:     Rules[at.ReviewerName()],
+				Line:     tok.Line,
+				Col:      tok.Col,
 				Path:     path,
+				Rule:     Rules[at.ReviewerName()],
 			})
 		}
 	}

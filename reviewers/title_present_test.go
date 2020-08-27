@@ -25,6 +25,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
+					Col:      1,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
@@ -41,6 +42,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 				{
 					Reviewer: doc.ReviewerName(),
 					Line:     1,
+					Col:      1,
 					Rule:     reviewers.Rules[doc.ReviewerName()],
 				},
 			},
@@ -136,6 +138,7 @@ func Test_TitlePresent_Review(t *testing.T) {
 		for index, fault := range tcase.faults {
 			r.Equal(faults[index].Reviewer, fault.Reviewer, tcase.name)
 			r.Equal(faults[index].Line, fault.Line, tcase.name)
+			r.Equal(faults[index].Col, fault.Col, tcase.name)
 			r.Equal(faults[index].Rule.Code, fault.Rule.Code, tcase.name)
 			r.Equal(faults[index].Rule.Description, fault.Rule.Description, tcase.name)
 			r.Equal("something.html", faults[0].Path)
