@@ -78,6 +78,7 @@ type Token struct {
 	Type     TokenType
 	DataAtom atom.Atom
 	Data     string
+	Name     string
 	Attr     []Attribute
 	Line     int
 	Col      int
@@ -1174,17 +1175,19 @@ func (z *Tokenizer) Text() []byte {
 // TagName returns the lower-cased name of a tag token (the `img` out of
 // `<IMG SRC="foo">`) and whether the tag has attributes.
 // The contents of the returned slice may change on the next call to Next.
-func (z *Tokenizer) TagName() (name []byte, hasAttr bool) {
+func (z *Tokenizer) TagName() (name, originalName []byte, hasAttr bool) {
 	if z.data.start < z.data.end {
 		switch z.tt {
 		case StartTagToken, EndTagToken, SelfClosingTagToken:
 			s := z.buf[z.data.start:z.data.end]
+			originalName = make([]byte, len(s))
+			copy(originalName, s)
 			z.data.start = z.raw.end
 			z.data.end = z.raw.end
-			return lower(s), z.nAttrReturned < len(z.attr)
+			return lower(s), originalName, z.nAttrReturned < len(z.attr)
 		}
 	}
-	return nil, false
+	return nil, nil, false
 }
 
 // TagAttr returns the lower-cased key and unescaped value of the next unparsed
@@ -1218,7 +1221,8 @@ func (z *Tokenizer) Token() Token {
 	case TextToken, CommentToken, DoctypeToken:
 		t.Data = string(z.Text())
 	case StartTagToken, SelfClosingTagToken, EndTagToken:
-		name, moreAttr := z.TagName()
+		name, originalName, moreAttr := z.TagName()
+		t.Name = string(originalName)
 		for moreAttr {
 			var key, val, attrName []byte
 			var quote byte

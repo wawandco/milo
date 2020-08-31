@@ -39,6 +39,7 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 			fault: []reviewers.Fault{{
 				Reviewer: reviewer.ReviewerName(),
 				Line:     1,
+				Col:      6,
 				Rule:     reviewers.Rules[reviewer.ReviewerName()],
 			}},
 		},
@@ -51,11 +52,13 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      6,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				},
 				{
 					Reviewer: reviewer.ReviewerName(),
 					Line:     1,
+					Col:      13,
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
@@ -74,6 +77,7 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 		for i := range tcase.fault {
 			r.Equal(faults[i].Reviewer, tcase.fault[i].Reviewer, tcase.name)
 			r.Equal(faults[i].Line, tcase.fault[i].Line, tcase.name)
+			r.Equal(faults[i].Col, tcase.fault[i].Col, tcase.name)
 			r.Equal(faults[i].Rule.Code, tcase.fault[i].Rule.Code, tcase.name)
 			r.Equal(faults[i].Rule.Description, tcase.fault[i].Rule.Description, tcase.name)
 			r.Equal("something.html", faults[i].Path)

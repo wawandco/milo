@@ -1,46 +1,50 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
-	"regexp"
-	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type TagLowercase struct{}
 
-func (css TagLowercase) ReviewerName() string {
+func (t TagLowercase) ReviewerName() string {
 	return "tag/lowercase"
 }
 
-func (css TagLowercase) Accepts(path string) bool {
+func (t TagLowercase) Accepts(path string) bool {
 	return true
 }
 
-func (css TagLowercase) Review(path string, reader io.Reader) ([]Fault, error) {
+func (t TagLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
-	var number int
-	var line string
 
-	scanner := bufio.NewScanner(reader)
-	for scanner.Scan() {
-		number++
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
 
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return []Fault{}, err
+		}
+
+		if tt != html.EndTagToken && tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		re := regexp.MustCompile(`.*<[a-zA-Z]?[A-Z]+.*>`)
-		if !re.MatchString(line) {
+		tok := z.Token()
+		if tok.Data == tok.Name {
 			continue
 		}
 
 		result = append(result, Fault{
-			Reviewer: css.ReviewerName(),
-			Line:     number,
+			Reviewer: t.ReviewerName(),
+			Line:     tok.Line,
+			Col:      tok.Col,
 			Path:     path,
-			Rule:     Rules[css.ReviewerName()],
+			Rule:     Rules[t.ReviewerName()],
 		})
 	}
 

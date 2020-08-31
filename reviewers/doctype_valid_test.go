@@ -22,6 +22,7 @@ func Test_DoctypeValid(t *testing.T) {
 		{
 			fault: reviewers.Fault{
 				Line:     1,
+				Col:      10,
 				Reviewer: doc.ReviewerName(),
 				Rule:     reviewers.Rules[doc.ReviewerName()],
 			},
@@ -110,6 +111,7 @@ func Test_DoctypeValid(t *testing.T) {
 		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
 		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description)
 		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
+		r.Equal(faults[0].Col, tcase.fault.Col, tcase.name)
 		r.Equal("something.html", faults[0].Path)
 	}
 

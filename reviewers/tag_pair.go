@@ -36,12 +36,12 @@ func (t TagPair) Accepts(path string) bool {
 	return true
 }
 
-func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
+func (t TagPair) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 	var openedTags []*html.Token
 	var err error
 
-	z := html.NewTokenizer(r)
+	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
 
@@ -80,6 +80,7 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 			if i == -1 {
 				fault = append(fault, Fault{
 					Line:     token.Line,
+					Col:      token.Col,
 					Path:     path,
 					Rule:     Rules[t.ReviewerName()],
 					Reviewer: t.ReviewerName(),
@@ -103,6 +104,7 @@ func (t TagPair) Review(path string, r io.Reader) ([]Fault, error) {
 		if o != nil {
 			fault = append(fault, Fault{
 				Line:     o.Line,
+				Col:      o.Col,
 				Path:     path,
 				Rule:     Rules[t.ReviewerName()],
 				Reviewer: t.ReviewerName(),

@@ -1,10 +1,9 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
-	"regexp"
-	"strings"
+
+	"github.com/wawandco/milo/external/html"
 )
 
 type InlineCSS struct{}
@@ -17,32 +16,35 @@ func (css InlineCSS) Accepts(path string) bool {
 	return true
 }
 
-func (css InlineCSS) Review(path string, reader io.Reader) ([]Fault, error) {
+func (css InlineCSS) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
-	var number int
-	var line string
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
 
-	scanner := bufio.NewScanner(reader)
-	for scanner.Scan() {
-		number++
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return []Fault{}, err
+		}
 
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
+		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		lineLower := strings.ToLower(line)
-		re := regexp.MustCompile(`<\w+[^>]*style=["'].*["'][^>]*>`)
-		if !re.MatchString(lineLower) {
-			continue
+		tok := z.Token()
+		for _, attr := range tok.Attr {
+			if attr.Key == "style" {
+				result = append(result, Fault{
+					Reviewer: css.ReviewerName(),
+					Line:     attr.Line,
+					Col:      attr.Col,
+					Path:     path,
+					Rule:     Rules[css.ReviewerName()],
+				})
+			}
 		}
-
-		result = append(result, Fault{
-			Reviewer: css.ReviewerName(),
-			Line:     number,
-			Path:     path,
-			Rule:     Rules[css.ReviewerName()],
-		})
 	}
 
 	return result, nil

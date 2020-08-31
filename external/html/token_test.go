@@ -572,7 +572,7 @@ loop:
 				result.Write(z.Text())
 			}
 		case StartTagToken, EndTagToken:
-			tn, _ := z.TagName()
+			tn, _, _ := z.TagName()
 			if len(tn) == 1 && tn[0] == 'a' {
 				if tt == StartTagToken {
 					depth++
@@ -732,7 +732,7 @@ func benchmarkTokenizer(b *testing.B, level int) {
 				case TextToken, CommentToken, DoctypeToken:
 					z.Text()
 				case StartTagToken, SelfClosingTagToken:
-					_, more := z.TagName()
+					_, _, more := z.TagName()
 					for more {
 						_, _, _, _, more = z.TagAttr()
 					}

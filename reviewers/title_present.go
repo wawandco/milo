@@ -77,6 +77,7 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result = append(result, Fault{
 		Reviewer: doc.ReviewerName(),
 		Line:     1,
+		Col:      1,
 		Path:     path,
 		Rule:     Rules[doc.ReviewerName()],
 	})

@@ -1,10 +1,10 @@
 package reviewers
 
 import (
-	"bufio"
 	"io"
-	"regexp"
-	"strings"
+
+	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/external/html/atom"
 )
 
 type StyleTag struct{}
@@ -17,29 +17,33 @@ func (css StyleTag) Accepts(path string) bool {
 	return true
 }
 
-func (css StyleTag) Review(path string, reader io.Reader) ([]Fault, error) {
+func (css StyleTag) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
-	var number int
-	var line string
 
-	scanner := bufio.NewScanner(reader)
-	for scanner.Scan() {
-		number++
+	z := html.NewTokenizer(page)
+	for {
+		tt := z.Next()
 
-		line = scanner.Text()
-		if strings.TrimSpace(line) == "" {
+		if err := z.Err(); err != nil {
+			if err == io.EOF {
+				break
+			}
+			return []Fault{}, err
+		}
+
+		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		lineLower := strings.ToLower(line)
-		re := regexp.MustCompile(`.*<style[^>]*>`)
-		if !re.MatchString(lineLower) {
+		tok := z.Token()
+		if tok.DataAtom != atom.Style {
 			continue
 		}
 
 		result = append(result, Fault{
 			Reviewer: css.ReviewerName(),
-			Line:     number,
+			Line:     tok.Line,
+			Col:      tok.Col,
 			Path:     path,
 			Rule:     Rules[css.ReviewerName()],
 		})

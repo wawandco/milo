@@ -36,6 +36,7 @@ func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
 				Line:     token.Line,
+				Col:      token.Col,
 				Path:     path,
 				Rule:     Rules[at.ReviewerName()],
 			})

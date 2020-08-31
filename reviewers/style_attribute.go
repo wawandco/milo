@@ -37,6 +37,7 @@ func (sa StyleAttribute) Review(path string, page io.Reader) ([]Fault, error) {
 				result = append(result, Fault{
 					Reviewer: sa.ReviewerName(),
 					Line:     token.Line,
+					Col:      attr.Col,
 					Path:     path,
 					Rule:     Rules[sa.ReviewerName()],
 				})

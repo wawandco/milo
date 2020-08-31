@@ -56,6 +56,7 @@ func (doc DoctypePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result = append(result, Fault{
 		Reviewer: doc.ReviewerName(),
 		Line:     htmlTag.Line,
+		Col:      htmlTag.Col,
 		Path:     path,
 		Rule:     Rules[doc.ReviewerName()],
 	})
