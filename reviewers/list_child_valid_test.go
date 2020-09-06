@@ -20,43 +20,43 @@ func Test_ListChildValid_Review(t *testing.T) {
 		faultsLen int
 		fault     []reviewers.Fault
 	}{
-		// {
-		// 	name:      "no ol/ul specified",
-		// 	faultsLen: 0,
-		// 	content: `
-		// 	<html>
-		// 		<body></body>
-		// 	</html>`,
-		// },
+		{
+			name:      "no ol/ul specified",
+			faultsLen: 0,
+			content: `
+			<html>
+				<body></body>
+			</html>`,
+		},
 
-		// {
-		// 	name:      "ol/ul specified correctly",
-		// 	faultsLen: 0,
-		// 	content: `
-		// 	<ol>
-		// 		<li></li>
-		// 	</ol>
-		// 	<ul>
-		// 		<li></li>
-		// 	</ul>
-		// 	`,
-		// },
+		{
+			name:      "ol/ul specified correctly",
+			faultsLen: 0,
+			content: `
+			<ol>
+				<li></li>
+			</ol>
+			<ul>
+				<li></li>
+			</ul>
+			`,
+		},
 
-		// {
-		// 	name:      "lonely one",
-		// 	faultsLen: 0,
-		// 	content: `
-		// 		<li></li>
-		// 	`,
-		// },
+		{
+			name:      "lonely one",
+			faultsLen: 0,
+			content: `
+				<li></li>
+			`,
+		},
 
-		// {
-		// 	name:      "self closing",
-		// 	faultsLen: 0,
-		// 	content: `
-		// 		</div>
-		// 	`,
-		// },
+		{
+			name:      "self closing",
+			faultsLen: 0,
+			content: `
+				</div>
+			`,
+		},
 
 		{
 			name:      "from real",
@@ -90,102 +90,102 @@ func Test_ListChildValid_Review(t *testing.T) {
 			`,
 		},
 
-		// {
-		// 	fault: []reviewers.Fault{
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     3,
-		// 			Col:      5,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
+		{
+			fault: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     3,
+					Col:      5,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
 
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     4,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     7,
-		// 			Col:      5,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     4,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     7,
+					Col:      5,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
 
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     8,
-		// 			Col:      5,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
-		// 	},
-		// 	name:      "ol/ul invalid",
-		// 	faultsLen: 4,
-		// 	content: `
-		// 	<ol>
-		// 		<label></label>
-		// 		<div></div>
-		// 	</ol>
-		// 	<ul>
-		// 		<label></label>
-		// 		<div></div>
-		// 	</ul>
-		// 	`,
-		// },
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     8,
+					Col:      5,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
+			},
+			name:      "ol/ul invalid",
+			faultsLen: 4,
+			content: `
+			<ol>
+				<label></label>
+				<div></div>
+			</ol>
+			<ul>
+				<label></label>
+				<div></div>
+			</ul>
+			`,
+		},
 
-		// {
-		// 	fault: []reviewers.Fault{
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     5,
-		// 			Col:      7,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
-		// 		{
-		// 			Reviewer: doc.ReviewerName(),
-		// 			Line:     13,
-		// 			Col:      7,
-		// 			Rule:     reviewers.Rules[doc.ReviewerName()],
-		// 		},
-		// 	},
+		{
+			fault: []reviewers.Fault{
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     5,
+					Col:      7,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
+				{
+					Reviewer: doc.ReviewerName(),
+					Line:     13,
+					Col:      7,
+					Rule:     reviewers.Rules[doc.ReviewerName()],
+				},
+			},
 
-		// 	name:      "inner ol/ul invalid",
-		// 	faultsLen: 2,
-		// 	content: `
-		// 	<ol>
-		// 		<li>
-		// 			<ol>
-		// 				<label></label>
-		// 			</ol>
-		// 		</li>
-		// 	</ol>
+			name:      "inner ol/ul invalid",
+			faultsLen: 2,
+			content: `
+			<ol>
+				<li>
+					<ol>
+						<label></label>
+					</ol>
+				</li>
+			</ol>
 
-		// 	<ul>
-		// 		<li>
-		// 			<ul>
-		// 				<label></label>
-		// 			</ul>
-		// 		</li>
-		// 	</ul>
-		// 	`,
-		// },
+			<ul>
+				<li>
+					<ul>
+						<label></label>
+					</ul>
+				</li>
+			</ul>
+			`,
+		},
 
-		// {
-		// 	name:      "reported case",
-		// 	faultsLen: 0,
-		// 	content: `
-		// 		<!DOCTYPE html>
-		// 		<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
-		// 		<head>
-		// 			<title>Contact Us</title>
-		// 		</head>
-		// 		<body>
-		// 			<ul class="mainMenu nav nav-pills">
-		// 				<li><i/> Home</li>
-		// 			</ul>
-		// 		</body>
-		// 		</html>
-		// 	`,
-		// },
+		{
+			name:      "reported case",
+			faultsLen: 0,
+			content: `
+				<!DOCTYPE html>
+				<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+				<head>
+					<title>Contact Us</title>
+				</head>
+				<body>
+					<ul class="mainMenu nav nav-pills">
+						<li><i/> Home</li>
+					</ul>
+				</body>
+				</html>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {
