@@ -43,10 +43,18 @@ func Test_ListChildValid_Review(t *testing.T) {
 		},
 
 		{
-			name:      "ol/ul specified correctly",
+			name:      "lonely one",
 			faultsLen: 0,
 			content: `
 				<li></li>
+			`,
+		},
+
+		{
+			name:      "self closing",
+			faultsLen: 0,
+			content: `
+				</div>
 			`,
 		},
 
