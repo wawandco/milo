@@ -9,10 +9,10 @@ import (
 	"github.com/stretchr/testify/require"
 )
 
-func Test_OlUlValid_Review(t *testing.T) {
+func Test_ListChildValid_Review(t *testing.T) {
 	r := require.New(t)
 
-	doc := reviewers.OlUlValid{}
+	doc := reviewers.ListChildValid{}
 	tcases := []struct {
 		name      string
 		content   string
@@ -39,6 +39,14 @@ func Test_OlUlValid_Review(t *testing.T) {
 			<ul>
 				<li></li>
 			</ul>
+			`,
+		},
+
+		{
+			name:      "ol/ul specified correctly",
+			faultsLen: 0,
+			content: `
+				<li></li>
 			`,
 		},
 

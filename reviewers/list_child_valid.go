@@ -6,17 +6,17 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
-type OlUlValid struct{}
+type ListChildValid struct{}
 
-func (ol OlUlValid) ReviewerName() string {
+func (ol ListChildValid) ReviewerName() string {
 	return "ol-ul/valid"
 }
 
-func (ol OlUlValid) Accepts(filePath string) bool {
+func (ol ListChildValid) Accepts(filePath string) bool {
 	return true
 }
 
-func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
+func (ol ListChildValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
 	var parents []html.Token
@@ -44,6 +44,10 @@ func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 			parents = append([]html.Token{token}, parents...)
 
 		case html.EndTagToken:
+			if len(parents) == 0 {
+				continue
+			}
+
 			parents = parents[1:]
 		}
 	}
@@ -51,7 +55,7 @@ func (ol OlUlValid) Review(path string, page io.Reader) ([]Fault, error) {
 	return result, nil
 }
 
-func (ol OlUlValid) isList(token html.Token) bool {
+func (ol ListChildValid) isList(token html.Token) bool {
 	if token.Data != "ul" && token.Data != "ol" {
 		return false
 	}

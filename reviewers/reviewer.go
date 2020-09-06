@@ -13,7 +13,7 @@ var All = []Reviewer{
 	StyleTag{},
 	TagLowercase{},
 	SrcEmpty{},
-	OlUlValid{},
+	ListChildValid{},
 	AttrNoDuplication{},
 	AttrValueNotEmpty{},
 	AttrLowercase{},
