@@ -9,7 +9,7 @@ import (
 type ListChildValid struct{}
 
 func (ol ListChildValid) ReviewerName() string {
-	return "ol-ul/valid"
+	return "list/child-valid"
 }
 
 func (ol ListChildValid) Accepts(filePath string) bool {
