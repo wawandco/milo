@@ -173,7 +173,7 @@ func render1(w writer, n *Node) error {
 			return err
 		}
 	}
-	if voidElements[n.Data] {
+	if VoidElements[n.Data] {
 		if n.FirstChild != nil {
 			return fmt.Errorf("html: void element <%s> has child nodes", n.Data)
 		}
@@ -254,7 +254,7 @@ func writeQuoted(w writer, s string) error {
 
 // Section 12.1.2, "Elements", gives this list of void elements. Void elements
 // are those that can't have any contents.
-var voidElements = map[string]bool{
+var VoidElements = map[string]bool{
 	"area":   true,
 	"base":   true,
 	"br":     true,

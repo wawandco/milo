@@ -41,6 +41,11 @@ func (ol ListChildValid) Review(path string, page io.Reader) ([]Fault, error) {
 				})
 			}
 
+			// Checking if its a void tag
+			if html.VoidElements[token.Data] {
+				continue
+			}
+
 			parents = append([]html.Token{token}, parents...)
 
 		case html.EndTagToken:
