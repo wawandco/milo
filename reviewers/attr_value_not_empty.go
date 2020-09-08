@@ -7,16 +7,20 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// AttrValueNotEmpty is a reviewer that checks that all tags have a value.
 type AttrValueNotEmpty struct{}
 
+// ReviewerName returns the reviewer name.
 func (a AttrValueNotEmpty) ReviewerName() string {
 	return "attribute/value-not-empty"
 }
 
+// Accepts checks if the file can be reviewed.
 func (a AttrValueNotEmpty) Accepts(path string) bool {
 	return true
 }
 
+// Review return a fault for each a tag has an empty attribute value like: <div class=""...>.
 func (a AttrValueNotEmpty) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 	z := html.NewTokenizer(page)

@@ -7,16 +7,20 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// AltRequired is a reviewer that checks that all img tags have alt attribute.
 type AltRequired struct{}
 
+// ReviewerName returns the reviewer name.
 func (at AltRequired) ReviewerName() string {
 	return "attribute/alt-required"
 }
 
+// Accepts checks if the file can be reviewed.
 func (at AltRequired) Accepts(filePath string) bool {
 	return true
 }
 
+// Review returns a fault for each img tag that does not have the alt attribute.
 func (at AltRequired) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 

@@ -7,12 +7,23 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// AttrNoWhiteSpaces is a reviewer that checks that there is not a blank spaces between tag attribute and its value.
 type AttrNoWhiteSpaces struct{}
 
+// ReviewerName returns the reviewer name.
 func (at AttrNoWhiteSpaces) ReviewerName() string {
 	return "attribute/no-white-spaces"
 }
 
+// Accepts checks if the file can be reviewed.
+func (at AttrNoWhiteSpaces) Accepts(path string) bool {
+	return true
+}
+
+// Review returns a fault for each tag that has blank spaces between attribute and value
+// For example.
+//  <div class="foo"> is valid.
+//  <div class= "foo"> will return a fault.
 func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	exp := regexp.MustCompile(`\S+(\s+=\s*|\s*=\s+)`)
@@ -25,6 +36,7 @@ func (at AttrNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error)
 			if err == io.EOF {
 				break
 			}
+
 			return []Fault{}, err
 		}
 

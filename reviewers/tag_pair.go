@@ -26,16 +26,26 @@ var selfClosing = []string{
 	"wbr",
 }
 
+// TagPair is a reviewer that checks that all img tags have alt attribute.
 type TagPair struct{}
 
+// ReviewerName returns the reviewer name.
 func (t TagPair) ReviewerName() string {
 	return "tag/pair"
 }
 
+// Accepts checks if the file can be reviewed.
 func (t TagPair) Accepts(path string) bool {
 	return true
 }
 
+// Review returns a fault for each tag that doesn't have its end tag.
+// For example:
+// <div><div>...</div></div> is correct.
+// <div><div>...</div> is a fault.
+//
+// Self-closed tags will not generate any fault.
+// For example: <br/>, <input/>, <img/>.
 func (t TagPair) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 	var openedTags []*html.Token
@@ -49,6 +59,7 @@ func (t TagPair) Review(path string, page io.Reader) ([]Fault, error) {
 			if err == io.EOF {
 				break
 			}
+
 			return []Fault{}, err
 		}
 
@@ -70,6 +81,7 @@ func (t TagPair) Review(path string, page io.Reader) ([]Fault, error) {
 				}
 				if openedTags[i].DataAtom == token.DataAtom {
 					openedTags[i] = nil
+
 					break
 				}
 				if openedTags[i].DataAtom != 0 {
@@ -85,6 +97,7 @@ func (t TagPair) Review(path string, page io.Reader) ([]Fault, error) {
 					Rule:     Rules[t.ReviewerName()],
 					Reviewer: t.ReviewerName(),
 				})
+
 				continue
 			}
 

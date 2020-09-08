@@ -7,16 +7,20 @@ import (
 	"github.com/wawandco/milo/external/html/atom"
 )
 
+// StyleTag is a reviewer that checks if the HTML file has style tags.
 type StyleTag struct{}
 
+// ReviewerName returns the reviewer name.
 func (css StyleTag) ReviewerName() string {
 	return "style/tag-present"
 }
 
+// Accepts checks if the file can be reviewed.
 func (css StyleTag) Accepts(path string) bool {
 	return true
 }
 
+// Review returns a fault for each <style> tag found in HTML file.
 func (css StyleTag) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 

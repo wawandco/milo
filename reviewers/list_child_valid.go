@@ -6,16 +6,20 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// ListChildValid is a reviewer that checks that the ol/ul tag have only li child tags.
 type ListChildValid struct{}
 
+// ReviewerName returns the reviewer name.
 func (ol ListChildValid) ReviewerName() string {
 	return "list/child-valid"
 }
 
+// Accepts checks if the file can be reviewed.
 func (ol ListChildValid) Accepts(filePath string) bool {
 	return true
 }
 
+// Review returns a fault for each ul/ol child tag other than li.
 func (ol ListChildValid) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
