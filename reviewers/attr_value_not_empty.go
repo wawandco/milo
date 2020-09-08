@@ -67,7 +67,7 @@ func (a AttrValueNotEmpty) Review(path string, page io.Reader) ([]Fault, error) 
 
 		tok := z.Token()
 		for _, attr := range tok.Attr {
-			if _contains(attr.Name) {
+			if _isBooleanAttr(attr.Name) {
 				continue
 			}
 
@@ -86,7 +86,7 @@ func (a AttrValueNotEmpty) Review(path string, page io.Reader) ([]Fault, error) 
 	return fault, nil
 }
 
-func _contains(attr string) bool {
+func _isBooleanAttr(attr string) bool {
 	for _, a := range booleanAttributes {
 		if strings.EqualFold(a, attr) {
 			return true
