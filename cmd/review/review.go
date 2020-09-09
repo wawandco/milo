@@ -89,8 +89,6 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 		return nil
 	}
 
-	data = sanitizeERB(data)
-
 	for _, rev := range r.reviewers {
 		fileFaults, err := rev.Review(path, bytes.NewBuffer(data))
 		if err != nil {
