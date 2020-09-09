@@ -920,6 +920,89 @@ class=''>`,
 
 }
 
+func TestTagNameWithERBTemplate(t *testing.T) {
+	cases := []struct {
+		Content          string
+		ExpectedTagName  string
+		ExpectedAttrs    []string
+		ExpectedAttrsVal []string
+		Name             string
+	}{
+		{
+			Content:         "<%= if (true) { %><% } %><a>",
+			ExpectedTagName: "a",
+			Name:            "before tag definition",
+		},
+		{
+			Content:         "<a<%= if (true) { %><% } %>>",
+			ExpectedTagName: "a",
+			Name:            "after tag name",
+		},
+		{
+			Content:         "<<%= if (true) { %>a<% } %>>",
+			ExpectedTagName: "a",
+			Name:            "before tag name",
+		},
+
+		{
+			Content:          "<a <%= if(true){ %>checked<% } %>>",
+			ExpectedTagName:  "a",
+			ExpectedAttrs:    []string{"checked"},
+			ExpectedAttrsVal: []string{""},
+			Name:             "attr checked",
+		},
+
+		{
+			Content:          `<a <%= if(true){ %>checked<% } %> <%= if(Data == "yes"){ %>data-new<%= Get()%> ='<%= if(true) {%>hello <%}%>'>`,
+			ExpectedTagName:  "a",
+			ExpectedAttrs:    []string{"checked", "data-new"},
+			ExpectedAttrsVal: []string{"", "<%= if(true) {%>hello <%}%>"},
+			Name:             "attr checked and data-new",
+		},
+
+		{
+			Content:          `<a <%= if(true){ %>checked<% } %> <%= if(Data == "yes"){ %> data-new<%= Get()%> ="<%= if(val == "hello") {%>hi<%}%>">`,
+			ExpectedTagName:  "a",
+			ExpectedAttrs:    []string{"checked", "data-new"},
+			ExpectedAttrsVal: []string{"", `<%= if(val == "hello") {%>hi<%}%>`},
+			Name:             "attr checked and data-new",
+		},
+	}
+
+	for _, tc := range cases {
+		z := NewTokenizer(strings.NewReader(tc.Content))
+		for {
+			z.Next()
+			if err := z.Err(); err != nil {
+				if err != io.EOF {
+					t.Errorf("%s: got error %s", tc.Name, err)
+				}
+				break
+			}
+
+			tok := z.Token()
+			if tok.Type != StartTagToken {
+				continue
+			}
+
+			if got, want := tok.Data, tc.ExpectedTagName; got != want {
+				t.Errorf("%s: got %s, and want %s", tc.Name, got, want)
+			}
+
+			for i := range tc.ExpectedAttrs {
+				if got, want := tok.Attr[i].Key, tc.ExpectedAttrs[i]; got != want {
+					t.Errorf("%s: got %s, and want %s", tc.Name, got, want)
+				}
+
+				if got, want := tok.Attr[i].Val, tc.ExpectedAttrsVal[i]; got != want {
+					t.Errorf("%s: got %s, and want %s", tc.Name, got, want)
+				}
+
+			}
+		}
+	}
+}
+
 func BenchmarkRawLevelTokenizer(b *testing.B)  { benchmarkTokenizer(b, rawLevel) }
 func BenchmarkLowLevelTokenizer(b *testing.B)  { benchmarkTokenizer(b, lowLevel) }
 func BenchmarkHighLevelTokenizer(b *testing.B) { benchmarkTokenizer(b, highLevel) }

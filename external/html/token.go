@@ -791,6 +791,24 @@ loop:
 	return false
 }
 
+// skipERBFragment skips fragment for ERB expressions defined inside the HTML content.
+// i.e <%= ... %> or <% ... %>.
+func (z *Tokenizer) skipERBFragment() {
+	for {
+		c := z.readByte()
+		if c == '\u000A' || c == '\u000D' {
+			z.tokenLine++
+			z.lineStart = z.raw.end
+		}
+		if z.err != nil {
+			return
+		}
+		if c == '>' {
+			return
+		}
+	}
+}
+
 // readStartTag reads the next start tag token. The opening "<a" has already
 // been consumed, where 'a' means anything in [A-Za-z].
 func (z *Tokenizer) readStartTag() TokenType {
@@ -844,6 +862,15 @@ func (z *Tokenizer) readTag(saveAttr bool) {
 		if z.err != nil || c == '>' {
 			break
 		}
+
+		if c == '<' {
+			c = z.readByte()
+			if c == '%' {
+				z.skipERBFragment()
+				continue
+			}
+			z.raw.end--
+		}
 		z.raw.end--
 		z.readTagAttrKey()
 		z.readTagAttrVal()
@@ -869,6 +896,16 @@ func (z *Tokenizer) readTagName() {
 			return
 		}
 		switch c {
+		case '<':
+			c = z.readByte()
+			if c == '%' {
+				if (z.raw.end - 2) >= z.data.start {
+					z.data.end = z.raw.end - 2
+				}
+				z.skipERBFragment()
+				return
+			}
+			z.raw.end--
 		case '\n':
 			z.tokenLine++
 			z.lineStart = z.raw.end
@@ -896,6 +933,14 @@ func (z *Tokenizer) readTagAttrKey() {
 			return
 		}
 		switch c {
+		case '<':
+			c = z.readByte()
+			if c == '%' {
+				z.pendingAttr[0].end = z.raw.end - 2
+				z.raw.end -= 2
+				return
+			}
+			z.raw.end--
 		case '\n':
 			z.tokenLine++
 			z.lineStart = z.raw.end
@@ -919,7 +964,22 @@ func (z *Tokenizer) readTagAttrVal() {
 	if z.skipWhiteSpace(); z.err != nil {
 		return
 	}
+
 	c := z.readByte()
+	if c == '<' {
+		c = z.readByte()
+		if c == '%' {
+			z.skipERBFragment()
+			if z.skipWhiteSpace(); z.err != nil {
+				return
+			}
+			c = z.readByte()
+		} else {
+			z.raw.end -= 2
+			c = z.buf[z.raw.end]
+		}
+	}
+
 	if z.err != nil {
 		return
 	}
@@ -947,6 +1007,15 @@ func (z *Tokenizer) readTagAttrVal() {
 				z.pendingAttr[1].end = z.raw.end
 				return
 			}
+
+			if c == '<' {
+				c = z.readByte()
+				if c == '%' {
+					z.skipERBFragment()
+					c = z.readByte()
+				}
+			}
+
 			if c == quote {
 				z.pendingAttr[1].end = z.raw.end - 1
 				return
@@ -1036,7 +1105,7 @@ loop:
 			tokenType = StartTagToken
 		case c == '/':
 			tokenType = EndTagToken
-		case c == '!' || c == '?':
+		case c == '!' || c == '?' || c == '%':
 			// We use CommentToken to mean any of "<!--actual comments-->",
 			// "<!DOCTYPE declarations>" and "<?xml processing instructions?>".
 			tokenType = CommentToken
