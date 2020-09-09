@@ -33,6 +33,20 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 		},
 
 		{
+			name:      "checked attributte is valid",
+			faultsLen: 0,
+			content:   `<input type="ckeckbox" checked/>`,
+			fault:     []reviewers.Fault{},
+		},
+
+		{
+			name:      "disabled attributte is valid",
+			faultsLen: 0,
+			content:   `<input type="ckeckbox" disabled/>`,
+			fault:     []reviewers.Fault{},
+		},
+
+		{
 			name:      "one attribute with empty value",
 			faultsLen: 1,
 			content:   `<img src="" alt="image"/>`,

@@ -6,16 +6,22 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// AttrIDUnique is a reviewer that checks that all tags have only an id tag.
 type AttrIDUnique struct{}
 
+// ReviewerName returns the reviewer name.
 func (at AttrIDUnique) ReviewerName() string {
 	return "attribute/id-unique"
 }
 
+// Accepts checks if the file can be reviewed.
 func (at AttrIDUnique) Accepts(filePath string) bool {
 	return true
 }
 
+// Review return a fault for each tag that has 2 or more id tags.
+// For example, tags like <div id="..."> is correct.
+// For tags like <div id="..." id="...">, will return 1 fault.
 func (at AttrIDUnique) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	IDs := map[string]bool{}

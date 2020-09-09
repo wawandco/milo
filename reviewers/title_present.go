@@ -8,18 +8,23 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// TitlePresent is a reviewer that checks if the HTML file the title tag.
 type TitlePresent struct{}
 
+// ReviewerName returns the reviewer name.
 func (doc TitlePresent) ReviewerName() string {
 	return "title/present"
 }
 
+// Accepts checks if the file can be reviewed.
 func (doc TitlePresent) Accepts(filePath string) bool {
 	fileName := filepath.Base(filePath)
 	isPartial := strings.HasPrefix(fileName, "_")
+
 	return !isPartial
 }
 
+// Review return a fault if file does not have a <title> tag.
 func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
@@ -42,6 +47,7 @@ func (doc TitlePresent) Review(path string, page io.Reader) ([]Fault, error) {
 		case html.StartTagToken:
 			if htmlTag == nil && tag == "html" {
 				htmlTag = &token
+
 				continue
 			}
 

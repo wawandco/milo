@@ -7,16 +7,21 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// InlineScriptDisabled is a reviewer that checks that tags does not have inline javascript actions.
 type InlineScriptDisabled struct{}
 
+// ReviewerName returns the reviewer name.
 func (i InlineScriptDisabled) ReviewerName() string {
 	return "script/inline-disabled"
 }
 
+// Accepts checks if the file can be reviewed.
 func (i InlineScriptDisabled) Accepts(path string) bool {
 	return true
 }
 
+// Review return a fault for each tag that has an inline event attribute.
+// For example, <button ... onclick="foo();">.
 func (i InlineScriptDisabled) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 	var onEventRegexp = regexp.MustCompile(`(?i)^on(unload|message|submit|select|scroll|resize|mouseover|mouseout|mousemove|mouseleave|mouseenter|mousedown|load|keyup|keypress|keydown|focus|dblclick|click|change|blur|error)$`)
@@ -30,6 +35,7 @@ func (i InlineScriptDisabled) Review(path string, page io.Reader) ([]Fault, erro
 			if err == io.EOF {
 				break
 			}
+
 			return []Fault{}, err
 		}
 
@@ -47,6 +53,7 @@ func (i InlineScriptDisabled) Review(path string, page io.Reader) ([]Fault, erro
 					Path:     path,
 					Rule:     Rules[i.ReviewerName()],
 				})
+
 				continue
 			}
 
@@ -62,5 +69,6 @@ func (i InlineScriptDisabled) Review(path string, page io.Reader) ([]Fault, erro
 			}
 		}
 	}
+
 	return fault, nil
 }

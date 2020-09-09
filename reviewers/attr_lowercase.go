@@ -6,16 +6,21 @@ import (
 	"github.com/wawandco/milo/external/html"
 )
 
+// AttrLowercase is a reviewer that checks that all tags attributes are in lowercase.
 type AttrLowercase struct{}
 
+// ReviewerName returns the reviewer name.
 func (a AttrLowercase) ReviewerName() string {
 	return "attribute/lowercase"
 }
 
+// Accepts checks if the file can be reviewed.
 func (a AttrLowercase) Accepts(path string) bool {
 	return true
 }
 
+//  Review returns a fault for each tag attribute that is in lowercase.
+// For example, <div CLASS="..."> or <div Class="..."> will return a fault.
 func (a AttrLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
@@ -26,6 +31,7 @@ func (a AttrLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 			if err == io.EOF {
 				break
 			}
+
 			return []Fault{}, err
 		}
 

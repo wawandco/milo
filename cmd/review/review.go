@@ -17,7 +17,7 @@ import (
 
 var (
 	ErrFaultsFound      = errors.New("faults found")
-	ErrInsufficientArgs = errors.New("please pass the folder to analize, p.e: milo run templates")
+	ErrInsufficientArgs = errors.New("please pass the folder to analyze, p.e: milo review templates")
 )
 
 // Runner is in charge of running the reviewers
