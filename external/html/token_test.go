@@ -929,6 +929,11 @@ func TestTagNameWithERBTemplate(t *testing.T) {
 		Name             string
 	}{
 		{
+			Content:         "<%= if (true) { %><% } %><a>",
+			ExpectedTagName: "a",
+			Name:            "before tag definition",
+		},
+		{
 			Content:         "<a<%= if (true) { %><% } %>>",
 			ExpectedTagName: "a",
 			Name:            "after tag name",
