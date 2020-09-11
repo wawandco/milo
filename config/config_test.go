@@ -34,14 +34,14 @@ func Test_Load(t *testing.T) {
 
 	os.Chdir(wd)
 
-	config := Load()
+	config, err := Load()
 	r.Len(config.Reviewers, 1)
 	r.Len(config.SelectedReviewers(), 1)
 
 	err = os.Remove(filepath.Join(wd, ".milo.yml"))
 	r.NoError(err)
 
-	config = Load()
+	config, err = Load()
 	r.Len(config.Reviewers, 0)
 	r.Len(config.SelectedReviewers(), len(reviewers.All))
 }

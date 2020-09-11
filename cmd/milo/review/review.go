@@ -46,7 +46,15 @@ func (r Runner) Run(args []string) error {
 		return ErrInsufficientArgs
 	}
 
-	c := config.Load()
+	c, err := config.Load()
+	if err != nil && err == config.ErrConfigNotFound {
+		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
+	}
+
+	if err != nil && err == config.ErrConfigFormat {
+		fmt.Println("[Warning] missformatted .milo.yml")
+	}
+
 	r.reviewers = c.SelectedReviewers()
 	r.formatter = output.Formatter(c.Output)
 
@@ -61,7 +69,7 @@ func (r Runner) Run(args []string) error {
 		}
 	}
 
-	err := filepath.Walk(args[1], r.walkFn)
+	err = filepath.Walk(args[1], r.walkFn)
 	if err != nil {
 		return err
 	}
