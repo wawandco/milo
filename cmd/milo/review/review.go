@@ -13,11 +13,14 @@ import (
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/output"
 	"github.com/wawandco/milo/reviewers"
+
+	flag "github.com/spf13/pflag"
 )
 
 var (
 	ErrFaultsFound      = errors.New("faults found")
 	ErrInsufficientArgs = errors.New("please pass the folder to analyze, p.e: milo review templates")
+	ErrUnknownFormatter = errors.New("unknown formatter")
 )
 
 // Runner is in charge of running the reviewers
@@ -37,6 +40,8 @@ func (r Runner) HelpText() string {
 }
 
 func (r Runner) Run(args []string) error {
+	flag.Parse()
+
 	if len(args) < 2 {
 		return ErrInsufficientArgs
 	}
@@ -44,6 +49,15 @@ func (r Runner) Run(args []string) error {
 	c := config.LoadConfiguration()
 	r.reviewers = c.SelectedReviewers()
 	r.formatter = c.Printer()
+
+	if cliOutput != "" {
+		formatter := output.Formatter(cliOutput)
+		if formatter == nil {
+			return ErrUnknownFormatter
+		}
+
+		r.formatter = formatter
+	}
 
 	err := filepath.Walk(args[1], r.walkFn)
 	if err != nil {

@@ -16,3 +16,13 @@ type FaultFormatter interface {
 	FormatterName() string
 	Format(reviewers.Fault) string
 }
+
+func Formatter(name string) FaultFormatter {
+	for _, formatter := range Formatters {
+		if formatter.FormatterName() == name {
+			return formatter
+		}
+	}
+
+	return nil
+}
