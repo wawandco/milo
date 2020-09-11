@@ -47,11 +47,11 @@ func (r Runner) Run(args []string) error {
 	}
 
 	c, err := config.Load()
-	if err != nil && err == config.ErrConfigNotFound {
+	if errors.Is(err, config.ErrConfigNotFound) {
 		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
 	}
 
-	if err != nil && err == config.ErrConfigFormat {
+	if errors.Is(err, config.ErrConfigFormat) {
 		fmt.Println("[Warning] missformatted .milo.yml")
 	}
 
