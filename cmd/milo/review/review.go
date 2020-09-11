@@ -46,7 +46,7 @@ func (r Runner) Run(args []string) error {
 		return ErrInsufficientArgs
 	}
 
-	c := config.LoadConfiguration()
+	c := config.Load()
 	r.reviewers = c.SelectedReviewers()
 	r.formatter = output.Formatter(c.Output)
 

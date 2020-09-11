@@ -34,7 +34,7 @@ func (c Settings) SelectedReviewers() []reviewers.Reviewer {
 	return selected
 }
 
-func LoadConfiguration() Settings {
+func Load() Settings {
 	result := Settings{}
 
 	data, err := ioutil.ReadFile(".milo.yml")

@@ -17,7 +17,7 @@ reviewers:
   - doctype/present 
 `
 
-func Test_LoadConfiguration(t *testing.T) {
+func Test_Load(t *testing.T) {
 	r := require.New(t)
 	wd, err := ioutil.TempDir("", "")
 	r.NoError(err)
@@ -34,14 +34,14 @@ func Test_LoadConfiguration(t *testing.T) {
 
 	os.Chdir(wd)
 
-	config := LoadConfiguration()
+	config := Load()
 	r.Len(config.Reviewers, 1)
 	r.Len(config.SelectedReviewers(), 1)
 
 	err = os.Remove(filepath.Join(wd, ".milo.yml"))
 	r.NoError(err)
 
-	config = LoadConfiguration()
+	config = Load()
 	r.Len(config.Reviewers, 0)
 	r.Len(config.SelectedReviewers(), len(reviewers.All))
 }
