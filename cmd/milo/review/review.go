@@ -48,15 +48,17 @@ func (r Runner) Run(args []string) error {
 
 	c := config.LoadConfiguration()
 	r.reviewers = c.SelectedReviewers()
-	r.formatter = c.Printer()
+	r.formatter = output.Formatter(c.Output)
+
+	if r.formatter == nil {
+		r.formatter = output.TextFaultFormatter{}
+	}
 
 	if cliOutput != "" {
-		formatter := output.Formatter(cliOutput)
-		if formatter == nil {
+		r.formatter = output.Formatter(cliOutput)
+		if r.formatter == nil {
 			return ErrUnknownFormatter
 		}
-
-		r.formatter = formatter
 	}
 
 	err := filepath.Walk(args[1], r.walkFn)
