@@ -6,6 +6,8 @@ import (
 	"github.com/wawandco/milo/reviewers"
 )
 
+// GithubFaultFormatter prints faults in a format that allows github
+// to create error badges related in the code.
 type GithubFaultFormatter struct{}
 
 func (gp GithubFaultFormatter) FormatterName() string {

@@ -6,6 +6,9 @@ import (
 	"github.com/wawandco/milo/reviewers"
 )
 
+// TextFaultFormatter prints faults in a simple way
+// this way is useful for development environments because
+// it allows to click and jump to the file.
 type TextFaultFormatter struct{}
 
 func (gp TextFaultFormatter) FormatterName() string {

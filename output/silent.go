@@ -2,6 +2,7 @@ package output
 
 import "github.com/wawandco/milo/reviewers"
 
+// SilentFaultFormatter does not print faults
 type SilentFaultFormatter struct{}
 
 func (gp SilentFaultFormatter) FormatterName() string {
