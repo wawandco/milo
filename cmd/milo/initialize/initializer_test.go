@@ -6,7 +6,7 @@ import (
 	"testing"
 
 	"github.com/wawandco/milo/cmd"
-	"github.com/wawandco/milo/cmd/initialize"
+	"github.com/wawandco/milo/cmd/milo/initialize"
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/reviewers"
 

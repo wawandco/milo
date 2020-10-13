@@ -13,11 +13,14 @@ import (
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/output"
 	"github.com/wawandco/milo/reviewers"
+
+	flag "github.com/spf13/pflag"
 )
 
 var (
 	ErrFaultsFound      = errors.New("faults found")
 	ErrInsufficientArgs = errors.New("please pass the folder to analyze, p.e: milo review templates")
+	ErrUnknownFormatter = errors.New("unknown formatter")
 )
 
 // Runner is in charge of running the reviewers
@@ -37,15 +40,36 @@ func (r Runner) HelpText() string {
 }
 
 func (r Runner) Run(args []string) error {
+	flag.Parse()
+
 	if len(args) < 2 {
 		return ErrInsufficientArgs
 	}
 
-	c := config.LoadConfiguration()
-	r.reviewers = c.SelectedReviewers()
-	r.formatter = c.Printer()
+	c, err := config.Load()
+	if errors.Is(err, config.ErrConfigNotFound) {
+		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
+	}
 
-	err := filepath.Walk(args[1], r.walkFn)
+	if errors.Is(err, config.ErrConfigFormat) {
+		fmt.Println("[Warning] missformatted .milo.yml")
+	}
+
+	r.reviewers = c.SelectedReviewers()
+	r.formatter = output.Formatter(c.Output)
+
+	if r.formatter == nil {
+		r.formatter = output.TextFaultFormatter{}
+	}
+
+	if cliOutput != "" {
+		r.formatter = output.Formatter(cliOutput)
+		if r.formatter == nil {
+			return ErrUnknownFormatter
+		}
+	}
+
+	err = filepath.Walk(args[1], r.walkFn)
 	if err != nil {
 		return err
 	}

@@ -2,14 +2,18 @@
 package config
 
 import (
-	"fmt"
+	"errors"
 	"io/ioutil"
 	"strings"
 
-	"github.com/wawandco/milo/output"
 	"github.com/wawandco/milo/reviewers"
 
 	"gopkg.in/yaml.v2"
+)
+
+var (
+	ErrConfigNotFound = errors.New("milo.yml not found")
+	ErrConfigFormat   = errors.New("missformatted .milo.yml")
 )
 
 // Settings will load the linting configuration from .milo.yml.
@@ -35,32 +39,18 @@ func (c Settings) SelectedReviewers() []reviewers.Reviewer {
 	return selected
 }
 
-func (c Settings) Printer() output.FaultFormatter {
-	for _, printer := range output.Formatters {
-		if printer.FormatterName() != c.Output {
-			continue
-		}
-
-		return printer
-	}
-
-	return output.TextFaultFormatter{}
-}
-
-func LoadConfiguration() Settings {
+func Load() (Settings, error) {
 	result := Settings{}
 
 	data, err := ioutil.ReadFile(".milo.yml")
 	if err != nil {
-		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
-		return result
+		return result, ErrConfigNotFound
 	}
 
 	err = yaml.Unmarshal(data, &result)
 	if err != nil {
-		fmt.Println("[Warning] missformatted .milo.yml")
-		return result
+		return result, ErrConfigFormat
 	}
 
-	return result
+	return result, nil
 }

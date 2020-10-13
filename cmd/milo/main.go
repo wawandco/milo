@@ -3,15 +3,16 @@ package main
 
 import (
 	"context"
+	"flag"
 	"fmt"
 	"os"
 	"os/signal"
 
 	"github.com/wawandco/milo/cmd"
-	"github.com/wawandco/milo/cmd/help"
-	"github.com/wawandco/milo/cmd/initialize"
-	"github.com/wawandco/milo/cmd/review"
-	"github.com/wawandco/milo/cmd/version"
+	"github.com/wawandco/milo/cmd/milo/help"
+	"github.com/wawandco/milo/cmd/milo/initialize"
+	"github.com/wawandco/milo/cmd/milo/review"
+	"github.com/wawandco/milo/cmd/milo/version"
 )
 
 var (
@@ -29,6 +30,7 @@ var (
 )
 
 func main() {
+	flag.Parse()
 	ctx := context.Background()
 
 	// trap Ctrl+C and call cancel on the context
