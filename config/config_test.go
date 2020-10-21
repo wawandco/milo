@@ -14,7 +14,7 @@ import (
 var configTemplate = `
 output: "github"
 reviewers:
-  - doctype/present 
+  - doctype-present
 `
 
 func Test_Load(t *testing.T) {
