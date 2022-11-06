@@ -10,7 +10,7 @@ import (
 	"github.com/wawandco/milo/reviewers"
 
 	"github.com/stretchr/testify/require"
-	"gopkg.in/yaml.v2"
+	"gopkg.in/yaml.v3"
 )
 
 // Checking that initialize.Runner is a cmd.Runnable
