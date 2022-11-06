@@ -43,8 +43,8 @@ func Load() (Settings, error) {
 	result := Settings{}
 
 	data, err := os.ReadFile(".milo.yml")
-	if err != nil {
-		return result, ErrConfigNotFound
+	if errors.Is(err, os.ErrNotExist) {
+		return result, nil
 	}
 
 	err = yaml.Unmarshal(data, &result)

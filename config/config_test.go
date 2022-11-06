@@ -1,47 +1,44 @@
 package config
 
 import (
+	_ "embed"
 	"os"
-	"path/filepath"
 	"testing"
 
-	"github.com/wawandco/milo/reviewers"
-
 	"github.com/stretchr/testify/require"
+	"github.com/wawandco/milo/reviewers"
 )
 
-var configTemplate = `
-output: "github"
-reviewers:
-  - doctype-present
-`
+//go:embed testdata/config.yaml
+var configTemplate []byte
 
 func Test_Load(t *testing.T) {
-	r := require.New(t)
-	wd := os.TempDir()
+	t.Run("config file is present", func(t *testing.T) {
+		r := require.New(t)
 
-	cwd, err := os.Getwd()
-	r.NoError(err)
-	defer func() {
-		os.Chdir(cwd)
-		os.RemoveAll(wd)
-	}()
+		wd := t.TempDir()
+		cwd, _ := os.Getwd()
+		t.Cleanup(func() {
+			os.Chdir(cwd)
+			os.RemoveAll(wd)
+		})
 
-	err = os.WriteFile(filepath.Join(wd, ".milo.yml"), []byte(configTemplate), 0777)
-	r.NoError(err)
+		r.NoError(os.Chdir(wd))
+		r.NoError(os.WriteFile(".milo.yml", configTemplate, 0777))
 
-	os.Chdir(wd)
+		config, err := Load()
+		r.NoError(err)
+		r.Len(config.Reviewers, 1)
+		r.Len(config.SelectedReviewers(), 1)
+	})
 
-	config, err := Load()
-	r.NoError(err)
-	r.Len(config.Reviewers, 1)
-	r.Len(config.SelectedReviewers(), 1)
+	t.Run("no config file", func(t *testing.T) {
+		r := require.New(t)
+		r.NoError(os.Chdir(t.TempDir()))
 
-	err = os.Remove(filepath.Join(wd, ".milo.yml"))
-	r.NoError(err)
-
-	config, err = Load()
-	r.NoError(err)
-	r.Len(config.Reviewers, 0)
-	r.Len(config.SelectedReviewers(), len(reviewers.All))
+		config, err := Load()
+		r.NoError(err)
+		r.Len(config.Reviewers, 0)
+		r.Len(config.SelectedReviewers(), len(reviewers.All))
+	})
 }
