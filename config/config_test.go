@@ -5,7 +5,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
@@ -14,7 +14,7 @@ var configTemplate []byte
 
 func Test_Load(t *testing.T) {
 	t.Run("config file is present", func(t *testing.T) {
-		r := require.New(t)
+		r := is.New(t)
 
 		wd := t.TempDir()
 		cwd, _ := os.Getwd()
@@ -23,22 +23,22 @@ func Test_Load(t *testing.T) {
 			os.RemoveAll(wd)
 		})
 
-		r.NoError(os.Chdir(wd))
-		r.NoError(os.WriteFile(".milo.yml", configTemplate, 0777))
+		r.NoErr(os.Chdir(wd))
+		r.NoErr(os.WriteFile(".milo.yml", configTemplate, 0777))
 
 		config, err := Load()
-		r.NoError(err)
-		r.Len(config.Reviewers, 1)
-		r.Len(config.SelectedReviewers(), 1)
+		r.NoErr(err)
+		r.Equal(len(config.Reviewers), 1)
+		r.Equal(len(config.SelectedReviewers()), 1)
 	})
 
 	t.Run("no config file", func(t *testing.T) {
-		r := require.New(t)
-		r.NoError(os.Chdir(t.TempDir()))
+		r := is.New(t)
+		r.NoErr(os.Chdir(t.TempDir()))
 
 		config, err := Load()
-		r.NoError(err)
-		r.Len(config.Reviewers, 0)
-		r.Len(config.SelectedReviewers(), len(reviewers.All))
+		r.NoErr(err)
+		r.Equal(len(config.Reviewers), 0)
+		r.Equal(len(config.SelectedReviewers()), len(reviewers.All))
 	})
 }

@@ -4,13 +4,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_SrcEmpty_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	reviewer := reviewers.AttributeSrcRequired{}
 	tcases := []struct {
@@ -83,19 +82,19 @@ func Test_SrcEmpty_Review(t *testing.T) {
 		page := strings.NewReader(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(faults, tcase.faultsLen, tcase.name)
+		r.NoErr(err)
+		r.Equal(len(faults), tcase.faultsLen)
 
 		if tcase.faultsLen == 0 {
 			continue
 		}
 
 		for index, fault := range tcase.faults {
-			r.Equal(fault.Reviewer, faults[index].Reviewer, tcase.name)
-			r.Equal(fault.Line, faults[index].Line, tcase.name)
-			r.Equal(fault.Col, faults[index].Col, tcase.name)
-			r.Equal(fault.Rule.Code, faults[index].Rule.Code, tcase.name)
-			r.Equal(fault.Rule.Description, faults[index].Rule.Description, tcase.name)
+			r.Equal(fault.Reviewer, faults[index].Reviewer)
+			r.Equal(fault.Line, faults[index].Line)
+			r.Equal(fault.Col, faults[index].Col)
+			r.Equal(fault.Rule.Code, faults[index].Rule.Code)
+			r.Equal(fault.Rule.Description, faults[index].Rule.Description)
 			r.Equal("something.html", faults[index].Path)
 		}
 
@@ -104,7 +103,7 @@ func Test_SrcEmpty_Review(t *testing.T) {
 }
 
 func Test_SrcEmpty_Accept(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 	doc := reviewers.AttributeSrcRequired{}
 
 	r.True(doc.Accepts("/very/long/path/name/_partial.plush.html"))
@@ -114,7 +113,7 @@ func Test_SrcEmpty_Accept(t *testing.T) {
 }
 
 func Test_SrcEmpty_Name(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 	doc := reviewers.AttributeSrcRequired{}
 	r.Equal(doc.ReviewerName(), "attribute-src-required")
 }

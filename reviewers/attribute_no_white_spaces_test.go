@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	reviewer := reviewers.AttributeNoWhiteSpaces{}
 	tcases := []struct {
@@ -167,18 +166,18 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 		page := bytes.NewBufferString(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(faults, len(tcase.faults), tcase.name)
+		r.NoErr(err)
+		r.Equal(len(faults), len(tcase.faults))
 		if len(tcase.faults) == 0 {
 			continue
 		}
 
 		for i, tfault := range tcase.faults {
-			r.Equal(faults[i].Reviewer, tfault.Reviewer, tcase.name)
-			r.Equal(faults[i].Line, tfault.Line, tcase.name)
-			r.Equal(faults[i].Col, tfault.Col, tcase.name)
-			r.Equal(faults[i].Rule.Code, tfault.Rule.Code, tcase.name)
-			r.Equal(faults[i].Rule.Description, tfault.Rule.Description, tcase.name)
+			r.Equal(faults[i].Reviewer, tfault.Reviewer)
+			r.Equal(faults[i].Line, tfault.Line)
+			r.Equal(faults[i].Col, tfault.Col)
+			r.Equal(faults[i].Rule.Code, tfault.Rule.Code)
+			r.Equal(faults[i].Rule.Description, tfault.Rule.Description)
 			r.Equal("something.html", faults[i].Path)
 		}
 	}

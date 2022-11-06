@@ -4,13 +4,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_StyleAttribute_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	reviewer := reviewers.AttributeStyleForbidden{}
 	tcases := []struct {
@@ -44,23 +43,23 @@ func Test_StyleAttribute_Review(t *testing.T) {
 		},
 	}
 
-	for index, tcase := range tcases {
+	for _, tcase := range tcases {
 		page := strings.NewReader(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(tcase.faults, len(faults), tcase.name, "Case %v", index+1)
+		r.NoErr(err)
+		r.Equal(len(tcase.faults), len(faults))
 
 		if len(tcase.faults) == 0 {
 			continue
 		}
 
 		for index, fault := range tcase.faults {
-			r.Equal(fault.Reviewer, faults[index].Reviewer, tcase.name)
-			r.Equal(fault.Line, faults[index].Line, tcase.name)
-			r.Equal(fault.Col, faults[index].Col, tcase.name)
-			r.Equal(fault.Rule.Code, faults[index].Rule.Code, tcase.name)
-			r.Equal(fault.Rule.Description, faults[index].Rule.Description, tcase.name)
+			r.Equal(fault.Reviewer, faults[index].Reviewer)
+			r.Equal(fault.Line, faults[index].Line)
+			r.Equal(fault.Col, faults[index].Col)
+			r.Equal(fault.Rule.Code, faults[index].Rule.Code)
+			r.Equal(fault.Rule.Description, faults[index].Rule.Description)
 			r.Equal("something.html", faults[index].Path)
 		}
 
@@ -69,7 +68,7 @@ func Test_StyleAttribute_Review(t *testing.T) {
 }
 
 func Test_StyleAttribute_Accept(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 	doc := reviewers.AttributeStyleForbidden{}
 
 	r.True(doc.Accepts("/very/long/path/name/_partial.plush.html"))
@@ -79,7 +78,7 @@ func Test_StyleAttribute_Accept(t *testing.T) {
 }
 
 func Test_StyleAttribute_Name(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 	doc := reviewers.AttributeStyleForbidden{}
 	r.Equal(doc.ReviewerName(), "attribute-style-forbidden")
 }
