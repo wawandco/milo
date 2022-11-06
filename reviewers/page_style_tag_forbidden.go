@@ -3,8 +3,8 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/external/html"
-	"github.com/wawandco/milo/external/html/atom"
+	"github.com/wawandco/milo/internal/html"
+	"github.com/wawandco/milo/internal/html/atom"
 )
 
 // PageStyleTagForbidden is a reviewer that checks if the HTML file has style tags.

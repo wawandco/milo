@@ -4,7 +4,7 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // AttributeNoWhiteSpaces is a reviewer that checks that there is not a blank spaces between tag attribute and its value.
@@ -22,8 +22,9 @@ func (at AttributeNoWhiteSpaces) Accepts(path string) bool {
 
 // Review returns a fault for each tag that has blank spaces between attribute and value
 // For example.
-//  <div class="foo"> is valid.
-//  <div class= "foo"> will return a fault.
+//
+//	<div class="foo"> is valid.
+//	<div class= "foo"> will return a fault.
 func (at AttributeNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 	exp := regexp.MustCompile(`\S+(\s+=\s*|\s*=\s+)`)

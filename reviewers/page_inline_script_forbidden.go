@@ -4,7 +4,7 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // PageInlineScriptForbidden is a reviewer that checks that tags does not have inline javascript actions.

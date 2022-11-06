@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // PageTitlePresent is a reviewer that checks if the HTML file the title tag.

@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // AttributeLowercase is a reviewer that checks that all tags attributes are in lowercase.
@@ -19,7 +19,8 @@ func (a AttributeLowercase) Accepts(path string) bool {
 	return true
 }
 
-//  Review returns a fault for each tag attribute that is in lowercase.
+//	Review returns a fault for each tag attribute that is in lowercase.
+//
 // For example, <div CLASS="..."> or <div Class="..."> will return a fault.
 func (a AttributeLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}

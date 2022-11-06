@@ -93,7 +93,7 @@ The relevant specifications include:
 https://html.spec.whatwg.org/multipage/syntax.html and
 https://html.spec.whatwg.org/multipage/syntax.html#tokenization
 */
-package html // import "github.com/wawandco/milo/external/html"
+package html // import "github.com/wawandco/milo/internal/html"
 
 // The tokenization algorithm implemented by this package is not a line-by-line
 // transliteration of the relatively verbose state-machine in the WHATWG

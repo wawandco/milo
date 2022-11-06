@@ -1,7 +1,6 @@
 package config
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"testing"
@@ -19,8 +18,7 @@ reviewers:
 
 func Test_Load(t *testing.T) {
 	r := require.New(t)
-	wd, err := ioutil.TempDir("", "")
-	r.NoError(err)
+	wd := os.TempDir()
 
 	cwd, err := os.Getwd()
 	r.NoError(err)
@@ -29,12 +27,13 @@ func Test_Load(t *testing.T) {
 		os.RemoveAll(wd)
 	}()
 
-	err = ioutil.WriteFile(filepath.Join(wd, ".milo.yml"), []byte(configTemplate), 0777)
+	err = os.WriteFile(filepath.Join(wd, ".milo.yml"), []byte(configTemplate), 0777)
 	r.NoError(err)
 
 	os.Chdir(wd)
 
 	config, err := Load()
+	r.NoError(err)
 	r.Len(config.Reviewers, 1)
 	r.Len(config.SelectedReviewers(), 1)
 
@@ -42,6 +41,7 @@ func Test_Load(t *testing.T) {
 	r.NoError(err)
 
 	config, err = Load()
+	r.NoError(err)
 	r.Len(config.Reviewers, 0)
 	r.Len(config.SelectedReviewers(), len(reviewers.All))
 }

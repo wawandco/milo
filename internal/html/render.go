@@ -53,13 +53,13 @@ func Render(w io.Writer, n *Node) error {
 	return buf.Flush()
 }
 
-// plaintextAbort is returned from render1 when a <plaintext> element
+// errPlaintextAbort is returned from render1 when a <plaintext> element
 // has been rendered. No more end tags should be rendered after that.
-var plaintextAbort = errors.New("html: internal error (plaintext abort)")
+var errPlaintextAbort = errors.New("html: internal error (plaintext abort)")
 
 func render(w writer, n *Node) error {
 	err := render1(w, n)
-	if err == plaintextAbort {
+	if err == errPlaintextAbort {
 		err = nil
 	}
 	return err
@@ -211,7 +211,7 @@ func render1(w writer, n *Node) error {
 		if n.Data == "plaintext" {
 			// Don't render anything else. <plaintext> must be the
 			// last element in the file, with no closing tag.
-			return plaintextAbort
+			return errPlaintextAbort
 		}
 	default:
 		for c := n.FirstChild; c != nil; c = c.NextSibling {

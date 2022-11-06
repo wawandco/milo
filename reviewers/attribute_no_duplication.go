@@ -3,7 +3,7 @@ package reviewers
 import (
 	"io"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // AttributeNoDuplication is a reviewer that checks that tags does not have an attribute duplicated.

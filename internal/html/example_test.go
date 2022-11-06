@@ -10,7 +10,7 @@ import (
 	"log"
 	"strings"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 func ExampleParse() {

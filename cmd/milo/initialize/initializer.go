@@ -2,7 +2,7 @@
 package initialize
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/reviewers"
@@ -33,7 +33,7 @@ func (r Runner) Run(args []string) error {
 		return err
 	}
 
-	err = ioutil.WriteFile(".milo.yml", out, 0600)
+	err = os.WriteFile(".milo.yml", out, 0600)
 	if err != nil {
 		return err
 	}

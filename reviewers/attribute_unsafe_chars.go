@@ -4,7 +4,7 @@ import (
 	"io"
 	"regexp"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // AttributeUnsafeChars is a reviewer that checks that tags does not have unsafe characters into teir attribute values.

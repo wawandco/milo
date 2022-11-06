@@ -10,7 +10,6 @@ import (
 	"errors"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"runtime"
@@ -18,7 +17,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/wawandco/milo/external/html/atom"
+	"github.com/wawandco/milo/internal/html/atom"
 )
 
 type testAttrs struct {
@@ -440,7 +439,7 @@ func TestParseFragmentWithNilContext(t *testing.T) {
 }
 
 func BenchmarkParser(b *testing.B) {
-	buf, err := ioutil.ReadFile("testdata/go1.html")
+	buf, err := os.ReadFile("testdata/go1.html")
 	if err != nil {
 		b.Fatalf("could not read testdata/go1.html: %v", err)
 	}

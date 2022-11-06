@@ -10,7 +10,7 @@ import (
 	"io"
 	"strings"
 
-	a "github.com/wawandco/milo/external/html/atom"
+	a "github.com/wawandco/milo/internal/html/atom"
 )
 
 // A parser implements the HTML5 parsing algorithm:
@@ -767,11 +767,9 @@ func inHeadNoscriptIM(p *parser) bool {
 	if p.top().DataAtom != a.Head {
 		panic("html: the new current node will be a head element.")
 	}
+
 	p.im = inHeadIM
-	if p.tok.DataAtom == a.Noscript {
-		return true
-	}
-	return false
+	return p.tok.DataAtom == a.Noscript
 }
 
 // Section 12.2.6.4.6.

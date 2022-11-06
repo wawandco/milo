@@ -11,7 +11,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/wawandco/milo/external/html/atom"
+	"github.com/wawandco/milo/internal/html/atom"
 )
 
 // A TokenType is the type of a Token.

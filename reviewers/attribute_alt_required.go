@@ -4,7 +4,7 @@ import (
 	"io"
 	"strings"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // AttributeAltRequired is a reviewer that checks that all img tags have alt attribute.

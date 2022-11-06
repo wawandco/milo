@@ -3,7 +3,7 @@ package config
 
 import (
 	"errors"
-	"io/ioutil"
+	"os"
 	"strings"
 
 	"github.com/wawandco/milo/reviewers"
@@ -42,7 +42,7 @@ func (c Settings) SelectedReviewers() []reviewers.Reviewer {
 func Load() (Settings, error) {
 	result := Settings{}
 
-	data, err := ioutil.ReadFile(".milo.yml")
+	data, err := os.ReadFile(".milo.yml")
 	if err != nil {
 		return result, ErrConfigNotFound
 	}

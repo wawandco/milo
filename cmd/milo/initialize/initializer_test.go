@@ -1,7 +1,6 @@
 package initialize_test
 
 import (
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -14,22 +13,21 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
-//Checking that initialize.Runner is a cmd.Runnable
+// Checking that initialize.Runner is a cmd.Runnable
 var _ cmd.Runner = (*initialize.Runner)(nil)
 
 func Test_InitRun(t *testing.T) {
 	r := require.New(t)
 
-	dir, err := ioutil.TempDir("", "")
-	r.NoError(err)
+	dir := os.TempDir()
 	r.NoError(os.Chdir(dir))
 
 	c := initialize.Runner{}
-	err = c.Run([]string{})
+	err := c.Run([]string{})
 	r.NoError(err)
 
 	r.FileExists(".milo.yml")
-	data, err := ioutil.ReadFile(".milo.yml")
+	data, err := os.ReadFile(".milo.yml")
 	r.NoError(err)
 
 	config := config.Settings{}

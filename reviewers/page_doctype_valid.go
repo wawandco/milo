@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 var validDoctypes = []string{
@@ -33,9 +33,9 @@ func (doc PageDoctypeValid) Accepts(filePath string) bool {
 // Review returns a fault if HTML file does not have a valid DOCTYPE tag.
 //
 // The valids DOCTYPE are:
-// 	- <!DOCTYPE html>
-//  - <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-// 	- <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+//   - <!DOCTYPE html>
+//   - <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+//   - <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
 //
 // For html files that do not have the <html> tag, the review will not return any fault.
 func (doc PageDoctypeValid) Review(path string, page io.Reader) ([]Fault, error) {

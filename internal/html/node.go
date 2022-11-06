@@ -5,7 +5,7 @@
 package html
 
 import (
-	"github.com/wawandco/milo/external/html/atom"
+	"github.com/wawandco/milo/internal/html/atom"
 )
 
 // A NodeType is the type of a Node.

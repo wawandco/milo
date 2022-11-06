@@ -5,7 +5,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/wawandco/milo/external/html"
+	"github.com/wawandco/milo/internal/html"
 )
 
 // PageDoctypePresent is a reviewer that checks if an HTML file has the <!DOCTYPE x> tag.
