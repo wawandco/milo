@@ -4,13 +4,12 @@ import (
 	"bytes"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_AttrNoDuplication_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	reviewer := reviewers.AttributeNoDuplication{}
 	tcases := []struct {
@@ -85,18 +84,18 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 		page := bytes.NewBufferString(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(faults, len(tcase.fault), tcase.name)
+		r.NoErr(err)
+		r.Equal(len(faults), len(tcase.fault))
 		if len(tcase.fault) == 0 {
 			continue
 		}
 
 		for i := range tcase.fault {
-			r.Equal(faults[i].Reviewer, tcase.fault[i].Reviewer, tcase.name)
-			r.Equal(faults[i].Line, tcase.fault[i].Line, tcase.name)
-			r.Equal(faults[i].Col, tcase.fault[i].Col, tcase.name)
-			r.Equal(faults[i].Rule.Code, tcase.fault[i].Rule.Code, tcase.name)
-			r.Equal(faults[i].Rule.Description, tcase.fault[i].Rule.Description, tcase.name)
+			r.Equal(faults[i].Reviewer, tcase.fault[i].Reviewer)
+			r.Equal(faults[i].Line, tcase.fault[i].Line)
+			r.Equal(faults[i].Col, tcase.fault[i].Col)
+			r.Equal(faults[i].Rule.Code, tcase.fault[i].Rule.Code)
+			r.Equal(faults[i].Rule.Description, tcase.fault[i].Rule.Description)
 			r.Equal("something.html", faults[i].Path)
 		}
 	}

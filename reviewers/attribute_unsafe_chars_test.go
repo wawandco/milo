@@ -5,13 +5,12 @@ import (
 	"fmt"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_AttrUnsafeChars_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	reviewer := reviewers.AttributeUnsafeChars{}
 	tcases := []struct {
@@ -137,8 +136,8 @@ func Test_AttrUnsafeChars_Review(t *testing.T) {
 			page := bytes.NewBufferString(fmt.Sprintf("<a attr='%s'/>", ch))
 			faults, err := reviewer.Review("something.html", page)
 
-			r.NoError(err, tcase.name)
-			r.Len(faults, tcase.faultsLen, tcase.name)
+			r.NoErr(err)
+			r.Equal(len(faults), tcase.faultsLen)
 			if tcase.faultsLen == 0 {
 				continue
 			}

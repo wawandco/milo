@@ -4,13 +4,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_DoctypePresent_Review(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	doc := reviewers.PageDoctypePresent{}
 	tcases := []struct {
@@ -194,15 +193,15 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		page := strings.NewReader(tcase.content)
 		faults, err := doc.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(faults, len(tcase.faults), tcase.name)
+		r.NoErr(err)
+		r.Equal(len(faults), len(tcase.faults))
 
 		for index, fault := range tcase.faults {
-			r.Equal(faults[index].Reviewer, fault.Reviewer, tcase.name)
-			r.Equal(faults[index].Line, fault.Line, tcase.name)
-			r.Equal(faults[index].Col, fault.Col, tcase.name)
-			r.Equal(faults[index].Rule.Code, fault.Rule.Code, tcase.name)
-			r.Equal(faults[index].Rule.Description, fault.Rule.Description, tcase.name)
+			r.Equal(faults[index].Reviewer, fault.Reviewer)
+			r.Equal(faults[index].Line, fault.Line)
+			r.Equal(faults[index].Col, fault.Col)
+			r.Equal(faults[index].Rule.Code, fault.Rule.Code)
+			r.Equal(faults[index].Rule.Description, fault.Rule.Description)
 			r.Equal("something.html", faults[0].Path)
 		}
 	}
@@ -210,12 +209,12 @@ func Test_DoctypePresent_Review(t *testing.T) {
 }
 
 func Test_DoctypePresent_Accept(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	doc := reviewers.PageDoctypePresent{}
 
-	r.False(doc.Accepts("_partial.plush.html"))
+	r.True(!doc.Accepts("_partial.plush.html"))
 	r.True(doc.Accepts("page.plush.html"))
 
-	r.False(doc.Accepts("templates/_partial.plush.html"))
+	r.True(!doc.Accepts("templates/_partial.plush.html"))
 }

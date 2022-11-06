@@ -4,12 +4,12 @@ import (
 	"os"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/cmd"
 	"github.com/wawandco/milo/cmd/milo/initialize"
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/reviewers"
 
-	"github.com/stretchr/testify/require"
 	"gopkg.in/yaml.v3"
 )
 
@@ -17,21 +17,20 @@ import (
 var _ cmd.Runner = (*initialize.Runner)(nil)
 
 func Test_InitRun(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	dir := os.TempDir()
-	r.NoError(os.Chdir(dir))
+	r.NoErr(os.Chdir(dir))
 
 	c := initialize.Runner{}
 	err := c.Run([]string{})
-	r.NoError(err)
+	r.NoErr(err)
 
-	r.FileExists(".milo.yml")
 	data, err := os.ReadFile(".milo.yml")
-	r.NoError(err)
+	r.NoErr(err)
 
 	config := config.Settings{}
-	r.NoError(yaml.Unmarshal(data, &config))
+	r.NoErr(yaml.Unmarshal(data, &config))
 
-	r.Len(config.Reviewers, len(reviewers.All))
+	r.Equal(len(config.Reviewers), len(reviewers.All))
 }

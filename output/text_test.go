@@ -3,12 +3,12 @@ package output
 import (
 	"testing"
 
-	"github.com/stretchr/testify/require"
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_TextOutput(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 
 	fault := reviewers.Fault{
 		Reviewer: "test/one",

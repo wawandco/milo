@@ -4,13 +4,12 @@ import (
 	"strings"
 	"testing"
 
+	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
-
-	"github.com/stretchr/testify/require"
 )
 
 func Test_DoctypeValid(t *testing.T) {
-	r := require.New(t)
+	r := is.New(t)
 	doc := reviewers.PageDoctypeValid{}
 	tcases := []struct {
 		name      string
@@ -101,17 +100,17 @@ func Test_DoctypeValid(t *testing.T) {
 		page := strings.NewReader(tcase.content)
 		faults, err := doc.Review("something.html", page)
 
-		r.NoError(err, tcase.name)
-		r.Len(faults, tcase.faultsLen, tcase.name)
+		r.NoErr(err)
+		r.Equal(len(faults), tcase.faultsLen)
 		if tcase.faultsLen == 0 {
 			continue
 		}
 
-		r.Equal(faults[0].Reviewer, tcase.fault.Reviewer, tcase.name)
-		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code, tcase.name)
+		r.Equal(faults[0].Reviewer, tcase.fault.Reviewer)
+		r.Equal(faults[0].Rule.Code, tcase.fault.Rule.Code)
 		r.Equal(faults[0].Rule.Description, tcase.fault.Rule.Description)
-		r.Equal(faults[0].Line, tcase.fault.Line, tcase.name)
-		r.Equal(faults[0].Col, tcase.fault.Col, tcase.name)
+		r.Equal(faults[0].Line, tcase.fault.Line)
+		r.Equal(faults[0].Col, tcase.fault.Col)
 		r.Equal("something.html", faults[0].Path)
 	}
 
