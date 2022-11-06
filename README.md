@@ -1,4 +1,4 @@
-![](https://github.com/wawandco/milo/blob/master/milo.png)
+![](https://github.com/wawandco/milo/blob/main/milo.png)
 
 ![](https://github.com/wawandco/milo/workflows/Test/badge.svg)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Wawandco/milo)](https://goreportcard.com/report/github.com/Wawandco/milo)
@@ -16,13 +16,39 @@ Milo is a linter tool that will check for both syntax correctness and style reco
 
 ## Installation
 
-We recommend using [gobinaries.com](gobinaries.com) to get Milo.
+You can download the precompiled Milo binary from the [releases page](https://github.com/wawandco/milo/releases).
+
+### With Go
+
+If you have Go installed in your system you can build from source:
 
 ```sh
-curl -sf https://gobinaries.com/wawandco/milo/cmd/milo | sh
+go install github.com/wawandco/milo/cmd/milo@latest
+```
+### Github Action
+
+On github you can use Milo action to run in your workflows. For example:
+
+```yaml
+name: Main Workflow
+on: [push]
+jobs:
+  lint:
+    name: HTML Linting (Milo)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      # Run the milo 
+      - uses: wawandco/milo-action@v0.2.0
+        with:
+          folder: "templates"
+          version: "v0.6.0"
+
+  lint-go:
+    ...
 ```
 
-You can also download Milo binaries from our releases folder.
+See more instructions on the [milo-action](https://github.com/wawandco/milo-action) repo.
 
 ## Usage
 
