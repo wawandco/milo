@@ -19,7 +19,7 @@ var (
 	// runners holds the list of runners that milo makes available
 	// through the cli.
 	runners = []cmd.Runner{
-		review.Runner{},
+		review.NewRunner(),
 		initialize.Runner{},
 		version.Printer{},
 	}

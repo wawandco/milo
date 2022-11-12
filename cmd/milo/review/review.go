@@ -19,9 +19,15 @@ import (
 
 var (
 	ErrFaultsFound      = errors.New("faults found")
-	ErrInsufficientArgs = errors.New("please pass the folder to analyze, p.e: milo review templates")
+	ErrInsufficientArgs = errors.New("please pass the folder to analyze, p.e: milo review file.html folder")
 	ErrUnknownFormatter = errors.New("unknown formatter")
 )
+
+func NewRunner() *Runner {
+	return &Runner{
+		stdout: os.Stdout,
+	}
+}
 
 // Runner is in charge of running the reviewers
 // across the files passed.
@@ -29,6 +35,8 @@ type Runner struct {
 	faults    []reviewers.Fault
 	reviewers []reviewers.Reviewer
 	formatter output.FaultFormatter
+
+	stdout io.Writer
 }
 
 func (r Runner) Name() string {
@@ -36,23 +44,22 @@ func (r Runner) Name() string {
 }
 
 func (r Runner) HelpText() string {
-	return "looks for faults in files/folder passed in the first arg."
+	return "looks for faults in files/folders passed as args."
+}
+
+func (r *Runner) SetOutput(w io.Writer) {
+	r.stdout = w
 }
 
 func (r Runner) Run(args []string) error {
 	flag.Parse()
-
 	if len(args) < 2 {
 		return ErrInsufficientArgs
 	}
 
 	c, err := config.Load()
-	if errors.Is(err, config.ErrConfigNotFound) {
-		fmt.Println("Running all reviewers, see more details in: https://github.com/wawandco/milo#configuration.")
-	}
-
 	if errors.Is(err, config.ErrConfigFormat) {
-		fmt.Println("[Warning] missformatted .milo.yml")
+		fmt.Fprintln(r.stdout, "[Warning] .milo.yml file is not in the correct format, using default values.")
 	}
 
 	r.reviewers = c.SelectedReviewers()
@@ -69,9 +76,11 @@ func (r Runner) Run(args []string) error {
 		}
 	}
 
-	err = filepath.Walk(args[1], r.walkFn)
-	if err != nil {
-		return err
+	for _, path := range args[1:] {
+		err = filepath.Walk(path, r.walkFn)
+		if err != nil {
+			return err
+		}
 	}
 
 	for _, fault := range r.faults {
@@ -80,7 +89,7 @@ func (r Runner) Run(args []string) error {
 			continue
 		}
 
-		fmt.Println(ou)
+		fmt.Fprintln(r.stdout, ou)
 	}
 
 	if len(r.faults) > 0 {
@@ -116,7 +125,7 @@ func (r *Runner) walkFn(path string, info os.FileInfo, err error) error {
 	for _, rev := range r.reviewers {
 		fileFaults, err := rev.Review(path, bytes.NewBuffer(data))
 		if err != nil {
-			fmt.Printf("[Error] Error executing %v : %v", rev.ReviewerName(), err)
+			fmt.Fprintf(r.stdout, "[Error] Error executing %v : %v", rev.ReviewerName(), err)
 
 			continue
 		}
