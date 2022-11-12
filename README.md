@@ -52,15 +52,18 @@ See more instructions on the [milo-action](https://github.com/wawandco/milo-acti
 
 ## Usage
 
-```
-milo review [folder or file]
+```sh
+milo review folder_to_analize
 ```
 
 Example:
 
-```
+```sh
 milo review templates
 milo review templates/file.html
+
+# It also supports multiple folders or files
+milo review templates/file.html templates/another.html other_folder
 ```
 
 ### Configuration
@@ -73,7 +76,7 @@ milo init
 
 That `.milo.yml` will look like the following example:
 
-```
+```yml
 output: text # could be `text`, `github` or `silent`
 reviewers:
   - doctype/present 
