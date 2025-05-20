@@ -1,6 +1,6 @@
 module github.com/wawandco/milo
 
-go 1.18
+go 1.23
 
 require (
 	github.com/matryer/is v1.4.0
