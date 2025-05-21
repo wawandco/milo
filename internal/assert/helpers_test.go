@@ -51,17 +51,15 @@ func TestAssertNotEqual(t *testing.T) {
 func TestAssertTrue(t *testing.T) {
 	// This should pass
 	True(t, true)
-	True(t, 1 == 1)
-	True(t, "a" == "a")
-
+	True(t, !false)
 	// We can't test the failure case directly since it would fail this test
 }
 
 func TestAssertFalse(t *testing.T) {
 	// This should pass
 	False(t, false)
-	False(t, 1 != 1)
-	False(t, "a" != "a")
+	False(t, !true)
+	False(t, true || false)
 
 	// We can't test the failure case directly since it would fail this test
 }

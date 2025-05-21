@@ -126,9 +126,9 @@ func readParseTest(r *bufio.Reader) (*testAttrs, error) {
 }
 
 func dumpIndent(w io.Writer, level int) {
-	io.WriteString(w, "| ")
+	_, _ = io.WriteString(w, "| ")
 	for i := 0; i < level; i++ {
-		io.WriteString(w, "  ")
+		_, _ = io.WriteString(w, "  ")
 	}
 }
 
@@ -255,7 +255,6 @@ func TestParser(t *testing.T) {
 				}
 
 				err = testParseCase(ta.text, ta.want, ta.context, ParseOptionEnableScripting(ta.scripting))
-
 				if err != nil {
 					t.Errorf("%s test #%d %q, %s", tf, i, ta.text, err)
 				}
