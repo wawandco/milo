@@ -3,13 +3,10 @@ package output
 import (
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_TextOutput(t *testing.T) {
-	r := is.New(t)
-
 	fault := reviewers.Fault{
 		Reviewer: "test/one",
 		Line:     12,
@@ -23,9 +20,13 @@ func Test_TextOutput(t *testing.T) {
 	}
 
 	formatter := TextFaultFormatter{}
-	r.Equal(formatter.FormatterName(), "text")
+	if got, want := formatter.FormatterName(), "text"; got != want {
+		t.Errorf("expected formatter name %q, got %q", want, got)
+	}
 
 	out := formatter.Format(fault)
-	r.Equal("file/does/not_exist.html:12:25: This is a test rule (1234:test/one)", out)
-
+	expected := "file/does/not_exist.html:12:25: This is a test rule (1234:test/one)"
+	if out != expected {
+		t.Errorf("expected output %q, got %q", expected, out)
+	}
 }

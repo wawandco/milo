@@ -4,12 +4,11 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_AttrIDUnique_Review(t *testing.T) {
-	r := is.New(t)
+	
 
 	reviewer := reviewers.AttributeIDUnique{}
 	tcases := []struct {
@@ -71,19 +70,35 @@ func Test_AttrIDUnique_Review(t *testing.T) {
 		page := bytes.NewBufferString(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoErr(err)
-		r.Equal(len(faults), len(tcase.faults))
+		if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+		if len(faults) != len(tcase.faults) {
+		t.Errorf("expected length %d, got %d", len(tcase.faults), len(faults))
+	}
 		if len(tcase.faults) == 0 {
 			continue
 		}
 
 		for i, tfault := range tcase.faults {
-			r.Equal(faults[i].Reviewer, tfault.Reviewer)
-			r.Equal(faults[i].Line, tfault.Line)
-			r.Equal(faults[i].Col, tfault.Col)
-			r.Equal(faults[i].Rule.Code, tfault.Rule.Code)
-			r.Equal(faults[i].Rule.Description, tfault.Rule.Description)
-			r.Equal("something.html", faults[i].Path)
+			if faults[i].Reviewer != tfault.Reviewer {
+		t.Errorf("expected %v, got %v", tfault.Reviewer, faults[i].Reviewer)
+	}
+			if faults[i].Line != tfault.Line {
+		t.Errorf("expected %v, got %v", tfault.Line, faults[i].Line)
+	}
+			if faults[i].Col != tfault.Col {
+		t.Errorf("expected %v, got %v", tfault.Col, faults[i].Col)
+	}
+			if faults[i].Rule.Code != tfault.Rule.Code {
+		t.Errorf("expected %v, got %v", tfault.Rule.Code, faults[i].Rule.Code)
+	}
+			if faults[i].Rule.Description != tfault.Rule.Description {
+		t.Errorf("expected %v, got %v", tfault.Rule.Description, faults[i].Rule.Description)
+	}
+			if "something.html" != faults[i].Path {
+		t.Errorf("expected %v, got %v", faults[i].Path, "something.html")
+	}
 		}
 	}
 

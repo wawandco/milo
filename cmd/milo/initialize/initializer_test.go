@@ -4,7 +4,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/cmd"
 	"github.com/wawandco/milo/cmd/milo/initialize"
 	"github.com/wawandco/milo/config"
@@ -17,20 +16,28 @@ import (
 var _ cmd.Runner = (*initialize.Runner)(nil)
 
 func Test_InitRun(t *testing.T) {
-	r := is.New(t)
-
 	dir := os.TempDir()
-	r.NoErr(os.Chdir(dir))
+	if err := os.Chdir(dir); err != nil {
+		t.Fatalf("error changing directory: %v", err)
+	}
 
 	c := initialize.Runner{}
 	err := c.Run([]string{})
-	r.NoErr(err)
+	if err != nil {
+		t.Fatalf("error running initialize: %v", err)
+	}
 
 	data, err := os.ReadFile(".milo.yml")
-	r.NoErr(err)
+	if err != nil {
+		t.Fatalf("error reading .milo.yml: %v", err)
+	}
 
 	config := config.Settings{}
-	r.NoErr(yaml.Unmarshal(data, &config))
+	if err := yaml.Unmarshal(data, &config); err != nil {
+		t.Fatalf("error unmarshaling config: %v", err)
+	}
 
-	r.Equal(len(config.Reviewers), len(reviewers.All))
+	if got, want := len(config.Reviewers), len(reviewers.All); got != want {
+		t.Errorf("expected %d reviewers, got %d", want, got)
+	}
 }

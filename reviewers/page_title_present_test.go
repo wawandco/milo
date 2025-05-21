@@ -4,13 +4,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_TitlePresent_Review(t *testing.T) {
-	r := is.New(t)
-
 	doc := reviewers.PageTitlePresent{}
 	tcases := []struct {
 		name    string
@@ -128,19 +125,35 @@ func Test_TitlePresent_Review(t *testing.T) {
 		page := strings.NewReader(tcase.content)
 		faults, err := doc.Review("something.html", page)
 
-		r.NoErr(err)
-		r.Equal(len(faults), len(tcase.faults))
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(faults) != len(tcase.faults) {
+			t.Errorf("expected length %d, got %d", len(tcase.faults), len(faults))
+		}
 		if len(tcase.faults) == 0 {
 			continue
 		}
 
 		for index, fault := range tcase.faults {
-			r.Equal(faults[index].Reviewer, fault.Reviewer)
-			r.Equal(faults[index].Line, fault.Line)
-			r.Equal(faults[index].Col, fault.Col)
-			r.Equal(faults[index].Rule.Code, fault.Rule.Code)
-			r.Equal(faults[index].Rule.Description, fault.Rule.Description)
-			r.Equal("something.html", faults[0].Path)
+			if faults[index].Reviewer != fault.Reviewer {
+				t.Errorf("expected %v, got %v", fault.Reviewer, faults[index].Reviewer)
+			}
+			if faults[index].Line != fault.Line {
+				t.Errorf("expected %v, got %v", fault.Line, faults[index].Line)
+			}
+			if faults[index].Col != fault.Col {
+				t.Errorf("expected %v, got %v", fault.Col, faults[index].Col)
+			}
+			if faults[index].Rule.Code != fault.Rule.Code {
+				t.Errorf("expected %v, got %v", fault.Rule.Code, faults[index].Rule.Code)
+			}
+			if faults[index].Rule.Description != fault.Rule.Description {
+				t.Errorf("expected %v, got %v", fault.Rule.Description, faults[index].Rule.Description)
+			}
+			if "something.html" != faults[0].Path {
+				t.Errorf("expected %v, got %v", "something.html", faults[0].Path)
+			}
 		}
 
 	}
@@ -148,14 +161,24 @@ func Test_TitlePresent_Review(t *testing.T) {
 }
 
 func Test_TitlePresent_Accept(t *testing.T) {
-	r := is.New(t)
-
 	doc := reviewers.PageTitlePresent{}
 
-	r.True(!doc.Accepts("_partial.plush.html"))
-	r.True(!doc.Accepts("very/long/folder/length/_partial.plush.html"))
-	r.True(doc.Accepts("page.plush.html"))
-	r.True(doc.Accepts("page.something.plush.html"))
-	r.True(doc.Accepts("page.html"))
-	r.True(!doc.Accepts("templates/_partial.plush.html"))
+	if doc.Accepts("_partial.plush.html") {
+		t.Error("Expected not to accept _partial.plush.html")
+	}
+	if doc.Accepts("very/long/folder/length/_partial.plush.html") {
+		t.Error("Expected not to accept very/long/folder/length/_partial.plush.html")
+	}
+	if !doc.Accepts("page.plush.html") {
+		t.Error("Expected to accept page.plush.html")
+	}
+	if !doc.Accepts("page.something.plush.html") {
+		t.Error("Expected to accept page.something.plush.html")
+	}
+	if !doc.Accepts("page.html") {
+		t.Error("Expected to accept page.html")
+	}
+	if doc.Accepts("templates/_partial.plush.html") {
+		t.Error("Expected not to accept templates/_partial.plush.html")
+	}
 }

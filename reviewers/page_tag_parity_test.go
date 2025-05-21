@@ -4,12 +4,11 @@ import (
 	"bytes"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_TagPair_Review(t *testing.T) {
-	r := is.New(t)
+	
 
 	reviewer := reviewers.PageTagParity{}
 	tcases := []struct {
@@ -216,19 +215,35 @@ func Test_TagPair_Review(t *testing.T) {
 		page := bytes.NewBufferString(tcase.content)
 		faults, err := reviewer.Review("something.html", page)
 
-		r.NoErr(err)
-		r.Equal(len(faults), tcase.faultsLen)
+		if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+		if len(faults) != tcase.faultsLen {
+		t.Errorf("expected %v, got %v", tcase.faultsLen, len(faults))
+	}
 		if tcase.faultsLen == 0 {
 			continue
 		}
 
 		for i := range tcase.fault {
-			r.Equal(faults[i].Reviewer, tcase.fault[i].Reviewer)
-			r.Equal(faults[i].Line, tcase.fault[i].Line)
-			r.Equal(faults[i].Col, tcase.fault[i].Col)
-			r.Equal(faults[i].Rule.Code, tcase.fault[i].Rule.Code)
-			r.Equal(faults[i].Rule.Description, tcase.fault[i].Rule.Description)
-			r.Equal("something.html", faults[i].Path)
+			if faults[i].Reviewer != tcase.fault[i].Reviewer {
+		t.Errorf("expected %v, got %v", tcase.fault[i].Reviewer, faults[i].Reviewer)
+	}
+			if faults[i].Line != tcase.fault[i].Line {
+		t.Errorf("expected %v, got %v", tcase.fault[i].Line, faults[i].Line)
+	}
+			if faults[i].Col != tcase.fault[i].Col {
+		t.Errorf("expected %v, got %v", tcase.fault[i].Col, faults[i].Col)
+	}
+			if faults[i].Rule.Code != tcase.fault[i].Rule.Code {
+		t.Errorf("expected %v, got %v", tcase.fault[i].Rule.Code, faults[i].Rule.Code)
+	}
+			if faults[i].Rule.Description != tcase.fault[i].Rule.Description {
+		t.Errorf("expected %v, got %v", tcase.fault[i].Rule.Description, faults[i].Rule.Description)
+	}
+			if "something.html" != faults[i].Path {
+		t.Errorf("expected %v, got %v", faults[i].Path, "something.html")
+	}
 		}
 	}
 

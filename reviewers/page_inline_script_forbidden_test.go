@@ -5,13 +5,10 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_InlineScriptDisabled_Review(t *testing.T) {
-	r := is.New(t)
-
 	reviewer := reviewers.PageInlineScriptForbidden{}
 	tcases := []struct {
 		name      string
@@ -117,17 +114,31 @@ func Test_InlineScriptDisabled_Review(t *testing.T) {
 			page := bytes.NewBufferString(fmt.Sprintf("<a %s />", evt))
 			faults, err := reviewer.Review("something.html", page)
 
-			r.NoErr(err)
-			r.Equal(len(faults), tcase.faultsLen)
+			if err != nil {
+				t.Fatalf("unexpected error: %v", err)
+			}
+			if len(faults) != tcase.faultsLen {
+				t.Errorf("expected %v, got %v", tcase.faultsLen, len(faults))
+			}
 			if tcase.faultsLen == 0 {
 				continue
 			}
 
-			r.Equal(faults[0].Rule.Code, reviewers.Rules[reviewer.ReviewerName()].Code)
-			r.Equal(faults[0].Rule.Description, reviewers.Rules[reviewer.ReviewerName()].Description)
-			r.Equal(faults[0].Reviewer, reviewer.ReviewerName())
-			r.Equal(faults[0].Col, 4)
-			r.Equal("something.html", faults[0].Path)
+			if faults[0].Rule.Code != reviewers.Rules[reviewer.ReviewerName()].Code {
+				t.Errorf("expected %v, got %v", reviewers.Rules[reviewer.ReviewerName()].Code, faults[0].Rule.Code)
+			}
+			if faults[0].Rule.Description != reviewers.Rules[reviewer.ReviewerName()].Description {
+				t.Errorf("expected %v, got %v", reviewers.Rules[reviewer.ReviewerName()].Description, faults[0].Rule.Description)
+			}
+			if faults[0].Reviewer != reviewer.ReviewerName() {
+				t.Errorf("expected %v, got %v", reviewer.ReviewerName(), faults[0].Reviewer)
+			}
+			if faults[0].Col != 4 {
+				t.Errorf("expected %v, got %v", 4, faults[0].Col)
+			}
+			if "something.html" != faults[0].Path {
+				t.Errorf("expected %v, got %v", "something.html", faults[0].Path)
+			}
 		}
 	}
 
