@@ -4,13 +4,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
 func Test_DoctypePresent_Review(t *testing.T) {
-	r := is.New(t)
-
 	doc := reviewers.PageDoctypePresent{}
 	tcases := []struct {
 		name    string
@@ -19,7 +16,6 @@ func Test_DoctypePresent_Review(t *testing.T) {
 		faults  []reviewers.Fault
 	}{
 		{
-
 			faults: []reviewers.Fault{
 				{
 					Reviewer: doc.ReviewerName(),
@@ -48,7 +44,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 			},
 			name: "no doctype",
 			content: `
-			
+
 			<html></html>
 			`,
 		},
@@ -121,7 +117,7 @@ func Test_DoctypePresent_Review(t *testing.T) {
 				<% contentFor("title") {%>
 					Edit amenity
 			  	<% } %>
-			  
+
 				<%= contentFor("breadcrumb"){%>
 					<nav aria-label="breadcrumb">
 					<ol class="breadcrumb bg-none px-0 py-1">
@@ -192,29 +188,46 @@ func Test_DoctypePresent_Review(t *testing.T) {
 	for _, tcase := range tcases {
 		page := strings.NewReader(tcase.content)
 		faults, err := doc.Review("something.html", page)
-
-		r.NoErr(err)
-		r.Equal(len(faults), len(tcase.faults))
+		if err != nil {
+			t.Fatalf("unexpected error: %v", err)
+		}
+		if len(faults) != len(tcase.faults) {
+			t.Errorf("expected length %d, got %d", len(tcase.faults), len(faults))
+		}
 
 		for index, fault := range tcase.faults {
-			r.Equal(faults[index].Reviewer, fault.Reviewer)
-			r.Equal(faults[index].Line, fault.Line)
-			r.Equal(faults[index].Col, fault.Col)
-			r.Equal(faults[index].Rule.Code, fault.Rule.Code)
-			r.Equal(faults[index].Rule.Description, fault.Rule.Description)
-			r.Equal("something.html", faults[0].Path)
+			if faults[index].Reviewer != fault.Reviewer {
+				t.Errorf("expected %v, got %v", fault.Reviewer, faults[index].Reviewer)
+			}
+			if faults[index].Line != fault.Line {
+				t.Errorf("expected %v, got %v", fault.Line, faults[index].Line)
+			}
+			if faults[index].Col != fault.Col {
+				t.Errorf("expected %v, got %v", fault.Col, faults[index].Col)
+			}
+			if faults[index].Rule.Code != fault.Rule.Code {
+				t.Errorf("expected %v, got %v", fault.Rule.Code, faults[index].Rule.Code)
+			}
+			if faults[index].Rule.Description != fault.Rule.Description {
+				t.Errorf("expected %v, got %v", fault.Rule.Description, faults[index].Rule.Description)
+			}
+			if "something.html" != faults[0].Path {
+				t.Errorf("expected %v, got %v", faults[0].Path, "something.html")
+			}
 		}
 	}
-
 }
 
 func Test_DoctypePresent_Accept(t *testing.T) {
-	r := is.New(t)
-
 	doc := reviewers.PageDoctypePresent{}
 
-	r.True(!doc.Accepts("_partial.plush.html"))
-	r.True(doc.Accepts("page.plush.html"))
-
-	r.True(!doc.Accepts("templates/_partial.plush.html"))
+	if doc.Accepts("_partial.plush.html") {
+		t.Error("Expected not to accept _partial.plush.html")
+	}
+	if !doc.Accepts("page.plush.html") {
+		t.Error("Expected to accept page.plush.html")
+	}
+	if doc.Accepts("templates/_partial.plush.html") {
+		t.Error("Expected not to accept templates/_partial.plush.html")
+	}
 }

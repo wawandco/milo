@@ -5,7 +5,6 @@ import (
 	"os"
 	"testing"
 
-	"github.com/matryer/is"
 	"github.com/wawandco/milo/reviewers"
 )
 
@@ -14,8 +13,6 @@ var configTemplate []byte
 
 func Test_Load(t *testing.T) {
 	t.Run("config file is present", func(t *testing.T) {
-		r := is.New(t)
-
 		wd := t.TempDir()
 		cwd, _ := os.Getwd()
 		t.Cleanup(func() {
@@ -23,22 +20,44 @@ func Test_Load(t *testing.T) {
 			os.RemoveAll(wd)
 		})
 
-		r.NoErr(os.Chdir(wd))
-		r.NoErr(os.WriteFile(".milo.yml", configTemplate, 0777))
+		if err := os.Chdir(wd); err != nil {
+			t.Fatalf("error changing directory: %v", err)
+		}
+		
+		if err := os.WriteFile(".milo.yml", configTemplate, 0777); err != nil {
+			t.Fatalf("error writing config file: %v", err)
+		}
 
 		config, err := Load()
-		r.NoErr(err)
-		r.Equal(len(config.Reviewers), 1)
-		r.Equal(len(config.SelectedReviewers()), 1)
+		if err != nil {
+			t.Fatalf("error loading config: %v", err)
+		}
+		
+		if got, want := len(config.Reviewers), 1; got != want {
+			t.Errorf("expected %d reviewers, got %d", want, got)
+		}
+		
+		if got, want := len(config.SelectedReviewers()), 1; got != want {
+			t.Errorf("expected %d selected reviewers, got %d", want, got)
+		}
 	})
 
 	t.Run("no config file", func(t *testing.T) {
-		r := is.New(t)
-		r.NoErr(os.Chdir(t.TempDir()))
+		if err := os.Chdir(t.TempDir()); err != nil {
+			t.Fatalf("error changing directory: %v", err)
+		}
 
 		config, err := Load()
-		r.NoErr(err)
-		r.Equal(len(config.Reviewers), 0)
-		r.Equal(len(config.SelectedReviewers()), len(reviewers.All))
+		if err != nil {
+			t.Fatalf("error loading config: %v", err)
+		}
+		
+		if got, want := len(config.Reviewers), 0; got != want {
+			t.Errorf("expected %d reviewers, got %d", want, got)
+		}
+		
+		if got, want := len(config.SelectedReviewers()), len(reviewers.All); got != want {
+			t.Errorf("expected %d selected reviewers, got %d", want, got)
+		}
 	})
 }
