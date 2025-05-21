@@ -239,7 +239,7 @@ func EscapeString(s string) string {
 		return s
 	}
 	var buf bytes.Buffer
-	escape(&buf, s)
+	_ = escape(&buf, s)
 	return buf.String()
 }
 
