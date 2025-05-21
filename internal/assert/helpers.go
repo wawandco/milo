@@ -1,4 +1,4 @@
-package tests
+package assert
 
 import (
 	"fmt"
@@ -11,9 +11,9 @@ import (
 	"github.com/wawandco/milo/reviewers"
 )
 
-// AssertNoError asserts that the provided error is nil. 
+// NoError asserts that the provided error is nil.
 // Fails the test with a descriptive message if err is not nil.
-func AssertNoError(t *testing.T, err error) {
+func NoError(t *testing.T, err error) {
 	t.Helper()
 	if err != nil {
 		_, file, line, _ := runtime.Caller(1)
@@ -21,9 +21,9 @@ func AssertNoError(t *testing.T, err error) {
 	}
 }
 
-// AssertError asserts that the provided error is not nil.
+// Error asserts that the provided error is not nil.
 // Fails the test if err is nil.
-func AssertError(t *testing.T, err error) {
+func Error(t *testing.T, err error) {
 	t.Helper()
 	if err == nil {
 		_, file, line, _ := runtime.Caller(1)
@@ -31,24 +31,24 @@ func AssertError(t *testing.T, err error) {
 	}
 }
 
-// AssertErrorContains asserts that the provided error is not nil and contains the specified substring.
+// ErrorContains asserts that the provided error is not nil and contains the specified substring.
 // Fails the test if err is nil or if it doesn't contain the expected substring.
-func AssertErrorContains(t *testing.T, err error, substring string) {
+func ErrorContains(t *testing.T, err error, substring string) {
 	t.Helper()
 	if err == nil {
 		_, file, line, _ := runtime.Caller(1)
 		t.Fatalf("%s:%d: expected error containing %q but got nil", filepath.Base(file), line, substring)
 	}
-	
+
 	if !strings.Contains(err.Error(), substring) {
 		_, file, line, _ := runtime.Caller(1)
 		t.Fatalf("%s:%d: expected error containing %q but got %q", filepath.Base(file), line, substring, err.Error())
 	}
 }
 
-// AssertEqual asserts that got equals want, using reflect.DeepEqual for comparison.
+// Equal asserts that got equals want, using reflect.DeepEqual for comparison.
 // Fails the test with a descriptive message if the values are not equal.
-func AssertEqual(t *testing.T, got, want interface{}, msgAndArgs ...interface{}) {
+func Equal(t *testing.T, got, want interface{}, msgAndArgs ...interface{}) {
 	t.Helper()
 	if !reflect.DeepEqual(got, want) {
 		_, file, line, _ := runtime.Caller(1)
@@ -57,9 +57,9 @@ func AssertEqual(t *testing.T, got, want interface{}, msgAndArgs ...interface{})
 	}
 }
 
-// AssertNotEqual asserts that got does not equal want, using reflect.DeepEqual for comparison.
+// NotEqual asserts that got does not equal want, using reflect.DeepEqual for comparison.
 // Fails the test with a descriptive message if the values are equal.
-func AssertNotEqual(t *testing.T, got, want interface{}, msgAndArgs ...interface{}) {
+func NotEqual(t *testing.T, got, want interface{}, msgAndArgs ...interface{}) {
 	t.Helper()
 	if reflect.DeepEqual(got, want) {
 		_, file, line, _ := runtime.Caller(1)
@@ -68,9 +68,9 @@ func AssertNotEqual(t *testing.T, got, want interface{}, msgAndArgs ...interface
 	}
 }
 
-// AssertTrue asserts that the provided value is true.
+// True asserts that the provided value is true.
 // Fails the test with a descriptive message if the value is not true.
-func AssertTrue(t *testing.T, value bool, msgAndArgs ...interface{}) {
+func True(t *testing.T, value bool, msgAndArgs ...interface{}) {
 	t.Helper()
 	if !value {
 		_, file, line, _ := runtime.Caller(1)
@@ -79,9 +79,9 @@ func AssertTrue(t *testing.T, value bool, msgAndArgs ...interface{}) {
 	}
 }
 
-// AssertFalse asserts that the provided value is false.
+// False asserts that the provided value is false.
 // Fails the test with a descriptive message if the value is not false.
-func AssertFalse(t *testing.T, value bool, msgAndArgs ...interface{}) {
+func False(t *testing.T, value bool, msgAndArgs ...interface{}) {
 	t.Helper()
 	if value {
 		_, file, line, _ := runtime.Caller(1)
@@ -90,9 +90,9 @@ func AssertFalse(t *testing.T, value bool, msgAndArgs ...interface{}) {
 	}
 }
 
-// AssertContains asserts that substring is a substring of str.
+// Contains asserts that substring is a substring of str.
 // Fails the test with a descriptive message if substring is not found in str.
-func AssertContains(t *testing.T, str, substring string, msgAndArgs ...interface{}) {
+func Contains(t *testing.T, str, substring string, msgAndArgs ...interface{}) {
 	t.Helper()
 	if !strings.Contains(str, substring) {
 		_, file, line, _ := runtime.Caller(1)
@@ -101,50 +101,50 @@ func AssertContains(t *testing.T, str, substring string, msgAndArgs ...interface
 	}
 }
 
-// AssertFaults checks if the actual faults match the expected faults.
+// Faults checks if the actual faults match the expected faults.
 // This is specific to the Milo reviewers package.
-func AssertFaults(t *testing.T, got, want []reviewers.Fault) {
+func Faults(t *testing.T, got, want []reviewers.Fault) {
 	t.Helper()
 	if len(got) != len(want) {
 		_, file, line, _ := runtime.Caller(1)
 		t.Fatalf("%s:%d: expected %d faults, got %d", filepath.Base(file), line, len(want), len(got))
 	}
-	
+
 	for i, wantFault := range want {
 		if i >= len(got) {
 			_, file, line, _ := runtime.Caller(1)
 			t.Fatalf("%s:%d: missing expected fault at index %d", filepath.Base(file), line, i)
 		}
-		
+
 		gotFault := got[i]
 		if gotFault.Reviewer != wantFault.Reviewer {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Reviewer %s, got %s", 
+			t.Errorf("%s:%d: fault[%d]: expected Reviewer %s, got %s",
 				filepath.Base(file), line, i, wantFault.Reviewer, gotFault.Reviewer)
 		}
 		if gotFault.Line != wantFault.Line {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Line %d, got %d", 
+			t.Errorf("%s:%d: fault[%d]: expected Line %d, got %d",
 				filepath.Base(file), line, i, wantFault.Line, gotFault.Line)
 		}
 		if gotFault.Col != wantFault.Col {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Col %d, got %d", 
+			t.Errorf("%s:%d: fault[%d]: expected Col %d, got %d",
 				filepath.Base(file), line, i, wantFault.Col, gotFault.Col)
 		}
 		if wantFault.Rule.Code != "" && gotFault.Rule.Code != wantFault.Rule.Code {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Rule.Code %s, got %s", 
+			t.Errorf("%s:%d: fault[%d]: expected Rule.Code %s, got %s",
 				filepath.Base(file), line, i, wantFault.Rule.Code, gotFault.Rule.Code)
 		}
 		if wantFault.Rule.Description != "" && gotFault.Rule.Description != wantFault.Rule.Description {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Rule.Description %s, got %s", 
+			t.Errorf("%s:%d: fault[%d]: expected Rule.Description %s, got %s",
 				filepath.Base(file), line, i, wantFault.Rule.Description, gotFault.Rule.Description)
 		}
 		if wantFault.Path != "" && gotFault.Path != wantFault.Path {
 			_, file, line, _ := runtime.Caller(1)
-			t.Errorf("%s:%d: fault[%d]: expected Path %s, got %s", 
+			t.Errorf("%s:%d: fault[%d]: expected Path %s, got %s",
 				filepath.Base(file), line, i, wantFault.Path, gotFault.Path)
 		}
 	}
@@ -157,13 +157,13 @@ func formatMessage(msgAndArgs ...interface{}) string {
 	if len(msgAndArgs) == 0 {
 		return ""
 	}
-	
+
 	msg := msgAndArgs[0]
 	args := msgAndArgs[1:]
-	
+
 	if msg, ok := msg.(string); ok {
 		return fmt.Sprintf(msg, args...) + ": "
 	}
-	
+
 	return fmt.Sprintf("%v: ", msg)
 }

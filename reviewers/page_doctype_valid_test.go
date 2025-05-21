@@ -1,9 +1,10 @@
 package reviewers_test
 
 import (
-	"strings"
+	"bytes"
 	"testing"
 
+	"github.com/wawandco/milo/internal/assert"
 	"github.com/wawandco/milo/reviewers"
 )
 
@@ -96,37 +97,21 @@ func Test_DoctypeValid(t *testing.T) {
 	}
 
 	for _, tcase := range tcases {
-		page := strings.NewReader(tcase.content)
+		page := bytes.NewBufferString(tcase.content)
 		faults, err := doc.Review("something.html", page)
 
-		if err != nil {
-		t.Fatalf("unexpected error: %v", err)
-	}
-		if len(faults) != tcase.faultsLen {
-		t.Errorf("expected %v, got %v", tcase.faultsLen, len(faults))
-	}
+		assert.NoError(t, err)
+		assert.Equal(t, tcase.faultsLen, len(faults))
 		if tcase.faultsLen == 0 {
 			continue
 		}
 
-		if faults[0].Reviewer != tcase.fault.Reviewer {
-		t.Errorf("expected %v, got %v", tcase.fault.Reviewer, faults[0].Reviewer)
-	}
-		if faults[0].Rule.Code != tcase.fault.Rule.Code {
-		t.Errorf("expected %v, got %v", tcase.fault.Rule.Code, faults[0].Rule.Code)
-	}
-		if faults[0].Rule.Description != tcase.fault.Rule.Description {
-		t.Errorf("expected %v, got %v", tcase.fault.Rule.Description, faults[0].Rule.Description)
-	}
-		if faults[0].Line != tcase.fault.Line {
-		t.Errorf("expected %v, got %v", tcase.fault.Line, faults[0].Line)
-	}
-		if faults[0].Col != tcase.fault.Col {
-		t.Errorf("expected %v, got %v", tcase.fault.Col, faults[0].Col)
-	}
-		if "something.html" != faults[0].Path {
-		t.Errorf("expected %v, got %v", faults[0].Path, "something.html")
-	}
+		assert.Equal(t, tcase.fault.Reviewer, faults[0].Reviewer)
+		assert.Equal(t, tcase.fault.Rule.Code, faults[0].Rule.Code)
+		assert.Equal(t, tcase.fault.Rule.Description, faults[0].Rule.Description)
+		assert.Equal(t, tcase.fault.Line, faults[0].Line)
+		assert.Equal(t, tcase.fault.Col, faults[0].Col)
+		assert.Equal(t, "something.html", faults[0].Path)
 	}
 
 }

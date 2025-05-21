@@ -1,9 +1,10 @@
 package reviewers_test
 
 import (
-	"strings"
+	"bytes"
 	"testing"
 
+	"github.com/wawandco/milo/internal/assert"
 	"github.com/wawandco/milo/reviewers"
 )
 
@@ -186,48 +187,27 @@ func Test_DoctypePresent_Review(t *testing.T) {
 	}
 
 	for _, tcase := range tcases {
-		page := strings.NewReader(tcase.content)
+		page := bytes.NewBufferString(tcase.content)
 		faults, err := doc.Review("something.html", page)
-		if err != nil {
-			t.Fatalf("unexpected error: %v", err)
-		}
-		if len(faults) != len(tcase.faults) {
-			t.Errorf("expected length %d, got %d", len(tcase.faults), len(faults))
-		}
+		assert.NoError(t, err)
+		assert.Equal(t, len(tcase.faults), len(faults))
 
-		for index, fault := range tcase.faults {
-			if faults[index].Reviewer != fault.Reviewer {
-				t.Errorf("expected %v, got %v", fault.Reviewer, faults[index].Reviewer)
-			}
-			if faults[index].Line != fault.Line {
-				t.Errorf("expected %v, got %v", fault.Line, faults[index].Line)
-			}
-			if faults[index].Col != fault.Col {
-				t.Errorf("expected %v, got %v", fault.Col, faults[index].Col)
-			}
-			if faults[index].Rule.Code != fault.Rule.Code {
-				t.Errorf("expected %v, got %v", fault.Rule.Code, faults[index].Rule.Code)
-			}
-			if faults[index].Rule.Description != fault.Rule.Description {
-				t.Errorf("expected %v, got %v", fault.Rule.Description, faults[index].Rule.Description)
-			}
-			if "something.html" != faults[0].Path {
-				t.Errorf("expected %v, got %v", faults[0].Path, "something.html")
-			}
+		if len(tcase.faults) > 0 {
+			// Verify each fault matches the expected values
+			assert.Faults(t, faults, tcase.faults)
 		}
 	}
 }
 
-func Test_DoctypePresent_Accept(t *testing.T) {
+func Test_DocTypePresent_Accept(t *testing.T) {
 	doc := reviewers.PageDoctypePresent{}
 
-	if doc.Accepts("_partial.plush.html") {
-		t.Error("Expected not to accept _partial.plush.html")
-	}
-	if !doc.Accepts("page.plush.html") {
-		t.Error("Expected to accept page.plush.html")
-	}
-	if doc.Accepts("templates/_partial.plush.html") {
-		t.Error("Expected not to accept templates/_partial.plush.html")
-	}
+	assert.False(t, doc.Accepts("/very/long/path/name/_partial.plush.html"), 
+		"Expected not to accept /very/long/path/name/_partial.plush.html")
+	assert.False(t, doc.Accepts("_partial.plush.html"),
+		"Expected not to accept _partial.plush.html")
+	assert.True(t, doc.Accepts("page.plush.html"),
+		"Expected to accept page.plush.html")
+	assert.False(t, doc.Accepts("templates/_partial.plush.html"),
+		"Expected not to accept templates/_partial.plush.html")
 }

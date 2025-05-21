@@ -2,9 +2,9 @@ package reviewers_test
 
 import (
 	"bytes"
-	"fmt"
 	"testing"
 
+	"github.com/wawandco/milo/internal/assert"
 	"github.com/wawandco/milo/reviewers"
 )
 
@@ -131,34 +131,20 @@ func Test_AttrUnsafeChars_Review(t *testing.T) {
 
 	for _, tcase := range tcases {
 		for _, ch := range tcase.chars {
-			page := bytes.NewBufferString(fmt.Sprintf("<a attr='%s'/>", ch))
+			page := bytes.NewBufferString("<a attr='" + ch + "'/>")
 			faults, err := reviewer.Review("something.html", page)
 
-			if err != nil {
-				t.Fatalf("unexpected error: %v", err)
-			}
-			if len(faults) != tcase.faultsLen {
-				t.Errorf("expected %v, got %v", tcase.faultsLen, len(faults))
-			}
+			assert.NoError(t, err)
+			assert.Equal(t, tcase.faultsLen, len(faults))
 			if tcase.faultsLen == 0 {
 				continue
 			}
 
-			if faults[0].Rule.Code != reviewers.Rules[reviewer.ReviewerName()].Code {
-				t.Errorf("expected %v, got %v", reviewers.Rules[reviewer.ReviewerName()].Code, faults[0].Rule.Code)
-			}
-			if faults[0].Rule.Description != reviewers.Rules[reviewer.ReviewerName()].Description {
-				t.Errorf("expected %v, got %v", reviewers.Rules[reviewer.ReviewerName()].Description, faults[0].Rule.Description)
-			}
-			if faults[0].Reviewer != reviewer.ReviewerName() {
-				t.Errorf("expected %v, got %v", reviewer.ReviewerName(), faults[0].Reviewer)
-			}
-			if faults[0].Col != 4 {
-				t.Errorf("expected %v, got %v", 4, faults[0].Col)
-			}
-			if "something.html" != faults[0].Path {
-				t.Errorf("expected %v, got %v", "something.html", faults[0].Path)
-			}
+			assert.Equal(t, reviewers.Rules[reviewer.ReviewerName()].Code, faults[0].Rule.Code)
+			assert.Equal(t, reviewers.Rules[reviewer.ReviewerName()].Description, faults[0].Rule.Description)
+			assert.Equal(t, reviewer.ReviewerName(), faults[0].Reviewer)
+			assert.Equal(t, 4, faults[0].Col)
+			assert.Equal(t, "something.html", faults[0].Path)
 		}
 	}
 
