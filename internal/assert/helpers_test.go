@@ -59,7 +59,7 @@ func TestAssertFalse(t *testing.T) {
 	// This should pass
 	False(t, false)
 	False(t, !true)
-	False(t, true || false)
+	False(t, true && false)
 
 	// We can't test the failure case directly since it would fail this test
 }
