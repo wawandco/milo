@@ -166,7 +166,7 @@ func dumpLevel(w io.Writer, n *Node, level int) error {
 		attr := sortedAttributes(n.Attr)
 		sort.Sort(attr)
 		for _, a := range attr {
-			io.WriteString(w, "\n")
+			_, _ = io.WriteString(w, "\n")
 			dumpIndent(w, level)
 			if a.Namespace != "" {
 				fmt.Fprintf(w, `%s %s="%s"`, a.Namespace, a.Key, a.Val)
@@ -175,10 +175,10 @@ func dumpLevel(w io.Writer, n *Node, level int) error {
 			}
 		}
 		if n.Namespace == "" && n.DataAtom == atom.Template {
-			io.WriteString(w, "\n")
+			_, _ = io.WriteString(w, "\n")
 			dumpIndent(w, level)
 			level++
-			io.WriteString(w, "content")
+			_, _ = io.WriteString(w, "content")
 		}
 	case TextNode:
 		fmt.Fprintf(w, `"%s"`, n.Data)
@@ -201,13 +201,13 @@ func dumpLevel(w io.Writer, n *Node, level int) error {
 				fmt.Fprintf(w, ` "%s"`, s)
 			}
 		}
-		io.WriteString(w, ">")
+		_, _ = io.WriteString(w, ">")
 	case scopeMarkerNode:
 		return errors.New("unexpected scopeMarkerNode")
 	default:
 		return errors.New("unknown node type")
 	}
-	io.WriteString(w, "\n")
+	_, _ = io.WriteString(w, "\n")
 	for c := n.FirstChild; c != nil; c = c.NextSibling {
 		if err := dumpLevel(w, c, level); err != nil {
 			return err
@@ -434,7 +434,7 @@ func TestNodeConsistency(t *testing.T) {
 
 func TestParseFragmentWithNilContext(t *testing.T) {
 	// This shouldn't panic.
-	ParseFragment(strings.NewReader("<p>hello</p>"), nil)
+	_, _ = ParseFragment(strings.NewReader("<p>hello</p>"), nil)
 }
 
 func BenchmarkParser(b *testing.B) {
@@ -447,6 +447,6 @@ func BenchmarkParser(b *testing.B) {
 	b.ReportAllocs()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		Parse(bytes.NewBuffer(buf))
+		_, _ = Parse(bytes.NewBuffer(buf))
 	}
 }
