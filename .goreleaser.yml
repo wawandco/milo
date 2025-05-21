@@ -1,9 +1,9 @@
+version: 1
 before:
   hooks:
     - go mod download
 builds:
-  -
-    main: ./cmd/milo/main.go
+  - main: ./cmd/milo/main.go
     env:
       - CGO_ENABLED=0
     ldflags:
@@ -21,21 +21,22 @@ builds:
       - 6
       - 7
 archives:
-  -
-    name_template: "{{ .ProjectName }}_{{ .Os }}_{{ .Arch }}{{ if .Arm }}v{{ .Arm }}{{ end }}{{ if .Mips }}_{{ .Mips }}{{ end }}"
-    replacements:
-      '386': i386
-      darwin: Darwin
-      linux: Linux
-      windows: Windows
-      amd64: x86_64
+  - id: milo
+    name_template: >-
+      {{- .ProjectName }}_
+      {{- title .Os }}_
+      {{- if eq .Arch "amd64" }}x86_64
+      {{- else if eq .Arch "386" }}i386
+      {{- else }}{{ .Arch }}{{ end }}
+      {{- if .Arm }}v{{ .Arm }}{{ end -}}
+
 checksum:
   name_template: checksums.txt
 snapshot:
-  name_template: '{{ .Tag }}-next'
+  name_template: "{{ .Tag }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs:'
-      - '^test:'
+      - "^docs:"
+      - "^test:"
