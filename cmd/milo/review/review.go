@@ -9,12 +9,11 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"flag"
 
 	"github.com/wawandco/milo/config"
 	"github.com/wawandco/milo/output"
 	"github.com/wawandco/milo/reviewers"
-
-	flag "github.com/spf13/pflag"
 )
 
 var (
@@ -52,8 +51,16 @@ func (r *Runner) SetOutput(w io.Writer) {
 }
 
 func (r Runner) Run(args []string) error {
-	flag.Parse()
-	if len(args) < 2 {
+	var cliOutput string
+	reviewFlagSet := flag.NewFlagSet("review", flag.ExitOnError)
+	reviewFlagSet.StringVar(&cliOutput, "output", "", "the output format")
+
+	parseErr := reviewFlagSet.Parse(args[1:])
+	if parseErr != nil {
+		return parseErr
+	}
+
+	if len(reviewFlagSet.Args()) == 0 {
 		return ErrInsufficientArgs
 	}
 
@@ -76,7 +83,7 @@ func (r Runner) Run(args []string) error {
 		}
 	}
 
-	for _, path := range args[1:] {
+	for _, path := range reviewFlagSet.Args() {
 		err = filepath.Walk(path, r.walkFn)
 		if err != nil {
 			return err
