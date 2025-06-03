@@ -37,7 +37,7 @@ jobs:
     name: HTML Linting (Milo)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       # Run the milo 
       - uses: wawandco/milo-action@v0.2.0
         with:
