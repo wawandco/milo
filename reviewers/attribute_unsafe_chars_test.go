@@ -149,3 +149,13 @@ func Test_AttrUnsafeChars_Review(t *testing.T) {
 	}
 
 }
+
+func Test_AttrUnsafeChars_SVG(t *testing.T) {
+	reviewer := reviewers.AttributeUnsafeChars{}
+
+	page := bytes.NewBufferString("<svg viewBox=\"0 0 24 24\"><path d=\"M10 10 \u0001\"/></svg>")
+	faults, err := reviewer.Review("something.html", page)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 0, len(faults))
+}

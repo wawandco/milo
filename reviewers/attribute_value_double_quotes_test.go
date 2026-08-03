@@ -65,3 +65,13 @@ func Test_AttrValueDoubleQuotes_Review(t *testing.T) {
 	}
 
 }
+
+func Test_AttrValueDoubleQuotes_SVG(t *testing.T) {
+	reviewer := reviewers.AttributeValueDoubleQuotes{}
+
+	page := bytes.NewBufferString(`<svg viewBox='0 0 24 24'><path d=M10/></svg>`)
+	faults, err := reviewer.Review("something.html", page)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 0, len(faults))
+}

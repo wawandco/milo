@@ -24,6 +24,7 @@ func (t PageTagLowercaseRequired) Accepts(path string) bool {
 func (t PageTagLowercaseRequired) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -35,11 +36,15 @@ func (t PageTagLowercaseRequired) Review(path string, page io.Reader) ([]Fault, 
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.EndTagToken && tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		if tok.Data == tok.Name {
 			continue
 		}

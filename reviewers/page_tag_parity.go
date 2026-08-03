@@ -51,6 +51,7 @@ func (t PageTagParity) Review(path string, page io.Reader) ([]Fault, error) {
 	var openedTags []*html.Token
 	var err error
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -64,6 +65,10 @@ func (t PageTagParity) Review(path string, page io.Reader) ([]Fault, error) {
 		}
 
 		token := z.Token()
+		if svg.inSVGContent(tt, token) {
+			continue
+		}
+
 		switch tt {
 		case html.StartTagToken:
 			if t.isSelfClosing(token) {

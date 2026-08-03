@@ -58,6 +58,8 @@ func (a AttributeValueNotEmpty) Accepts(path string) bool {
 // Review return a fault for each a tag has an empty attribute value like: <div class=""...>.
 func (a AttributeValueNotEmpty) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
+	var svg svgTracker
+
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -66,6 +68,10 @@ func (a AttributeValueNotEmpty) Review(path string, page io.Reader) ([]Fault, er
 		}
 
 		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		for _, attr := range tok.Attr {
 			if _isBooleanAttr(attr.Name) {
 				continue

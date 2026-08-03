@@ -89,6 +89,16 @@ func Test_TagLowercase_Review(t *testing.T) {
 				},
 			},
 		},
+
+		{
+			name: "no fault for camelCase tags inside svg",
+			content: `
+				<svg viewBox="0 0 24 24">
+					<linearGradient id="a"><stop offset="0"/></linearGradient>
+					<clipPath><path d="M10 10"/></clipPath>
+				</svg>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

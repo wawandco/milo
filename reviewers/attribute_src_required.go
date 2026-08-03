@@ -23,6 +23,8 @@ func (css AttributeSrcRequired) Accepts(path string) bool {
 // Review returns a fault for each thag that has src or href attribute with empty value.
 func (css AttributeSrcRequired) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
+
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -34,11 +36,15 @@ func (css AttributeSrcRequired) Review(path string, page io.Reader) ([]Fault, er
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		for _, attr := range tok.Attr {
 			if (attr.Key == "src" || attr.Key == "href" || attr.Key == "data") &&
 				strings.TrimSpace(attr.Val) == "" {

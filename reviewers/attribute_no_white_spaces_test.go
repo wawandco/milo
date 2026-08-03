@@ -160,6 +160,16 @@ func Test_AttrNoWhiteSpaces_Review(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "no fault for whitespaces inside svg",
+			content: `
+				<svg viewBox = "0 0 24 24">
+					<path d = "M10 10"/>
+				</svg>
+			`,
+
+			faults: []reviewers.Fault{},
+		},
 	}
 
 	for _, tcase := range tcases {

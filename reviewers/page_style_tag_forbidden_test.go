@@ -70,6 +70,12 @@ func Test_StyleTag_Review(t *testing.T) {
 			<html>
 			`,
 		},
+
+		{
+			name:      "no fault for style tag inside svg",
+			faultsLen: 0,
+			content:   `<svg viewBox="0 0 24 24"><style>.a{fill:red;}</style><path d="M10 10"/></svg>`,
+		},
 	}
 
 	for _, tcase := range tcases {
