@@ -114,6 +114,12 @@ func Test_InlineCSS_Review(t *testing.T) {
 				},
 			},
 		},
+
+		{
+			name:      "no fault for style attribute inside svg",
+			faultsLen: 0,
+			content:   `<svg viewBox="0 0 24 24"><path d="M10 10" style="fill: red;"/></svg>`,
+		},
 	}
 
 	for _, tcase := range tcases {

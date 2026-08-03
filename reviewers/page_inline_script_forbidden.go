@@ -27,6 +27,7 @@ func (i PageInlineScriptForbidden) Review(path string, page io.Reader) ([]Fault,
 	var onEventRegexp = regexp.MustCompile(`(?i)^on(unload|message|submit|select|scroll|resize|mouseover|mouseout|mousemove|mouseleave|mouseenter|mousedown|load|keyup|keypress|keydown|focus|dblclick|click|change|blur|error)$`)
 	var javascriptRegexp = regexp.MustCompile(`(?i)^\s*javascript:`)
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -39,11 +40,15 @@ func (i PageInlineScriptForbidden) Review(path string, page io.Reader) ([]Fault,
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		for _, attr := range tok.Attr {
 			if onEventRegexp.MatchString(attr.Key) {
 				fault = append(fault, Fault{

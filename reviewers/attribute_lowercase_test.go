@@ -88,6 +88,15 @@ func Test_AttrLowercase_Review(t *testing.T) {
 			name:    "no fault",
 			content: "<img disabled />",
 		},
+		{
+			name: "no fault for svg attributes",
+			content: `
+				<svg viewBox="0 0 24 24" fill="none">
+					<path strokeWidth="2" strokeLinecap="round" d="M10 10"/>
+					<use xlink:href="#icon"/>
+				</svg>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

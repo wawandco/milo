@@ -210,6 +210,24 @@ func Test_TagPair_Review(t *testing.T) {
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
+
+		{
+			name:      "svg content is ignored",
+			faultsLen: 0,
+			content:   `<div><svg viewBox="0 0 24 24"><path d="M10 10"><circle cx="5" cy="5" r="5"></svg></div>`,
+		},
+
+		{
+			name:      "unclosed svg is still a fault",
+			faultsLen: 1,
+			content:   `<div></div><svg viewBox="0 0 24 24"><path d="M10 10">`,
+			fault: []reviewers.Fault{{
+				Reviewer: reviewer.ReviewerName(),
+				Line:     1,
+				Col:      12,
+				Rule:     reviewers.Rules[reviewer.ReviewerName()],
+			}},
+		},
 	}
 
 	for _, tcase := range tcases {

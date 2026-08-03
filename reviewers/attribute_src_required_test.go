@@ -75,6 +75,12 @@ func Test_SrcEmpty_Review(t *testing.T) {
 			</html>
 			`,
 		},
+
+		{
+			name:      "no fault for empty href inside svg",
+			faultsLen: 0,
+			content:   `<svg viewBox="0 0 24 24"><use href=""/><image href="icon.png"/></svg>`,
+		},
 	}
 
 	for _, tcase := range tcases {

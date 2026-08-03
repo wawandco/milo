@@ -25,6 +25,7 @@ func (a AttributeLowercase) Accepts(path string) bool {
 func (a AttributeLowercase) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -36,8 +37,12 @@ func (a AttributeLowercase) Review(path string, page io.Reader) ([]Fault, error)
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			tok := z.Token()
 			for _, attr := range tok.Attr {
 				if attr.Name != attr.Key {
 					result = append(result, Fault{

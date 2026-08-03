@@ -26,6 +26,7 @@ func (at AttributeIDUnique) Review(path string, page io.Reader) ([]Fault, error)
 	result := []Fault{}
 	IDs := map[string]bool{}
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -33,9 +34,12 @@ func (at AttributeIDUnique) Review(path string, page io.Reader) ([]Fault, error)
 			break
 		}
 
-		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			token := z.Token()
+		token := z.Token()
+		if svg.inSVG(tt, token) {
+			continue
+		}
 
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
 			ID := at.tagID(token)
 			if ID == "" {
 				continue

@@ -65,6 +65,13 @@ func Test_AttrIDUnique_Review(t *testing.T) {
 				},
 			},
 		},
+		{
+			name: "no fault for repeated ids inside svg",
+			content: `
+				<svg viewBox="0 0 24 24"><defs><linearGradient id="a"/></defs></svg>
+				<svg viewBox="0 0 24 24"><defs><linearGradient id="a"/></defs></svg>
+			`,
+		},
 	}
 
 	for _, tcase := range tcases {

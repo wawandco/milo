@@ -24,6 +24,7 @@ func (css PageStyleTagForbidden) Accepts(path string) bool {
 func (css PageStyleTagForbidden) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -35,11 +36,15 @@ func (css PageStyleTagForbidden) Review(path string, page io.Reader) ([]Fault, e
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		if tok.DataAtom != atom.Style {
 			continue
 		}

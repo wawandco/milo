@@ -129,3 +129,13 @@ func Test_InlineScriptDisabled_Review(t *testing.T) {
 	}
 
 }
+
+func Test_InlineScriptDisabled_SVG(t *testing.T) {
+	reviewer := reviewers.PageInlineScriptForbidden{}
+
+	page := bytes.NewBufferString(`<svg viewBox="0 0 24 24" onclick="alert(1)"><path d="M10 10" onload="alert(2)"/></svg>`)
+	faults, err := reviewer.Review("something.html", page)
+
+	assert.NoError(t, err)
+	assert.Equal(t, 0, len(faults))
+}

@@ -23,6 +23,8 @@ func (css PageInlineCSSForbidden) Accepts(path string) bool {
 // It returns faults if there are tags like <div ... style="color: red;">.
 func (css PageInlineCSSForbidden) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
+
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -34,11 +36,15 @@ func (css PageInlineCSSForbidden) Review(path string, page io.Reader) ([]Fault, 
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		for _, attr := range tok.Attr {
 			if attr.Key == "style" {
 				result = append(result, Fault{

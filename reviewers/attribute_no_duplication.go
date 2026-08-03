@@ -23,6 +23,8 @@ func (a AttributeNoDuplication) Accepts(path string) bool {
 // For expample, <div class="..." data-attr=".." class="..."> a fault will be added because this tag has class attribute duplicated.
 func (a AttributeNoDuplication) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
+	var svg svgTracker
+
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -31,6 +33,10 @@ func (a AttributeNoDuplication) Review(path string, page io.Reader) ([]Fault, er
 		}
 
 		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		keys := map[string]bool{}
 		for _, attr := range tok.Attr {
 			if keys[attr.Key] {

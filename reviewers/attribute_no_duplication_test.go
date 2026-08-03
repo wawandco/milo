@@ -78,6 +78,12 @@ func Test_AttrNoDuplication_Review(t *testing.T) {
 			content: `<img class="logo" src="/assets/images/agnte_white_logo@2x" srcset="/assets/images/agnte_white_logo@2x.png 2x, /assets/images/agnte_white_logo.png 1x">`,
 			fault:   []reviewers.Fault{},
 		},
+
+		{
+			name:    "no fault for duplicated attributes inside svg",
+			content: `<svg viewBox="0 0 24 24"><path fill="red" fill="blue" d="M10 10"/></svg>`,
+			fault:   []reviewers.Fault{},
+		},
 	}
 
 	for _, tcase := range tcases {

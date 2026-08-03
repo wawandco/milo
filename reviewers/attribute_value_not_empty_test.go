@@ -75,6 +75,12 @@ func Test_AttrValueNotEmpty_Review(t *testing.T) {
 					Rule:     reviewers.Rules[reviewer.ReviewerName()],
 				}},
 		},
+
+		{
+			name:      "no fault for empty attribute values inside svg",
+			faultsLen: 0,
+			content:   `<svg viewBox="0 0 24 24"><path d=""/><use href=""/></svg>`,
+		},
 	}
 
 	for _, tcase := range tcases {

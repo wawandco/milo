@@ -19,6 +19,7 @@ func (sa AttributeStyleForbidden) Accepts(filePath string) bool {
 func (sa AttributeStyleForbidden) Review(path string, page io.Reader) ([]Fault, error) {
 	result := []Fault{}
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -26,9 +27,12 @@ func (sa AttributeStyleForbidden) Review(path string, page io.Reader) ([]Fault, 
 			break
 		}
 
-		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			token := z.Token()
+		token := z.Token()
+		if svg.inSVG(tt, token) {
+			continue
+		}
 
+		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
 			for _, attr := range token.Attr {
 				if attr.Key != "style" {
 					continue

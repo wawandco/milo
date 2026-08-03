@@ -28,6 +28,7 @@ func (a AttributeValueDoubleQuotes) ReviewerName() string {
 func (a AttributeValueDoubleQuotes) Review(path string, page io.Reader) ([]Fault, error) {
 	var fault []Fault
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -40,8 +41,12 @@ func (a AttributeValueDoubleQuotes) Review(path string, page io.Reader) ([]Fault
 			return []Fault{}, nil
 		}
 
+		token := z.Token()
+		if svg.inSVG(tt, token) {
+			continue
+		}
+
 		if tt == html.StartTagToken || tt == html.SelfClosingTagToken {
-			token := z.Token()
 			for _, attr := range token.Attr {
 				if attr.Quote == "" && strings.TrimSpace(attr.Val) == "" {
 					continue

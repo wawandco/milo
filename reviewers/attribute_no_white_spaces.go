@@ -29,6 +29,7 @@ func (at AttributeNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, e
 	result := []Fault{}
 	exp := regexp.MustCompile(`\S+(\s+=\s*|\s*=\s+)`)
 
+	var svg svgTracker
 	z := html.NewTokenizer(page)
 	for {
 		tt := z.Next()
@@ -41,11 +42,15 @@ func (at AttributeNoWhiteSpaces) Review(path string, page io.Reader) ([]Fault, e
 			return []Fault{}, err
 		}
 
+		tok := z.Token()
+		if svg.inSVG(tt, tok) {
+			continue
+		}
+
 		if tt != html.StartTagToken && tt != html.SelfClosingTagToken {
 			continue
 		}
 
-		tok := z.Token()
 		if exp.MatchString(string(z.Raw())) {
 			result = append(result, Fault{
 				Reviewer: at.ReviewerName(),
